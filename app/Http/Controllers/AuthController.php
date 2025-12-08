@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\LoginAuthRequest;
-use App\Http\Requests\Auth\StoreAuthRequest;
-use App\Http\Resources\Auth\LoginAuthResource;
-use App\Http\Resources\Auth\StoreAuthResource;
-use App\Services\AuthService;
-use App\Services\RegisterService;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegistrationRequest;
+use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\RegistrationResource;
+use App\Services\Auth\LoginService;
+use App\Services\Auth\RegistrationService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -15,7 +15,7 @@ class AuthController extends Controller
     /**
      * Handle a login request.
      */
-    public function login(LoginAuthRequest $request, AuthService $authService)
+    public function login(LoginRequest $request, LoginService $authService)
     {
         try {
             $result = $authService->login(
@@ -26,36 +26,37 @@ class AuthController extends Controller
             $user = $result['user'];
             $token = $result['token'];
 
-            return (new LoginAuthResource($user))->additional([
+            return (new LoginResource($user))->additional([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
                 'status' => 200,
                 'message' => 'Inicio de sesión exitoso',
             ]);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 401);
+        } catch (\Illuminate\Auth\AuthenticationException $e) {
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
         }
     }
 
     /**
      * Register a newly created resource in storage.
      */
-    public function register(StoreAuthRequest $request, RegisterService $registerService)
+    public function register(RegistrationRequest $request, RegistrationService $registrationService)
     {
-       
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $result = $registerService->register($data);
+            $result = $registrationService->store($data);
+            $token = $result['token'];
 
-        $user = $result['user'];
-        $token = $result['token'];
-
-        return (new StoreAuthResource($user))->additional([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'status' => 200,
-            'message' => 'Registro exitoso',
-        ]);
+            return (new RegistrationResource($result))->additional([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'status' => 200,
+                'message' => 'Registro exitoso',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error en el registro'], 500);
+        }    
     }
 
     public function logout(Request $request)

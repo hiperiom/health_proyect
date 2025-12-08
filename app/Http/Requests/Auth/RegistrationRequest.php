@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAuthRequest extends FormRequest
+class RegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,9 @@ class StoreAuthRequest extends FormRequest
             'dni' => 'required|numeric|digits_between:6,8 |unique:users,dni',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:8',
+            'first_names' => 'required|string|max:100',
+            'last_names' => 'required|string|max:100',
+            'gender' => 'required|string|max:1',
         ];
     }
 
@@ -41,6 +44,16 @@ class StoreAuthRequest extends FormRequest
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.max' => 'La contraseña no debe tener más de 8 caracteres.',
+            'first_names.required' => 'Los nombres son obligatorios.',
+            'first_names.string' => 'Los nombres deben ser una cadena de texto.',
+            'first_names.max' => 'Los nombres no deben exceder los 100 caracteres.',
+            'last_names.required' => 'Los apellidos son obligatorios.',
+            'last_names.string' => 'Los apellidos deben ser una cadena de texto.',
+            'last_names.max' => 'Los apellidos no deben exceder los 100 caracteres.',
+            'gender.required' => 'El género es obligatorio.',
+            'gender.char' => 'El género debe ser un carácter.',
+            'gender.max' => 'El género no debe exceder un carácter.',
+
         ];
     }
 }

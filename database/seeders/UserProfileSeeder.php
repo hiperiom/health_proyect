@@ -2,20 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AuthSeeder extends Seeder
+class UserProfileSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        User::factory()->create([
-            'dni' => '12345678',
-            'email' => 'test@example.com',
-        ]);
+        UserProfile::factory(1)->create();
     }
 }
