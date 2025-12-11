@@ -19,13 +19,13 @@ class UserSeeder extends Seeder
             'email' => 'admin@test.com',
             'password' => Hash::make('admin'),
         ]);
-        $admin->assignRole('admin');
+        $admin->assignRole('Administrador');
 
         $patient = User::factory()->create([
             'dni' => '00000001',
             'email' => 'patient@text.com',
             'password' => Hash::make('patient'),
         ]);
-        $patient->assignRole('patient');
+        $patient->assignRole('Paciente');
     }
 }
