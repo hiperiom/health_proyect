@@ -37,7 +37,11 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            //
+            [
+                'appName' => config('app.name'),
+                'user.roles' => $request->user() ? $request->user()->roles->pluck('name') : [],
+                'user.permissions' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name') : [],
+            ],
         ];
     }
 }
