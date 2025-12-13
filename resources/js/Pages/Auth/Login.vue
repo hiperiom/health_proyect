@@ -1,90 +1,161 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+    import { useForm, router } from '@inertiajs/vue3';
+    import { message } from 'ant-design-vue'
+    import LoginLayout from '@/Layouts/LoginLayout.vue';
+    import Header from './Components/Header.vue';
 
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
+    defineProps({
+        canResetPassword: {
+            type: Boolean,
+            default: true,
+        },
+        canLogin: {
+            type: Boolean,
+            default: true,
+        },
+        canRegister: {
+            type: Boolean,
+            default: true,
+        },
+        canRemenber: {
+            type: Boolean,
+            default: false,
+        },
 
-const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-const submit = () => {
-    form.transform(data => ({
-        ...data,
-        remember: form.remember ? 'on' : '',
-    })).post(route('login'), {
-        onFinish: () => form.reset('password'),
+        
     });
-};
+
+    const form = useForm({
+        email: '',
+        password: '',
+        remember: false,
+    });
+
+    const handleSubmit = () => {
+        try {
+
+            form.transform(data => ({
+                ...data,
+                remember: form.remember ? 'on' : '',
+            })).post(route('login'), {
+
+                onFinish: () => {
+                    message.success('Datos validados correctamente')
+                    form.reset('password')
+                },
+            });
+        } catch (error) {
+            // Mostrar mensaje de error
+            message.error('Hubo un problema al validar los datos')
+        }
+
+    };
+    const handleResetPassword = () => {
+        const url = route('password.request'); 
+        router.visit(url);
+    };
+    const handleRegister = () => {
+        const url = route('register'); 
+        router.visit(url);
+    };
+
+    const rules = {
+        email: [
+            {
+                required: true,
+                message: 'Por favor ingrese el correo electrónico o cédula',
+                trigger: 'change',
+            },
+            
+        ],
+        password: [
+        {
+            required: true,
+            message: 'Por favor ingrese la contraseña',
+            trigger: 'change',
+        },
+    ],
+    
+    };
+
+
 </script>
 
 <template>
-    <Head title="Log in" />
+    <LoginLayout>
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
+        <template #content>
+            <a-row  justify="center"  :wrap="true" >
+                <a-col :span="24" class="p-2 text-center" >
+                    <Header title="¡Bienvenido!" subTitle="Autenticate para ingresar a tu cuenta" />
+                </a-col>
+                <a-col class="glass-container p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="15" :md="15" :lg="10" :xl="8" :xxl="6" >
+                    <a-form 
+                        v-if="canLogin" 
+                        ref="formRef"
+                        layout="vertical" 
+                        :model="form" 
+                        :rules="rules"
+                        @finish="handleSubmit"
+                        
+                    >
+                        <a-row justify="center" :gutter="10" :wrap="true" >
+                            <a-col :span="24">
+                                <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
+                                    <a-input 
+                                    name="username"
+                                    v-model:value="form.email" 
+                                    placeholder="Escribe aquí tu correo electrónico o cédula" 
+                                    />
+                                </a-form-item>
+                            </a-col>
+                            <a-col :span="24">
+                                <a-form-item ref="password" name="password" has-feedback label="Contraseña">
+                                    <a-input-password 
+                                    name="password"
+                                    v-model:value="form.password" 
+                                    placeholder="Escribe aquí tu contraseña" 
+                                    />
+                                </a-form-item>
+                            </a-col>
+                            <a-col :span="24">
+                                <a-form-item >
+                                    <a-button  type="primary" html-type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" block>
+                                        Iniciar Sesión
+                                    </a-button>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :span="24" class="text-center">
+                               <a-form-item v-if="canRemenber" name="remember" >
+                                    <a-checkbox v-model:checked="form.remember">Recordarme</a-checkbox>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :span="24" class="text-center">
+                                <a-form-item v-if="canRegister" >
+                                    <a-button class="btn-success"  @click="handleRegister" block>
+                                        Registrarme como paciente
+                                    </a-button>
+                                </a-form-item>
+                            </a-col>
+                            <a-col :span="24" class="text-center">
+                                <a-form-item  v-if="canResetPassword">
+                                    <a-button  type="link"  @click="handleResetPassword" block>
+                                        ¿Olvidaste tu contraseña?
+                                    </a-button>
+                                </a-form-item>
+                            </a-col>
+                        </a-row>
+                    </a-form>
+                    <div v-else class="mb-4 fs-4 text-center text-secondary fw-bold-600 ">
+                        <a-typography-title class="text-primary fs-3">
+                            No disponible!
+                        </a-typography-title>
+                        El sistema está en mantenimiento, por favor intente más tarde.
+                    </div>
+                </a-col>
+            </a-row>
+           
         </template>
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="current-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
+   
+    </LoginLayout>
 </template>

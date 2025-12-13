@@ -6,6 +6,13 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
+// 1. Importar Ant Design Vue
+import Antd from 'ant-design-vue';
+
+// 2. Importar el archivo de estilos principal (necesario)
+// Nota: Puedes elegir entre 'antd.css' o 'antd.less' si personalizas el tema.
+import '../css/ant-design-vue/dist/antd.css';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -15,6 +22,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(Antd)
             .mount(el);
     },
     progress: {
