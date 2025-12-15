@@ -1,128 +1,232 @@
 
 <script setup>
-    import { router, useForm } from '@inertiajs/vue3';
+    import { router, useForm, } from '@inertiajs/vue3';
     import { message } from 'ant-design-vue'
     import RegisterLayout from '@/Layouts/RegisterLayout.vue';
     import Header from './Components/Header.vue';
+    import { ref } from 'vue';
 
-    /* const form = useForm({
-        email: '',
-        password: '',
-        remember: false,
-    });
-
-    const onSubmit = () => {
-        form.transform(data => ({
-            ...data,
-            remember: form.remember ? 'on' : '',
-        })).post(route('login'), {
-            onFinish: () => form.reset('password'),
-        });
-    }; */
     const form = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+        dni: '12345678',
+        email: 'admin1@test.com',
+        password: '12345678',
+        password_confirmation: '12345678',
         terms: false,
+        dni: '',
+        first_names: 'Ranses',
+        last_names: 'jimenez',
+        gender: 'm',
+        birthday: '',
     });
+    const gender = [
+        {
+            value: 'm',
+            label: 'Masculino',
+        },
+        {
+            value: 'f',
+            label: 'Femenino',
+        },
+    
+    ];
+    /**
+     * Capitaliza la primera letra de cada palabra y pone el resto en minúscula.
+     * @param {Event} event - El objeto de evento del input.
+     */
+    const capitalizeWords = (event) => {
+        // 1. Obtener el valor actual del input
+        let value = event.target.value;
 
-   /*  const handleSubmit = () => {
-        form.post(route('register'), {
-            onFinish: () => form.reset('password', 'password_confirmation'),
-        });
-    }; */
+        // 2. Aplicar la lógica de capitalización:
+        if (value) {
+            value = value.toLowerCase().split(' ')
+                .map((word) => {
+                    // Si la palabra no está vacía, capitaliza la primera letra
+                    if (word.length > 0) {
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    }
+                    return ''; // Maneja espacios dobles o palabras vacías
+                })
+                .join(' ');
+        }
+
+        // 3. Actualizar directamente el modelo de datos
+        form[event.target.name] = value;
+    };
+
+    const normalizeText = (event) => {
+        // 1. Obtener el valor actual del input
+        let value = event.target.value;
+
+        // 2. Aplicar la lógica de normalización
+        if (value) {
+            // .toLowerCase(): Convierte toda la cadena a minúsculas
+            // .replace(/\s/g, ''): Busca todas las ocurrencias de espacios en blanco (\s) 
+            //                        de forma global (g) y los reemplaza por una cadena vacía ('').
+            value = value.toLowerCase().replace(/\s/g, '');
+        }
+
+        // 3. Actualizar directamente el modelo de datos
+        form[event.target.name] = value;
+    };
     const handleSubmit = () => {
         try {
 
             form.transform(data => ({
                 ...data,
-                //remember: form.remember ? 'on' : '',
             })).post(route('register'), {
-
-                onFinish: () => {
-                    message.success('Datos registrados correctamente')
-                    form.reset(
-                        'name', 
-                        'email',
-                        'password', 
-                        'password_confirmation'
-                    )
+                onError: (errors) => {
+                    console.error('Errores recibidos:', errors);
+                    message.error('Credenciales o validación fallida.');
+                 
+                },
+                onSuccess: () => {
+                    message.success('Registro exitoso.');
+                },
+                onFinish: (response) => {
+                    form.reset(); // Opcional
                 },
             });
         } catch (error) {
-            // Mostrar mensaje de error
-            message.error('Hubo un problema al registrar los datos')
+            message.error('Hubo un problema al validar los datos')
         }
 
     };
+
     const handleLogin = () => {
         const url = route('login'); 
         router.visit(url);
     };
-    const validatePass = async (_rule, value) => {
-        if (value === '') {
-          return Promise.reject('Por favor ingrese la contraseña');
-        } else {
-          if (form.password !== '') {
-            formRef.value.validateFields('password_confirmation');
-          }
-          return Promise.resolve();
-        }
-      };
-      const validatePass2 = async (_rule, value) => {
-        if (value === '') {
-          return Promise.reject('Por favor vuelva a ingresar la contraseña');
-        } else if (value !== form.password) {
-          return Promise.reject("Las contraseñas no coinciden");
-        } else {
-          return Promise.resolve();
-        }
-      };
 
     const rules = {
-        name: [
+        dni: [
             {
-                required: true,
-                message: 'Por favor ingrese su cédula',
+                validator: async (_rule, value) => {
+                    if (value === '' || value === null || value === undefined) {
+                        return Promise.reject('Por favor ingrese su cédula');
+                    }
+                    const digitsOnly = /^\d+$/;
+                    if (!digitsOnly.test(value)) {
+                        return Promise.reject('La cédula debe contener solo números');
+                    }
+                    if (value.length < 6 || value.length > 8) {
+                        return Promise.reject('La cédula debe tener entre 6 y 8 dígitos');
+                    }
+                    return Promise.resolve();
+                },
                 trigger: 'change',
             },
-            
         ],
         email: [
             {
-                required: true,
-                message: 'Por favor ingrese el correo electrónico',
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese el correo electrónico');
+                    }
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        return Promise.reject('Por favor ingrese un correo electrónico válido');
+                    }
+                    return Promise.resolve();
+                },
+                trigger: 'change',
+            }
+            
+        ],
+        first_names: [
+            {
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese tu primer y segundo nombre');
+                    } else if (value.length > 50) {
+                        return Promise.reject('El nombre debe tener menos de 30 caracteres');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
                 trigger: 'change',
             },
-            
+        ],
+        last_names: [
+            {
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese tu primer y segundo apellido');
+                    } else if (value.length > 50) {
+                        return Promise.reject('El apellido debe tener menos de 30 caracteres');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
+                trigger: 'change',
+            },
+        ],
+        gender: [
+            {
+                validator: async (_rule, value) => {
+                    if (value === null) {
+                        return Promise.reject('Por favor selecciona el sexo');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
+                trigger: 'change',
+            },
+        ],
+        birthday: [
+            {
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese tu fecha de nacimiento');
+                    } else if (value.length > 50) {
+                        return Promise.reject('La fecha de nacimiento debe tener menos de 30 caracteres');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
+                trigger: 'change',
+            },
         ],
         password: [
             {
-                required: true,
-                message: 'Por favor ingrese la contraseña',
-                trigger: 'change',
-            },
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese la contraseña');
+                    } else if (value.length < 8) {
+                        return Promise.reject('La contraseña debe tener al menos 8 caracteres');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
+            }
             
         ],
         password_confirmation: [
             {
-                required: true,
-                message: 'Por favor vuelva a ingresar la contraseña',
-                trigger: 'change',
-            },
-            {
-                validator: validatePass2,
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor vuelva a ingresar la contraseña');
+                    } else if (value.length < 8) {
+                        return Promise.reject('La contraseña debe tener al menos 8 caracteres');
+                    } else if (value !== form.password) {
+                        return Promise.reject("Las contraseñas no coinciden");
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
                 trigger: 'change',
             },
         ],
     };
+
+
 </script>
 
 <template>
     <RegisterLayout >
      
         <template #content>
+            {{ form }}
             <a-row  justify="center"  ::wrap="true" >
                 <a-col :span="24" class="p-2 text-center" >
                     <Header title="Registro de Paciente" subTitle="Completa la siguiente información para crear tu cuenta" />
@@ -137,13 +241,13 @@
                         @finish="handleSubmit"
                     >
                             
-                    
                         <a-row justify="center" :gutter="10" :wrap="true" >
                             <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="name" ref="name" has-feedback label="Cédula">
+                                <a-form-item name="dni" ref="dni" has-feedback label="Cédula">
                                     <a-input 
-                                    name="name"
-                                    v-model:value="form.name" 
+                                    name="dni"
+                                    :maxlength="8"
+                                    v-model:value="form.dni" 
                                     placeholder="Escribe aquí tu cédula" 
                                     />
                                 </a-form-item>
@@ -151,10 +255,56 @@
                             <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
                                 <a-form-item name="email" ref="email" has-feedback label="Correo electrónico">
                                     <a-input 
-                                    name="username"
+                                    name="email"
                                     v-model:value="form.email" 
-                                    placeholder="Escribe aquí tu correo electrónico o cédula" 
+                                    placeholder="Escribe aquí tu correo electrónico" 
+                                    @input="normalizeText"
                                     />
+                                </a-form-item>       
+                            </a-col>
+                        </a-row>
+                        <a-row justify="center" :gutter="10" :wrap="true" >
+                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                <a-form-item name="first_names" ref="first_names" has-feedback label="Nombres">
+                                    <a-input 
+                                    name="first_names"
+                                    :maxlength="50"
+                                    v-model:value="form.first_names" 
+                                    placeholder="Escribe tu primer y segundo nombre" 
+                                    @input="capitalizeWords"
+                                    />
+                                </a-form-item>
+                            </a-col>
+                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                <a-form-item name="last_names" ref="last_names" has-feedback label="Apellidos">
+                                    <a-input 
+                                    name="last_names"
+                                    :maxlength="50"
+                                    v-model:value="form.last_names" 
+                                    placeholder="Escribe tu primer y segundo apellido" 
+                                    @input="capitalizeWords"
+                                    />
+                                </a-form-item>       
+                            </a-col>
+                        </a-row>
+                        <a-row justify="center" :gutter="10" :wrap="true" >
+                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                <a-form-item name="gender" has-feedback label="Género">
+                                    <a-select
+                                        
+                                        name="gender"
+                                        placeholder="Selecciona el sexo"
+                                        v-model:value="form.gender"
+                                        :options="gender"
+                                        style="width: 100%"
+                                        
+                                    />
+                                    
+                                </a-form-item>
+                            </a-col>
+                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                <a-form-item name="birthday" ref="birthday" has-feedback label="Fecha de nacimiento">
+                                    <a-date-picker v-model:value="form.birthday" style="width: 100%" format="DD/MM/YYYY" placeholder="Escribe tu fecha de nacimiento dia/mes/año"  />
                                 </a-form-item>       
                             </a-col>
                         </a-row>
@@ -171,9 +321,9 @@
                             <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
                                 <a-form-item name="password_confirmation" ref="password_confirmation" hasFeedback label="Confirmar Contraseña">
                                     <a-input-password 
-                                    name="password"
+                                    name="password_confirmation"
                                     v-model:value="form.password_confirmation" 
-                                    placeholder="Escribe aquí tu contraseña" 
+                                    placeholder="Confirma aquí tu contraseña" 
                                 />
                                 </a-form-item>
                             </a-col>

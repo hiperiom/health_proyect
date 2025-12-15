@@ -38,14 +38,19 @@
                 ...data,
                 remember: form.remember ? 'on' : '',
             })).post(route('login'), {
-
-                onFinish: () => {
-                    message.success('Datos validados correctamente')
-                    form.reset('password')
+                onError: (errors) => {
+                    console.error('Errores recibidos:', errors);
+                    message.error('Credenciales o validación fallida.');
+                 
+                },
+                onSuccess: () => {
+                    message.success('Autenticación exitosa.');
+                },
+                onFinish: (response) => {
+                    form.reset(); // Opcional
                 },
             });
         } catch (error) {
-            // Mostrar mensaje de error
             message.error('Hubo un problema al validar los datos')
         }
 
@@ -62,19 +67,33 @@
     const rules = {
         email: [
             {
-                required: true,
-                message: 'Por favor ingrese el correo electrónico o cédula',
+                validator: async (_rule, value) => {
+                    if (value === '' || value === null || value === undefined) {
+                        return Promise.reject('Por favor ingrese el correo electrónico o cédula');
+                    }
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    const digitsOnly = /^\d{6,8}$/;
+                    if (emailRegex.test(value) || digitsOnly.test(value)) {
+                        return Promise.resolve();
+                    }
+                    return Promise.reject('Ingrese un correo válido o una cédula de 6 a 8 dígitos');
+                },
                 trigger: 'change',
             },
-            
         ],
         password: [
-        {
-            required: true,
-            message: 'Por favor ingrese la contraseña',
-            trigger: 'change',
-        },
-    ],
+            {
+                validator: async (_rule, value) => {
+                    if (value === '') {
+                        return Promise.reject('Por favor ingrese la contraseña');
+                    } else if (value.length < 8) {
+                        return Promise.reject('La contraseña debe tener al menos 8 caracteres');
+                    } else {
+                        return Promise.resolve();
+                    }
+                },
+            }
+        ],
     
     };
 

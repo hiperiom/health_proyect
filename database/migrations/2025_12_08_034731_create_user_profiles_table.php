@@ -16,13 +16,12 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('first_names',100);
-            $table->string('last_names',100);
+            $table->string('first_names',50);
+            $table->string('last_names',50);
             $table->enum('nacionality', ['V', 'E'])->default('V');
-            $table->string('dni_picture_url')->nullable();
+            $table->string('dni_picture_url',2048)->nullable();
             $table->date('birthday')->nullable();
-            $table->enum('gender', ['M', 'F'])->default('M');
-            $table->string('picture_url')->nullable();
+            $table->enum('gender', ['m', 'f'])->default('f');
             $table->string('movil_phone',15)->nullable();
             $table->string('local_phone',15)->nullable();
             $table->timestamps();

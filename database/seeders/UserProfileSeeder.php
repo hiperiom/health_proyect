@@ -13,6 +13,16 @@ class UserProfileSeeder extends Seeder
      */
     public function run(): void
     {
-        UserProfile::factory(1)->create();
+        UserProfile::factory()->create([
+            'user_id' => 1,
+            'first_names' => 'admin',
+            'last_names' => 'admin',
+     
+        ]);
+        UserProfile::factory()->create([
+            'user_id' => 2,
+            'first_names' => 'patient',
+            'last_names' => 'patient',
+        ]);
     }
 }

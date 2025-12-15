@@ -17,14 +17,16 @@ class UserSeeder extends Seeder
         $admin = User::factory()->create([
             'dni' => '00000000',
             'email' => 'admin@test.com',
-            'password' => Hash::make('admin'),
+            'password' => Hash::make('12345678'),
+            'is_test_user' => true,
         ]);
         $admin->assignRole('Administrador');
 
         $patient = User::factory()->create([
             'dni' => '00000001',
             'email' => 'patient@text.com',
-            'password' => Hash::make('patient'),
+            'password' => Hash::make('12345678'),
+            'is_test_user' => true,
         ]);
         $patient->assignRole('Paciente');
     }

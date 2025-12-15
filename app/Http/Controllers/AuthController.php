@@ -9,14 +9,31 @@ use App\Http\Resources\Auth\RegistrationResource;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\RegistrationService;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
     /**
      * Handle a login request.
      */
-    public function login(LoginRequest $request, LoginService $authService)
+    public function index(LoginRequest $request, LoginService $authService)
     {
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+        ]);
+    }
+    /**
+     * Handle a login request.
+     */
+    /* public function validatecredentials(LoginRequest $request, LoginService $authService)
+    {
+        dd("hola");
         try {
             $result = $authService->login(
                 $request->input('identifier'), 
@@ -35,7 +52,7 @@ class AuthController extends Controller
         } catch (\Illuminate\Auth\AuthenticationException $e) {
             return response()->json(['message' => 'Credenciales inválidas'], 401);
         }
-    }
+    } */
 
     /**
      * Register a newly created resource in storage.

@@ -3,50 +3,30 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Hash;
+
 class LoginService
 {
     /**
-     * Attempt to login a user by email or name and password.
+     * Intenta autenticar a un usuario basándose en email o DNI.
      *
-     * @param string $identifier Email or name to identify the user
+     * @param string $loginField (Email o DNI)
      * @param string $password
-     * @return array{user: User, token: string}
-     * @throws \Exception When credentials are invalid
+     * @return \App\Models\User|null
      */
-    public function login(string $identifier, string $password): array
+    public function verifyCredentials(string $loginField, string $password): ?User
     {
-   
-        // 1. Intentar encontrar el usuario por email o dni para construir el array de credenciales.
-        // Asumiendo que el campo 'email' es la columna predeterminada.
-        
-        $user = User::where('email', $identifier)
-                ->orWhere('dni', $identifier)
-                ->first();
-        
-        // 2. Si no se encuentra el usuario, lanza la excepción de autenticación de inmediato.
-        if (!$user) {
-            throw new AuthenticationException('Credenciales inválidas.');
+        // 1. Intentar encontrar el usuario por EMAIL o DNI
+        $user = User::where('email', $loginField)
+                    ->orWhere('dni', $loginField)
+                    ->first();
+
+        // 2. Verificar si el usuario fue encontrado y si la contraseña coincide
+        if ($user && Hash::check($password, $user->password)) {
+            return $user;
         }
 
-        // 3. Usar el método attempt() con las credenciales, usando el campo del identificador encontrado.
-        // Esto verifica el hash de forma segura y mitiga Timing Attacks.
-        $loginSuccessful = Auth::attempt([
-            $user->email === $identifier ? 'email' : 'dni' => $identifier,
-            'password' => $password,
-        ]);
-     
-        if (!$loginSuccessful) {
-             throw new AuthenticationException('Credenciales inválidas.');
-        }
-
-        // Auth::user() ahora apunta al usuario autenticado.
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return [
-            'user' => $user,
-            'token' => $token,
-        ];
+        return null;
     }
+    
 }
