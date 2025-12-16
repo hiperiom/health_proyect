@@ -1,10 +1,14 @@
 
 <script setup>
     import { router, useForm, } from '@inertiajs/vue3';
+    import { LoadingOutlined, UserOutlined } from '@ant-design/icons-vue';
     import { message } from 'ant-design-vue'
     import RegisterLayout from '@/Layouts/RegisterLayout.vue';
     import Header from './Components/Header.vue';
     import { ref } from 'vue';
+
+    const fileList = ref([]);
+    const loading = ref(false);
 
     const form = useForm({
         dni: '12345678',
@@ -17,7 +21,9 @@
         last_names: 'jimenez',
         gender: 'm',
         birthday: '',
+        profile_photo_path: null,
     });
+
     const gender = [
         {
             value: 'm',
@@ -29,75 +35,7 @@
         },
     
     ];
-    /**
-     * Capitaliza la primera letra de cada palabra y pone el resto en minúscula.
-     * @param {Event} event - El objeto de evento del input.
-     */
-    const capitalizeWords = (event) => {
-        // 1. Obtener el valor actual del input
-        let value = event.target.value;
-
-        // 2. Aplicar la lógica de capitalización:
-        if (value) {
-            value = value.toLowerCase().split(' ')
-                .map((word) => {
-                    // Si la palabra no está vacía, capitaliza la primera letra
-                    if (word.length > 0) {
-                        return word.charAt(0).toUpperCase() + word.slice(1);
-                    }
-                    return ''; // Maneja espacios dobles o palabras vacías
-                })
-                .join(' ');
-        }
-
-        // 3. Actualizar directamente el modelo de datos
-        form[event.target.name] = value;
-    };
-
-    const normalizeText = (event) => {
-        // 1. Obtener el valor actual del input
-        let value = event.target.value;
-
-        // 2. Aplicar la lógica de normalización
-        if (value) {
-            // .toLowerCase(): Convierte toda la cadena a minúsculas
-            // .replace(/\s/g, ''): Busca todas las ocurrencias de espacios en blanco (\s) 
-            //                        de forma global (g) y los reemplaza por una cadena vacía ('').
-            value = value.toLowerCase().replace(/\s/g, '');
-        }
-
-        // 3. Actualizar directamente el modelo de datos
-        form[event.target.name] = value;
-    };
-    const handleSubmit = () => {
-        try {
-
-            form.transform(data => ({
-                ...data,
-            })).post(route('register'), {
-                onError: (errors) => {
-                    console.error('Errores recibidos:', errors);
-                    message.error('Credenciales o validación fallida.');
-                 
-                },
-                onSuccess: () => {
-                    message.success('Registro exitoso.');
-                },
-                onFinish: (response) => {
-                    form.reset(); // Opcional
-                },
-            });
-        } catch (error) {
-            message.error('Hubo un problema al validar los datos')
-        }
-
-    };
-
-    const handleLogin = () => {
-        const url = route('login'); 
-        router.visit(url);
-    };
-
+    
     const rules = {
         dni: [
             {
@@ -219,6 +157,80 @@
         ],
     };
 
+    const capitalizeWords = (event) => {
+        // 1. Obtener el valor actual del input
+        let value = event.target.value;
+
+        // 2. Aplicar la lógica de capitalización:
+        if (value) {
+            value = value.toLowerCase().split(' ')
+                .map((word) => {
+                    // Si la palabra no está vacía, capitaliza la primera letra
+                    if (word.length > 0) {
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    }
+                    return ''; // Maneja espacios dobles o palabras vacías
+                })
+                .join(' ');
+        }
+
+        // 3. Actualizar directamente el modelo de datos
+        form[event.target.name] = value;
+    };
+    const normalizeText = (event) => {
+        // 1. Obtener el valor actual del input
+        let value = event.target.value;
+
+        // 2. Aplicar la lógica de normalización
+        if (value) {
+            // .toLowerCase(): Convierte toda la cadena a minúsculas
+            // .replace(/\s/g, ''): Busca todas las ocurrencias de espacios en blanco (\s) 
+            //                        de forma global (g) y los reemplaza por una cadena vacía ('').
+            value = value.toLowerCase().replace(/\s/g, '');
+        }
+
+        // 3. Actualizar directamente el modelo de datos
+        form[event.target.name] = value;
+    };
+    const handleSubmit = () => {
+        try {
+
+            form.transform(data => ({
+                ...data,
+            })).post(route('register'), {
+                onError: (errors) => {
+                    console.error('Errores recibidos:', errors);
+                    message.error('Credenciales o validación fallida.');
+                 
+                },
+                onSuccess: () => {
+                    message.success('Registro exitoso.');
+                },
+                onFinish: (response) => {
+                    form.reset(); // Opcional
+                },
+            });
+        } catch (error) {
+            message.error('Hubo un problema al validar los datos')
+        }
+
+    };
+    const handleLogin = () => {
+        const url = route('login'); 
+        router.visit(url);
+    };
+    const handleBeforeUpload = (file) => {
+        fileList.value = [file];
+        
+        form.profile_photo_path = file;
+        
+        return false; 
+    };
+    const handleRemove = () => {
+        fileList.value = [];
+        form.profile_photo_path = null;
+        return true; 
+    };
 
 </script>
 
@@ -226,13 +238,13 @@
     <RegisterLayout >
      
         <template #content>
-            {{ form }}
+
             <a-row  justify="center"  ::wrap="true" >
                 <a-col :span="24" class="p-2 text-center" >
                     <Header title="Registro de Paciente" subTitle="Completa la siguiente información para crear tu cuenta" />
                 </a-col>
                 <a-col class="glass-container p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="20" :md="20" :lg="15" :xl="12" :xxl="10" >
-                
+                  
                     <a-form 
                         ref="formRef"
                         layout="vertical" 
@@ -242,6 +254,21 @@
                     >
                             
                         <a-row justify="center" :gutter="10" :wrap="true" >
+                            <a-col :span="24" class="text-center" >
+                                <a-upload
+                                    v-model:file-list="fileList"
+                                    list-type="picture-card"
+                                    :max-count="1"
+                                    :before-upload="handleBeforeUpload" 
+                                    @remove="handleRemove"
+                                >
+                                    <div v-if="fileList.length < 1">
+                                        <LoadingOutlined v-if="loading" />
+                                        <UserOutlined v-else />
+                                        <div style="margin-top: 8px">Subir Foto</div>
+                                    </div>
+                                </a-upload>
+                            </a-col>
                             <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
                                 <a-form-item name="dni" ref="dni" has-feedback label="Cédula">
                                     <a-input 
@@ -370,105 +397,18 @@
     </RegisterLayout>
 
 </template>
+<style scoped>
+    .avatar-uploader > .ant-upload {
+    width: 128px;
+    height: 128px;
+    }
+    .ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+    }
 
-<!-- <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-
-
-</script>
-
-<template>
-    <Head title="Register" />
-
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
-                <InputLabel for="terms">
-                    <div class="flex items-center">
-                        <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
-
-                        <div class="ms-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
-                        </div>
-                    </div>
-                    <InputError class="mt-2" :message="form.errors.terms" />
-                </InputLabel>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
-</template>
- -->
+    .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+    }
+</style>

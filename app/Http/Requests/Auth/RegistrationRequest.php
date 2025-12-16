@@ -22,12 +22,13 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dni' => 'required|numeric|digits_between:6,8 |unique:users,dni',
+            'dni' => 'required|numeric|digits_between:60,80 |unique:users,dni',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:8',
             'first_names' => 'required|string|max:100',
             'last_names' => 'required|string|max:100',
             'gender' => 'required|string|max:1',
+            'profile_photo_path'=> 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -53,6 +54,10 @@ class RegistrationRequest extends FormRequest
             'gender.required' => 'El género es obligatorio.',
             'gender.char' => 'El género debe ser un carácter.',
             'gender.max' => 'El género no debe exceder un carácter.',
+            'profile_photo_path.image' => 'El archivo debe ser una imagen.',
+            'profile_photo_path.mimes' => 'El archivo debe ser un archivo de imagen.',
+            'profile_photo_path.max' => 'El archivo no debe exceder los 2048 bytes.',
+            
 
         ];
     }

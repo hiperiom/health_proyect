@@ -1410,7 +1410,10 @@ html {
   /* Transición suave para los efectos */
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
+:where(.css-dev-only-do-not-override-b92jn9).btn-success.ant-btn-default:not(:disabled):hover {
+    color: #ffffff;
+    border-color: #198754;
+}
 /* =========================================================
    ESTADO HOVER (Al pasar el ratón)
    ========================================================= */

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Actions\Fortify\CreateCustomNewUser;
+use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -16,8 +16,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest; // Alias de la clase base
-use Laravel\Fortify\Http\Requests\RegisterRequest as FortifyRegisterRequest;
+//use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest; // Alias de la clase base
+//use Laravel\Fortify\Http\Requests\RegisterRequest as FortifyRegisterRequest;
+use Laravel\Fortify\Contracts\CreatesNewUsers as RegisterRequestContract;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -33,9 +34,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //Fortify::createUsersUsing(CreateNewUser::class);
-        $this->app->instance(FortifyRegisterRequest::class, RegistrationRequest::class);
-        Fortify::createUsersUsing(CreateCustomNewUser::class);
+        Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
