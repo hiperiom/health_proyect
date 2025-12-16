@@ -11,15 +11,15 @@
     const loading = ref(false);
 
     const form = useForm({
-        dni: '12345678',
-        email: 'admin1@test.com',
-        password: '12345678',
-        password_confirmation: '12345678',
+        dni: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
         terms: false,
         dni: '',
-        first_names: 'Ranses',
-        last_names: 'jimenez',
-        gender: 'm',
+        first_names: '',
+        last_names: '',
+        gender: null,
         birthday: '',
         profile_photo_path: null,
     });
