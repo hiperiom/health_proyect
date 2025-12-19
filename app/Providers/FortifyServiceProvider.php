@@ -7,7 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegistrationRequest;
+use App\Http\Responses\RegisterResponse;
 use App\Services\Auth\LoginService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -16,9 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
-//use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest; // Alias de la clase base
-//use Laravel\Fortify\Http\Requests\RegisterRequest as FortifyRegisterRequest;
-use Laravel\Fortify\Contracts\CreatesNewUsers as RegisterRequestContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -34,7 +32,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
@@ -51,12 +48,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
         Fortify::authenticateUsing(function (Request $request) {
             
-            // 1. Sobrescribir la clase de validación utilizada por Fortify
             $this->app->instance(FortifyLoginRequest::class, LoginRequest::class);
-            // Ahora, cuando Fortify necesita validar el login, usa tu App\Http\Requests\LoginRequest
-            
-            // En este punto, los datos ya han sido validados por tu LoginRequest
-            // que Fortify está usando gracias a la línea de arriba.
+   
             $loginService = app(LoginService::class);
             $loginField = $request->input(config('fortify.username')); 
             $password = $request->input('password');
@@ -64,5 +57,11 @@ class FortifyServiceProvider extends ServiceProvider
             return $loginService->verifyCredentials($loginField, $password);
          
         });
+        $this->app->singleton(
+            RegisterResponseContract::class,
+            RegisterResponse::class
+        );
+
+        Fortify::createUsersUsing(CreateNewUser::class);
     }
 }

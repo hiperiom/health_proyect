@@ -16,7 +16,6 @@
         password: '',
         password_confirmation: '',
         terms: false,
-        dni: '',
         first_names: '',
         last_names: '',
         gender: null,

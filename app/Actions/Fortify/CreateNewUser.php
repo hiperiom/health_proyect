@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -62,17 +61,11 @@ class CreateNewUser implements CreatesNewUsers
             ]
         )->validate();
 
-        //$path = $input->file('avatar')->store('avatars', 'public');
-        //$url = Storage::url($path);
         $request = app(Request::class); 
 
-        // 2. Determinar la ruta de la imagen (por defecto null)
         $avatarPath = null;
         
-        // 3. Verificar y Guardar la Imagen
         if ($request->hasFile('profile_photo_path')) {
-            // Guardar en el disco 'public' dentro de la carpeta 'avatars'
-            // El método store() devuelve la ruta relativa del archivo.
             $avatarPath = $request->file('profile_photo_path')->store('user_avatars', 'public');
         }
 
@@ -90,6 +83,7 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
                 'profile_photo_path' => $avatarPath,
             ]);
+            $user->assignRole('Paciente');
 
             UserProfile::create([
                 'user_id' => $user->id, 
