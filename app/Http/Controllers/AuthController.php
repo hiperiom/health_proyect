@@ -57,7 +57,7 @@ class AuthController extends Controller
     /**
      * Register a newly created resource in storage.
      */
-    public function register(RegistrationRequest $request, RegistrationService $registrationService)
+    /* public function register(RegistrationRequest $request, RegistrationService $registrationService)
     {
         try {
             $data = $request->validated();
@@ -74,16 +74,16 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error en el registro'], 500);
         }    
-    }
+    } */
 
-    public function logout(Request $request)
+    /* public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Logged out successfully',
         ], 200);
-    }
+    } */
     
 
 
