@@ -28,6 +28,10 @@ class AuthController extends Controller
             'phpVersion' => PHP_VERSION,
         ]);
     }
+    public function test()
+    {
+        return Inertia::render('Test');
+    }
     /**
      * Handle a login request.
      */

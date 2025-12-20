@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/',[AuthController::class, 'index']);
+Route::get('/test',[AuthController::class, 'test']);
 
 Route::middleware([
     'auth:sanctum',

@@ -21,7 +21,7 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "ant-design-vue": "^4.0.0-rc.6",
+        "ant-design-vue": "^4.2.6",
         "brew": "^0.0.8"
     }
 }
