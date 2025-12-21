@@ -3,6 +3,9 @@
     import { message } from 'ant-design-vue'
     import LoginLayout from '@/Layouts/LoginLayout.vue';
     import Header from './Components/Header.vue';
+    //import WelcomeInfo from './Components/WelcomeInfo.vue';
+    import LoginTour from './Components/LoginTour.vue';
+    import { ref } from 'vue';
 
     defineProps({
         canResetPassword: {
@@ -96,7 +99,10 @@
         ],
     
     };
-
+    const current = ref(0);
+    const step1 = ref(null);
+    const step2 = ref(null);
+    const step3 = ref(null);
 
 </script>
 
@@ -110,7 +116,7 @@
                 </a-col>
                 <a-col class="glass-container p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="15" :md="15" :lg="10" :xl="8" :xxl="6" >
                     <a-form 
-                        v-if="canLogin" 
+                        
                         ref="formRef"
                         layout="vertical" 
                         :model="form" 
@@ -118,7 +124,7 @@
                         @finish="handleSubmit"
                         
                     >
-                        <a-row justify="center" :gutter="10" :wrap="true" >
+                        <a-row ref="step1" justify="center" :gutter="10" :wrap="true" >
                             <a-col :span="24">
                                 <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
                                     <a-input 
@@ -144,18 +150,22 @@
                                     </a-button>
                                 </a-form-item>
                             </a-col>
+                        </a-row>
+                        <a-row ref="step2"  justify="center" :gutter="10" :wrap="true" >
                             <a-col :span="24" class="text-center">
                                <a-form-item v-if="canRemenber" name="remember" >
                                     <a-checkbox v-model:checked="form.remember">Recordarme</a-checkbox>
                                 </a-form-item>
                             </a-col>
-                            <a-col :span="24" class="text-center">
+                            <a-col span="24" class="text-center">
                                 <a-form-item v-if="canRegister" >
                                     <a-button class="btn-success"  @click="handleRegister" block>
                                         Registrarme como paciente
                                     </a-button>
                                 </a-form-item>
                             </a-col>
+                        </a-row>
+                        <a-row ref="step3"  justify="center" :gutter="10" :wrap="true" >
                             <a-col :span="24" class="text-center">
                                 <a-form-item  v-if="canResetPassword">
                                     <a-button  type="link"  @click="handleResetPassword" block>
@@ -165,16 +175,20 @@
                             </a-col>
                         </a-row>
                     </a-form>
-                    <div v-else class="mb-4 fs-4 text-center text-secondary fw-bold-600 ">
-                        <a-typography-title class="text-primary fs-3">
-                            No disponible!
-                        </a-typography-title>
-                        El sistema está en mantenimiento, por favor intente más tarde.
-                    </div>
+                   
                 </a-col>
             </a-row>
-           
+            <a-row>
+                <a-col :span="24" class="text-center">
+                    <LoginTour 
+                        v-model:current="current"
+                        :step1="step1"
+                        :step2="step2"
+                        :step3="step3"
+                    />
+                </a-col>
+            </a-row>
         </template>
-   
+        
     </LoginLayout>
 </template>
