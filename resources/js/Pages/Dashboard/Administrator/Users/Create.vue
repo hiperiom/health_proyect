@@ -1,15 +1,21 @@
+<script>
+    export default {
+        name: "PatientsCreate",
+    }
+</script>
 <script setup>
     import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 </script>
 <template>
-    <DashboardLayout title="Dashboard" subtitle="Bienvenido a su panel de administración">
-
+    <DashboardLayout>
         <template #content>
 
-            Home administrador
+            Home Paciente Create
         </template>
-  
-
-
     </DashboardLayout>
 </template>
+
+
+<style lang="scss" scoped>
+
+</style>

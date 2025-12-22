@@ -242,154 +242,155 @@
                 <a-col :span="24" class="p-2 text-center" >
                     <Header title="Registro de Paciente" subTitle="Completa la siguiente información para crear tu cuenta" />
                 </a-col>
-                <a-col class="glass-container p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="20" :md="20" :lg="15" :xl="12" :xxl="10" >
-                  
-                    <a-form 
-                        ref="formRef"
-                        layout="vertical" 
-                        :model="form" 
-                        :rules="rules"
-                        @finish="handleSubmit"
-                    >
-                            
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :span="24" class="text-center" >
-                                <a-upload
-                                    v-model:file-list="fileList"
-                                    list-type="picture-card"
-                                    :max-count="1"
-                                    :before-upload="handleBeforeUpload" 
-                                    @remove="handleRemove"
-                                >
-                                    <div v-if="fileList.length < 1">
-                                        <LoadingOutlined v-if="loading" />
-                                        <UserOutlined v-else />
-                                        <div style="margin-top: 8px">Subir Foto</div>
-                                    </div>
-                                </a-upload>
-                            </a-col>
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="dni" ref="dni" has-feedback label="Cédula">
-                                    <a-input 
-                                    name="dni"
-                                    :maxlength="8"
-                                    v-model:value="form.dni" 
-                                    placeholder="Escribe aquí tu cédula" 
-                                    />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="email" ref="email" has-feedback label="Correo electrónico">
-                                    <a-input 
-                                    name="email"
-                                    v-model:value="form.email" 
-                                    placeholder="Escribe aquí tu correo electrónico" 
-                                    @input="normalizeText"
-                                    />
-                                </a-form-item>       
-                            </a-col>
-                        </a-row>
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="first_names" ref="first_names" has-feedback label="Nombres">
-                                    <a-input 
-                                    name="first_names"
-                                    :maxlength="50"
-                                    v-model:value="form.first_names" 
-                                    placeholder="Escribe tu primer y segundo nombre" 
-                                    @input="capitalizeWords"
-                                    />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="last_names" ref="last_names" has-feedback label="Apellidos">
-                                    <a-input 
-                                    name="last_names"
-                                    :maxlength="50"
-                                    v-model:value="form.last_names" 
-                                    placeholder="Escribe tu primer y segundo apellido" 
-                                    @input="capitalizeWords"
-                                    />
-                                </a-form-item>       
-                            </a-col>
-                        </a-row>
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="gender" has-feedback label="Género">
-                                    <a-select
+                <a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="20" :md="20" :lg="15" :xl="12" :xxl="10" >
+                    <a-card>
+                        <a-form 
+                            ref="formRef"
+                            layout="vertical" 
+                            :model="form" 
+                            :rules="rules"
+                            @finish="handleSubmit"
+                        >
+                                
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :span="24" class="text-center" >
+                                    <a-upload
+                                        v-model:file-list="fileList"
+                                        list-type="picture-card"
+                                        :max-count="1"
+                                        :before-upload="handleBeforeUpload" 
+                                        @remove="handleRemove"
+                                    >
+                                        <div v-if="fileList.length < 1">
+                                            <LoadingOutlined v-if="loading" />
+                                            <UserOutlined v-else />
+                                            <div style="margin-top: 8px">Subir Foto</div>
+                                        </div>
+                                    </a-upload>
+                                </a-col>
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="dni" ref="dni" has-feedback label="Cédula">
+                                        <a-input 
+                                        name="dni"
+                                        :maxlength="8"
+                                        v-model:value="form.dni" 
+                                        placeholder="Escribe aquí tu cédula" 
+                                        />
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="email" ref="email" has-feedback label="Correo electrónico">
+                                        <a-input 
+                                        name="email"
+                                        v-model:value="form.email" 
+                                        placeholder="Escribe aquí tu correo electrónico" 
+                                        @input="normalizeText"
+                                        />
+                                    </a-form-item>       
+                                </a-col>
+                            </a-row>
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="first_names" ref="first_names" has-feedback label="Nombres">
+                                        <a-input 
+                                        name="first_names"
+                                        :maxlength="50"
+                                        v-model:value="form.first_names" 
+                                        placeholder="Escribe tu primer y segundo nombre" 
+                                        @input="capitalizeWords"
+                                        />
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="last_names" ref="last_names" has-feedback label="Apellidos">
+                                        <a-input 
+                                        name="last_names"
+                                        :maxlength="50"
+                                        v-model:value="form.last_names" 
+                                        placeholder="Escribe tu primer y segundo apellido" 
+                                        @input="capitalizeWords"
+                                        />
+                                    </a-form-item>       
+                                </a-col>
+                            </a-row>
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="gender" has-feedback label="Género">
+                                        <a-select
+                                            
+                                            name="gender"
+                                            placeholder="Selecciona el sexo"
+                                            v-model:value="form.gender"
+                                            :options="gender"
+                                            style="width: 100%"
+                                            
+                                        />
                                         
-                                        name="gender"
-                                        placeholder="Selecciona el sexo"
-                                        v-model:value="form.gender"
-                                        :options="gender"
-                                        style="width: 100%"
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="birthday" ref="birthday" has-feedback label="Fecha de nacimiento">
+                                        <a-date-picker v-model:value="form.birthday" style="width: 100%" format="DD/MM/YYYY" placeholder="Escribe tu fecha de nacimiento dia/mes/año"  />
+                                    </a-form-item>       
+                                </a-col>
+                            </a-row>
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="password" ref="password" hasFeedback label="Contraseña">
+                                        <a-input-password 
+                                        name="password"
+                                        v-model:value="form.password" 
+                                        placeholder="Escribe aquí tu contraseña" 
+                                        />
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
+                                    <a-form-item name="password_confirmation" ref="password_confirmation" hasFeedback label="Confirmar Contraseña">
+                                        <a-input-password 
+                                        name="password_confirmation"
+                                        v-model:value="form.password_confirmation" 
+                                        placeholder="Confirma aquí tu contraseña" 
+                                    />
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :span="24" class="text-center" >
+                                    <a-form-item v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
+                                        <a-checkbox v-model:checked="form.terms">Acepto los términos y condiciones</a-checkbox>
+                                    </a-form-item>
+                                </a-col>
+                                
+                            </a-row>
+                            <a-row justify="center" :gutter="10" :wrap="true" >
+                                <a-col :xs="24" :sm="12" :md="10" :lg="10" :xl="8" class="text-center" >
+                                    <a-row justify="center"  :wrap="true" >
+                                        <a-col :span="24"  class="text-center" >
+                                            <a-form-item class="mb-2">
+                                                <a-button  
+                                                    type="primary" 
+                                                    html-type="submit" 
+                                                    :class="{ 'opacity-25': form.processing }" 
+                                                    :disabled="form.processing" 
+                                                    block
+                                                >
+                                                    Registrar
+                                                </a-button>
+                                            </a-form-item>
+                                        </a-col>
+                                        <a-col :span="24"  class="text-center" >
+                                            <a-form-item class="m-0 p-0">
                                         
-                                    />
-                                    
-                                </a-form-item>
-                            </a-col>
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="birthday" ref="birthday" has-feedback label="Fecha de nacimiento">
-                                    <a-date-picker v-model:value="form.birthday" style="width: 100%" format="DD/MM/YYYY" placeholder="Escribe tu fecha de nacimiento dia/mes/año"  />
-                                </a-form-item>       
-                            </a-col>
-                        </a-row>
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="password" ref="password" hasFeedback label="Contraseña">
-                                    <a-input-password 
-                                    name="password"
-                                    v-model:value="form.password" 
-                                    placeholder="Escribe aquí tu contraseña" 
-                                    />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12" >
-                                <a-form-item name="password_confirmation" ref="password_confirmation" hasFeedback label="Confirmar Contraseña">
-                                    <a-input-password 
-                                    name="password_confirmation"
-                                    v-model:value="form.password_confirmation" 
-                                    placeholder="Confirma aquí tu contraseña" 
-                                />
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :span="24" class="text-center" >
-                                 <a-form-item v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
-                                    <a-checkbox v-model:checked="form.terms">Acepto los términos y condiciones</a-checkbox>
-                                </a-form-item>
-                            </a-col>
-                            
-                        </a-row>
-                        <a-row justify="center" :gutter="10" :wrap="true" >
-                            <a-col :xs="24" :sm="12" :md="10" :lg="10" :xl="8" class="text-center" >
-                                <a-row justify="center"  :wrap="true" >
-                                    <a-col :span="24"  class="text-center" >
-                                        <a-form-item class="mb-2">
-                                            <a-button  
-                                                type="primary" 
-                                                html-type="submit" 
-                                                :class="{ 'opacity-25': form.processing }" 
-                                                :disabled="form.processing" 
-                                                block
-                                            >
-                                                Registrar
-                                            </a-button>
-                                        </a-form-item>
-                                    </a-col>
-                                    <a-col :span="24"  class="text-center" >
-                                        <a-form-item>
-                                      
-                                        <a-button  type="link"  @click="handleLogin" block>
-                                             Ya estoy registrado
-                                        </a-button>
-                                        </a-form-item>
-                                    </a-col>
-                                </a-row>
-                            </a-col>
-                        </a-row>
-                    </a-form>
+                                                <a-button  type="link"  @click="handleLogin" block>
+                                                    Ya estoy registrado
+                                                </a-button>
+                                            </a-form-item>
+                                        </a-col>
+                                    </a-row>
+                                </a-col>
+                            </a-row>
+                        </a-form>
+                    </a-card>
                 </a-col>
             </a-row>
         </template>

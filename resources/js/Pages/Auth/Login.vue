@@ -114,68 +114,69 @@
                 <a-col :span="24" class="p-2 text-center" >
                     <Header title="¡Bienvenido!" subTitle="Autenticate para ingresar a tu cuenta" />
                 </a-col>
-                <a-col class="glass-container p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="15" :md="15" :lg="10" :xl="8" :xxl="6" >
-                    <a-form 
-                        
-                        ref="formRef"
-                        layout="vertical" 
-                        :model="form" 
-                        :rules="rules"
-                        @finish="handleSubmit"
-                        
-                    >
-                        <a-row ref="step1" justify="center" :gutter="10" :wrap="true" >
-                            <a-col :span="24">
-                                <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
-                                    <a-input 
-                                    name="username"
-                                    v-model:value="form.email" 
-                                    placeholder="Escribe aquí tu correo electrónico o cédula" 
-                                    />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="24">
-                                <a-form-item ref="password" name="password" has-feedback label="Contraseña">
-                                    <a-input-password 
-                                    name="password"
-                                    v-model:value="form.password" 
-                                    placeholder="Escribe aquí tu contraseña" 
-                                    />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :span="24">
-                                <a-form-item >
-                                    <a-button  type="primary" html-type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" block>
-                                        Iniciar Sesión
-                                    </a-button>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <a-row ref="step2"  justify="center" :gutter="10" :wrap="true" >
-                            <a-col :span="24" class="text-center">
-                               <a-form-item v-if="canRemenber" name="remember" >
-                                    <a-checkbox v-model:checked="form.remember">Recordarme</a-checkbox>
-                                </a-form-item>
-                            </a-col>
-                            <a-col span="24" class="text-center">
-                                <a-form-item v-if="canRegister" >
-                                    <a-button class="btn-success"  @click="handleRegister" block>
-                                        Registrarme como paciente
-                                    </a-button>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <a-row ref="step3"  justify="center" :gutter="10" :wrap="true" >
-                            <a-col :span="24" class="text-center">
-                                <a-form-item  v-if="canResetPassword">
-                                    <a-button  type="link"  @click="handleResetPassword" block>
-                                        ¿Olvidaste tu contraseña?
-                                    </a-button>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                    </a-form>
-                   
+                <a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="15" :md="15" :lg="10" :xl="8" :xxl="6" >
+                    <a-card>
+                        <a-form 
+                            
+                            ref="formRef"
+                            layout="vertical" 
+                            :model="form" 
+                            :rules="rules"
+                            @finish="handleSubmit"
+                            
+                        >
+                            <a-row ref="step1" justify="center" :gutter="10" :wrap="true" >
+                                <a-col :span="24">
+                                    <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
+                                        <a-input 
+                                        name="username"
+                                        v-model:value="form.email" 
+                                        placeholder="Escribe aquí tu correo electrónico o cédula" 
+                                        />
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="24">
+                                    <a-form-item ref="password" name="password" has-feedback label="Contraseña">
+                                        <a-input-password 
+                                        name="password"
+                                        v-model:value="form.password" 
+                                        placeholder="Escribe aquí tu contraseña" 
+                                        />
+                                    </a-form-item>
+                                </a-col>
+                                <a-col :span="24">
+                                    <a-form-item >
+                                        <a-button  type="primary" html-type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" block>
+                                            Iniciar Sesión
+                                        </a-button>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row ref="step2"  justify="center" :gutter="10" :wrap="true" >
+                                <a-col :span="24" class="text-center">
+                                <a-form-item v-if="canRemenber" name="remember" >
+                                        <a-checkbox v-model:checked="form.remember">Recordarme</a-checkbox>
+                                    </a-form-item>
+                                </a-col>
+                                <a-col span="24" class="text-center">
+                                    <a-form-item v-if="canRegister" >
+                                        <a-button class="btn-success"  @click="handleRegister" block>
+                                            Registrarme como paciente
+                                        </a-button>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                            <a-row ref="step3"  justify="center"  :wrap="true" >
+                                <a-col :span="24" class="text-center">
+                                    <a-form-item class="m-0 p-0" v-if="canResetPassword">
+                                        <a-button  type="link" @click="handleResetPassword" block>
+                                            ¿Olvidaste tu contraseña?
+                                        </a-button>
+                                    </a-form-item>
+                                </a-col>
+                            </a-row>
+                        </a-form>
+                   </a-card>
                 </a-col>
             </a-row>
             <a-row>

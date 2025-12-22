@@ -31,7 +31,7 @@
 	--bs-gray-800: #343a40;
 	--bs-gray-900: #212529;
 	--bs-black: #000;
-	--bs-primary: #0d6efd;
+	--bs-primary: #004a63;
 	--bs-secondary: #6c757d;
 	--bs-success: #198754;
 	--bs-info: #0dcaf0;
@@ -65,11 +65,12 @@ html {
 	flex: auto;
 	flex-direction: column;
 	min-height: 0;
-	background: url('./img/bg-hospital.png') no-repeat center center fixed;
+	/* background-color: #004a63; */
+	/* background: url('./img/bg-hospital.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover;
+	background-size: cover; */
 }
 
 *,
@@ -3269,12 +3270,12 @@ html {
 
 /* -- Primario (Azul) -- */
 .text-primary {
-	color: #1677ff !important;
+	color: var(--bs-primary) !important;
 	/* Blue 5 (Default primary color) */
 }
 
 .bg-primary {
-	background-color: #1677ff !important;
+	background-color: var(--bs-primary) !important;
 }
 
 .bg-transparent {

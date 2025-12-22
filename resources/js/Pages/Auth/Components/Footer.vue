@@ -4,7 +4,7 @@
     const company = 'Hiperiom412 C.A.';
 </script>
 <template>
-    <a-typography-title class="py-2 fs-6 text-secondary" >
+    <a-typography-title class="py-2 fs-6 text-white" >
         {{ company + '©' + year+ ' v' + version }}
     </a-typography-title>
 </template>

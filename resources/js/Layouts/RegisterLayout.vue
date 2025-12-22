@@ -10,7 +10,7 @@
 
 </script>
 <template>
-    <div class="h-dvh-100 d-flex flex-column">
+    <div class="h-dvh-100 bg-primary d-flex flex-column">
         
         <main class="flex-fill overflow-auto d-flex flex-column  justify-content-start" >
             <header class="d-flex justify-content-center pt-3">
