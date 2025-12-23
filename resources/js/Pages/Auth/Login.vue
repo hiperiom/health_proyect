@@ -1,73 +1,25 @@
+<script>
+    export default {
+        name: "Login",
+    }
+</script>
 <script setup>
-    import { useForm, router } from '@inertiajs/vue3';
-    import { message } from 'ant-design-vue'
-    import LoginLayout from '@/Layouts/LoginLayout.vue';
-    import Header from './Components/Header.vue';
-    //import WelcomeInfo from './Components/WelcomeInfo.vue';
-    import LoginTour from './Components/LoginTour.vue';
+    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+    import { Link, router, useForm } from '@inertiajs/vue3';
     import { ref } from 'vue';
+    import AuthLayout from '@/Layouts/AuthLayout.vue';
+    import Header from '@/Pages/Auth/Components/Header.vue';
+    import LoginForm from '@/Components/Auth/LoginForm.vue';
+    import LoginTour from './Components/LoginTour.vue';
+    import { message } from 'ant-design-vue';
 
-    defineProps({
-        canResetPassword: {
-            type: Boolean,
-            default: true,
-        },
-        canLogin: {
-            type: Boolean,
-            default: true,
-        },
-        canRegister: {
-            type: Boolean,
-            default: true,
-        },
-        canRemenber: {
-            type: Boolean,
-            default: false,
-        },
-
-        
-    });
-
-    const form = useForm({
+    // 2. Props & Emits (defineProps, defineEmits)
+    const loginForm = useForm({
         email: '',
         password: '',
         remember: false,
     });
-
-    const handleSubmit = () => {
-        try {
-
-            form.transform(data => ({
-                ...data,
-                remember: form.remember ? 'on' : '',
-            })).post(route('login'), {
-                onError: (errors) => {
-                    console.error('Errores recibidos:', errors);
-                    message.error('Credenciales o validación fallida.');
-                 
-                },
-                onSuccess: () => {
-                    message.success('Autenticación exitosa.');
-                },
-                onFinish: (response) => {
-                    form.reset(); // Opcional
-                },
-            });
-        } catch (error) {
-            message.error('Hubo un problema al validar los datos')
-        }
-
-    };
-    const handleResetPassword = () => {
-        const url = route('password.request'); 
-        router.visit(url);
-    };
-    const handleRegister = () => {
-        const url = route('register'); 
-        router.visit(url);
-    };
-
-    const rules = {
+    const rulesForm = {
         email: [
             {
                 validator: async (_rule, value) => {
@@ -99,97 +51,126 @@
         ],
     
     };
-    const current = ref(0);
-    const step1 = ref(null);
-    const step2 = ref(null);
-    const step3 = ref(null);
+    // 3. State (ref, reactive)
+    const tourCurrentStep = ref(0);
+    const tourStep1 = ref(null);
+    const tourStep2 = ref(null);
+    const tourStep3 = ref(null);
+    const loading = ref(false);
+    // 4. Computed Properties
+    // 5. Methods & Logic (Functions, Handlers)
+    const handleSubmit = async () => {
+        if (!loginForm.isDirty){
+           return false;
+        }     
+            
+        try {
+            loading.value = true;
+            loginForm.transform(data => ({
+                ...data,
+                remember: loginForm.remember ? 'on' : '',
+            })).post(route('login'), {
+                onBefore: () => {
+                        //para prevenir que se ejecute el login dos veces seguidas
+                        new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            resolve(true);
+                        }, 1000);
+                    })
+                },
+                onError: (errors) => {
+                    console.error('Errores recibidos:', errors);
+                    message.error('Credenciales o validación fallida.');
+                
+                },
+                onSuccess: () => {
+                    message.success('Autenticación exitosa.');
+                },
+                onFinish: (response) => {
+                    loginForm.reset(); // Opcional
+                },
+            });
+        } catch (error) {
+            message.error('Hubo un problema al validar los datos')
+        }
+        finally {
+            loading.value = false;
+        }
+        
+    };
+    const handleUserRegister = () => {
+        const url = route('register'); 
+        router.visit(url);
+    };
+    const handleForgotPassword = () => {
+        const url = route('password.request'); 
+        router.visit(url);
+    };
+    // 6. Watchers
+    // 7. Lifecycle Hooks (onMounted, etc.)
+    // 8. Expose (defineExpose)
+
+
 
 </script>
 
 <template>
-    <LoginLayout>
-
+    <AuthLayout>
         <template #content>
             <a-row  justify="center"  :wrap="true" >
                 <a-col :span="24" class="p-2 text-center" >
-                    <Header title="¡Bienvenido!" subTitle="Autenticate para ingresar a tu cuenta" />
                 </a-col>
-                <a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="20" :sm="15" :md="15" :lg="10" :xl="8" :xxl="6" >
+                <a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="19" :sm="15" :md="15" :lg="15" :xl="15" :xxl="15" >
                     <a-card>
-                        <a-form 
-                            
-                            ref="formRef"
-                            layout="vertical" 
-                            :model="form" 
-                            :rules="rules"
-                            @finish="handleSubmit"
-                            
+                        <Header title="Iniciar Sesión" />
+
+                        <LoginForm 
+                            ref="tourStep1"
+                            :loginForm="loginForm" 
+                            :rulesForm="rulesForm"
+                            @handleSubmit="handleSubmit"
+                        />
+          
+                        <a-button 
+                            ref="tourStep2"
+                            type="link"
+                            block
+                            class="btn-success"
+                            @click="handleUserRegister"
                         >
-                            <a-row ref="step1" justify="center" :gutter="10" :wrap="true" >
-                                <a-col :span="24">
-                                    <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
-                                        <a-input 
-                                        name="username"
-                                        v-model:value="form.email" 
-                                        placeholder="Escribe aquí tu correo electrónico o cédula" 
-                                        />
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="24">
-                                    <a-form-item ref="password" name="password" has-feedback label="Contraseña">
-                                        <a-input-password 
-                                        name="password"
-                                        v-model:value="form.password" 
-                                        placeholder="Escribe aquí tu contraseña" 
-                                        />
-                                    </a-form-item>
-                                </a-col>
-                                <a-col :span="24">
-                                    <a-form-item >
-                                        <a-button  type="primary" html-type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" block>
-                                            Iniciar Sesión
-                                        </a-button>
-                                    </a-form-item>
-                                </a-col>
-                            </a-row>
-                            <a-row ref="step2"  justify="center" :gutter="10" :wrap="true" >
-                                <a-col :span="24" class="text-center">
-                                <a-form-item v-if="canRemenber" name="remember" >
-                                        <a-checkbox v-model:checked="form.remember">Recordarme</a-checkbox>
-                                    </a-form-item>
-                                </a-col>
-                                <a-col span="24" class="text-center">
-                                    <a-form-item v-if="canRegister" >
-                                        <a-button class="btn-success"  @click="handleRegister" block>
-                                            Registrarme como paciente
-                                        </a-button>
-                                    </a-form-item>
-                                </a-col>
-                            </a-row>
-                            <a-row ref="step3"  justify="center"  :wrap="true" >
-                                <a-col :span="24" class="text-center">
-                                    <a-form-item class="m-0 p-0" v-if="canResetPassword">
-                                        <a-button  type="link" @click="handleResetPassword" block>
-                                            ¿Olvidaste tu contraseña?
-                                        </a-button>
-                                    </a-form-item>
-                                </a-col>
-                            </a-row>
-                        </a-form>
-                   </a-card>
+                            Registro de Paciente
+                        </a-button>
+                        <a-button 
+                            ref="tourStep3"
+                            type="link"
+                            block
+                            class="mt-2"
+                            @click="handleForgotPassword"
+                        >
+                            ¿Olvidaste tu contraseña?
+                        </a-button>
+                     
+                    </a-card>
                 </a-col>
+               
             </a-row>
             <a-row>
                 <a-col :span="24" class="text-center">
                     <LoginTour 
-                        v-model:current="current"
-                        :step1="step1"
-                        :step2="step2"
-                        :step3="step3"
+                        v-model:tourCurrentStep="tourCurrentStep"
+                        :tourStep1="tourStep1"
+                        :tourStep2="tourStep2"
+                        :tourStep3="tourStep3"
                     />
                 </a-col>
             </a-row>
         </template>
-        
-    </LoginLayout>
+    </AuthLayout>
+    
 </template>
+<style scoped>
+    .btn-success:hover {
+        color:var(--bs-white) !important;
+        border-color:var(--bs-success) !important;
+    }
+</style>

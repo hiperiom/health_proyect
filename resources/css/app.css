@@ -3726,3 +3726,27 @@ html {
 			transparent,
 			rgba(255, 255, 255, 0.3));
 }
+    /* Personaliza el fondo de la burbuja */
+    .ant-tour-primary .ant-tour-inner {
+        background-color: var(--bs-primary) !important; 
+        border-radius: 12px;
+    }
+
+    /* Personaliza la flechita que apunta al elemento */
+    .ant-tour-primary .ant-tour-arrow-content {
+        background-color: var(--bs-primary) !important;
+    }
+
+    /* Personaliza el botón "Siguiente" dentro del tour */
+    .ant-tour-primary .ant-tour-next-btn {
+        background-color: var(--bs-white) !important;
+        color: var(--bs-primary) !important;
+        border: none;
+    }
+
+    /* Personaliza el botón "Anterior" */
+    .ant-tour-primary .ant-tour-prev-btn {
+        color: #ffffff !important;
+        background-color: var(--bs-primary) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }

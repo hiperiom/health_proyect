@@ -1,73 +1,66 @@
-<template>
 
-
-    <a-float-button
-        @click="handleOpen(true)"
-        type="default"
-        :style="{
-            right: '24px',
-        }"
-    >
-        <template #icon>
-        <QuestionCircleOutlined />
-        </template>
-    </a-float-button>
-
-    <a-tour 
-        v-model:current="currentStep"
-        :open="open" 
-        type="primary"
-        :steps="tourSteps" 
-        @close="handleOpen(false)" 
-        @finish="handleFinish"
-    />
-        
-   
-</template>
+<script>
+    export default {
+        name: "LoginTour",
+    }
+</script>
 <script setup>
-    import { ExclamationCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
-    import { Modal  } from 'ant-design-vue';
-    import { h,ref, createVNode, computed, onMounted } from 'vue';
-    
+    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+    import { h,ref,computed, onMounted } from 'vue';
+    import {  QuestionCircleOutlined } from '@ant-design/icons-vue';
+
+    // 2. Props & Emits (defineProps, defineEmits)
     const props = defineProps({
-        current: { type: Number, default: 0 },
-        step1: { type: Object, default: null },
-        step2: { type: Object, default: null },
-        step3: { type: Object, default: null }
+        tourCurrentStep: { type: Number, default: 0 },
+        tourStep1: { type: Object, default: null },
+        tourStep2: { type: Object, default: null },
+        tourStep3: { type: Object, default: null }
     });
-    const emit = defineEmits(['update:current', 'update:open', 'close']);
-    const open = ref(false);
-    
-
-    const currentStep = computed({
-        get: () => props.current,
-        set: (val) => emit('update:current', val)
+    const emit = defineEmits(['update:tourCurrentStep'/* ,'update:current', 'update:open', 'close' */]);
+    // 3. State (ref, reactive)
+    const openTour = ref(false);
+    // 4. Computed Properties
+    const tourCurrentStep = computed({
+        get: () => props.tourCurrentStep,
+        set: (val) => emit('update:tourCurrentStep', val)
     });
-
     const tourSteps = computed(() => [
         {
-            cover: createVNode('img', {
-                alt: 'salud_chacao.png',
-                style: 'width: 50px; height: 50px;',
-                src: 'https://www.antdv.com/assets/logo.1ef800a8.svg',
-            }),
-            title: createVNode('div', { class: 'fs-3 text-center m-0' }, '¡Estimado vecino!'),
-            description: `
-                Bienvenido al sistema de solicitud de citas de Salud Chacao. 
-                Por favor, sigue los pasos para aprender a usar el portal.
-            `,
+            cover: h(
+                'img', 
+                { 
+                    alt: 'salud_chacao.png',
+                    style: 'width: 3rem; height: 3rem;',
+                    src: 'https://www.antdv.com/assets/logo.1ef800a8.svg',
+                }
+            ),
+            title: h(
+                'div', 
+                { class: 'fs-3 d-flex flex-column align-items-center m-0 p-0' }, 
+                '¡Tu salud a un clic de distancia!'
+            ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Bienvenido al nuevo portal de Salud. Agenda, consulta y gestiona tus citas médicas en segundos.
+                Permítenos mostrarte cómo aprovechar todas las herramientas que tenemos para ti.
+            `),
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
             nextButtonProps: { 
-                children: () => h('span', 'Siguiente') 
+                children: () => h('span', '¡Muestrame!') 
             },
 
         },
         {
-            title: 'Para ingresar a tu cuenta',
-            description: `Ingresa tu correo electrónico o cédula junto con tu contraseña para acceder a tu cuenta.`,
-            target: () => props.step1?.$el || props.step1,
+            title: h(
+                'div', 
+                { class: 'fs-3 text-center m-0 p-0' }, 
+                'Entra a tu espacio de salud'
+            ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Solo necesitas tu cédula o correo y contraseña para gestionar tus citas desde cualquier lugar.
+            `),
+            target: () => props.tourStep1?.$el || props.tourStep1,
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
@@ -76,56 +69,79 @@
             },
         },
         {
-            title: 'Si no estas registrado',
-            description: 'Pulsa aquí para registrarte como paciente.',
-            target: () => props.step2?.$el || props.step2,
+            title: h(
+                'div', 
+                { class: 'fs-3 text-center m-0 p-0' }, 
+                '¿Eres nuevo por aquí?'
+            ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Crea tu perfil de paciente ahora mismo. Es el primer paso para tomar el control de tu bienestar y el de tu familia.
+            `),
+            target: () => props.tourStep2?.$el || props.tourStep2,
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
             nextButtonProps: { 
                 children: () => h('span', 'Continuar')
-            },
-
-            
+            },     
         },
         {
-            title: 'Recuperar Acceso',
-            description: '¿Olvidaste tu contraseña? Solicita una nueva aquí.',
-            target: () => props.step3?.$el || props.step3,
+            title: h(
+                'div', 
+                { class: 'fs-3 text-center m-0 p-0' }, 
+                '¿Olvidaste tu clave? No te preocupes.'
+            ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Recuperar el acceso es muy fácil. Haz clic aquí y te guiaremos paso a paso para que vuelvas a ingresar de forma segura y sin complicaciones.
+            `),
+            target: () => props.tourStep3?.$el || props.tourStep3,
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
             nextButtonProps: { 
                 children: () => h('span', 'Continuar')
+            },
+        },
+        {
+            title: h(
+                'div', 
+                { class: 'fs-3 text-center m-0 p-0' }, 
+                '¡Todo listo! Estás a un paso de cuidarte.'
+            ),
+            description: h('div', { class: 'd-flex flex-column text-center fs-6' }, 
+                h(
+                    'div', 
+                    { }, 
+                    `
+                        Ahora que conoces las funciones principales, estás listo para explorar y aprovechar al máximo tu portal de salud.\n 
+                        ¡Tu bienestar está en tus manos!
+                    `
+                ),
+                h(
+                    'div', 
+                    { }, 
+                    'Puedes volver a ver esta guía en cualquier momento haciendo clic en el ícono de ayuda.'
+                )
+            ),
+            prevButtonProps: { 
+                children: () => h('span', 'Volver') 
+            },
+            nextButtonProps: { 
+                children: () => h('span', 'Finalizar')
             },
         },
     ]);
     
-    const handleFinish = () => {
-        Modal.confirm({
-            title: "¿No ver más esta guia?",
-            icon: createVNode(ExclamationCircleOutlined),
-            centered: true,
-            content: "Puedes volver a ver esta guía en cualquier momento haciendo clic en el ícono de ayuda.",
-            onOk() {
-                localStorage.setItem('login_tour', 'true');
-            },
-            onCancel() {
-                localStorage.setItem('login_tour', 'false');
-            },
-            class: 'test',
-            okText: "Sí, no mostrar de nuevo",
-            cancelText: "Seguir viendo",
-            class: 'modal-primary',
-        });
-        open.value = false;
+    // 5. Methods & Logic (Functions, Handlers)
+    const handleFinishTour = () => {
+        localStorage.setItem('login_tour', 'true');
     };
-    const handleOpen = (val) => {
-        currentStep.value = 0;
-        localStorage.setItem('login_tour', 'false');
-        open.value = val;
+    const handleOpenTour = (val) => {
+        openTour.value = val;
     };
 
+    // 6. Watchers
+    // 7. Lifecycle Hooks (onMounted, etc.)
     onMounted(() => {
         const hideTour = localStorage.getItem('login_tour') === 'true';
 
@@ -135,67 +151,35 @@
             }, 800);
         }
     });
+    // 8. Expose (defineExpose)
 </script>
-<style>
-    /* Personaliza el fondo de la burbuja */
-    .ant-tour-primary .ant-tour-inner {
-        background-color: #004a63 !important; /* El azul de Salud Chacao */
-        border-radius: 12px;
-    }
+<template>
 
-    /* Personaliza la flechita que apunta al elemento */
-    .ant-tour-primary .ant-tour-arrow-content {
-        background-color: #004a63 !important;
-    }
 
-    /* Personaliza el botón "Siguiente" dentro del tour */
-    .ant-tour-primary .ant-tour-next-btn {
-        background-color: #ffffff !important;
-        color: #004a63 !important;
-        border: none;
-    }
+    <a-float-button
+        @click="handleOpenTour(true)"
+        type="default"
+        :style="{
+            right: '24px',
+        }"
+    >
+        <template #icon>
+            <QuestionCircleOutlined />
+        </template>
+    </a-float-button>
 
-    /* Personaliza el botón "Anterior" */
-    .ant-tour-primary .ant-tour-prev-btn {
-        color: #ffffff !important;
-        border-color: rgba(255, 255, 255, 0.5) !important;
-    }
-    /* Contenedor principal del modal */
-    .modal-primary .ant-modal-content {
-        background-color: #004a63 !important; /* Azul Salud Chacao */
-        color: white !important;
-        border-radius: 12px;
-    }
+    <a-tour 
+        v-model:tourCurrentStep="tourCurrentStep"
+        :open="openTour" 
+        type="primary"
+        :steps="tourSteps" 
+        @close="handleOpenTour(false)" 
+        @finish="handleFinishTour"
+    />
+        
+   
+</template>
+<style lang="css">
 
-    /* Título del modal */
-    .modal-primary .ant-modal-confirm-title {
-        color: white !important;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
-
-    /* Texto del contenido */
-    .modal-primary .ant-modal-confirm-content {
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    /* Botón de Cancelar (Seguir viendo) */
-    .modal-primary .ant-btn-default {
-        background: transparent !important;
-        color: white !important;
-        border-color: rgba(255, 255, 255, 0.5) !important;
-    }
-
-    .modal-primary .ant-btn-default:hover {
-        border-color: white !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    /* Botón de Confirmar (Sí, no mostrar de nuevo) */
-    .modal-primary .ant-btn-primary {
-        background-color: white !important;
-        color: #004a63 !important;
-        border: none !important;
-        font-weight: bold;
-    }
+ 
 </style>

@@ -21,12 +21,7 @@ class AuthController extends Controller
      */
     public function index(LoginRequest $request, LoginService $authService)
     {
-        return Inertia::render('Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return Inertia::render('Welcome');
     }
     /**
      * Handle a login request.
