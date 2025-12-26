@@ -21,6 +21,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+       
         Validator::make(
             $input, 
             [
@@ -30,7 +31,7 @@ class CreateNewUser implements CreatesNewUsers
                 'first_names' => ['required','string','max:100'],
                 'last_names' => ['required','string','max:100'],
                 'gender' => ['required','string','max:1'],
-                'profile_photo_path'=> ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
+                'avatar'=> ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
                 'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
             ],
             [
@@ -53,9 +54,9 @@ class CreateNewUser implements CreatesNewUsers
                 'gender.required' => 'El género es obligatorio.',
                 'gender.char' => 'El género debe ser un carácter.',
                 'gender.max' => 'El género no debe exceder un carácter.',
-                'profile_photo_path.image' => 'El archivo debe ser una imagen.',
-                'profile_photo_path.mimes' => 'El archivo debe ser un archivo de imagen.',
-                'profile_photo_path.max' => 'El archivo no debe exceder los 2048 bytes.',
+                'avatar.image' => 'El archivo debe ser una imagen.',
+                'avatar.mimes' => 'El archivo debe ser un archivo de imagen.',
+                'avatar.max' => 'El archivo no debe exceder los 2048 bytes.',
                 
 
             ]
@@ -64,9 +65,8 @@ class CreateNewUser implements CreatesNewUsers
         $request = app(Request::class); 
 
         $avatarPath = null;
-        
-        if ($request->hasFile('profile_photo_path')) {
-            $avatarPath = $request->file('profile_photo_path')->store('user_avatars', 'public');
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('user_avatars', 'public');
         }
 
         $firstName = $this->extractFirstName($input['first_names']);
@@ -81,7 +81,7 @@ class CreateNewUser implements CreatesNewUsers
                 'dni' => $input['dni'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'profile_photo_path' => $avatarPath,
+                'avatar' => $avatarPath,
             ]);
             $user->assignRole('Paciente');
 

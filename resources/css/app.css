@@ -32,6 +32,7 @@
 	--bs-gray-900: #212529;
 	--bs-black: #000;
 	--bs-primary: #004a63;
+	--bs-primary-hover: #003d52;
 	--bs-secondary: #6c757d;
 	--bs-success: #198754;
 	--bs-info: #0dcaf0;
@@ -3407,19 +3408,17 @@ html {
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-:where(.css-dev-only-do-not-override-b92jn9).btn-success.ant-btn-default:not(:disabled):hover {
+/* :where(.css-dev-only-do-not-override-b92jn9).btn-success.ant-btn-default:not(:disabled):hover {
 	color: #ffffff;
 	border-color: #198754;
-}
+} */
 
 /* =========================================================
 	 ESTADO HOVER (Al pasar el ratón)
 	 ========================================================= */
 .btn-success:hover {
-	/* Fondo más oscuro */
-	color: #fff;
-	background-color: #157347;
-	border-color: #146c43;
+	color:var(--bs-white) !important;
+	border-color:var(--bs-success) !important;
 }
 
 /* =========================================================
@@ -3750,3 +3749,16 @@ html {
         background-color: var(--bs-primary) !important;
         border-color: rgba(255, 255, 255, 0.5) !important;
     }
+	.ant-tour .ant-tour-primary {
+		--antd-arrow-background-color: var(--bs-primary) !important;
+	}
+	.ant-btn-primary {
+		color: #fff;
+		background-color: var(--bs-primary);
+		box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+	}
+	.ant-btn-primary:hover {
+		background-color: var(--bs-primary-hover) !important;
+	}
+	.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
+	@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}

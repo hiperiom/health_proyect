@@ -5,9 +5,9 @@
 </script>
 
 <script setup>
-    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { computed, ref } from 'vue';
+    import { ref } from 'vue';
 
+    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
     // 2. Props & Emits (defineProps, defineEmits)
     defineProps({
         loginForm: { type: Object, required: true },
@@ -21,9 +21,6 @@
     // 3. State (ref, reactive)
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
-    const handleFinishFailed = (errorInfo) => {
-        console.error('Errores de validación:', errorInfo);
-    };
     const handleSubmit = () => {
         emit('handleSubmit'); 
     };
@@ -42,7 +39,7 @@
             :rules="rulesForm"
             @submit.prevent="handleSubmit"
         >
-            <a-row ref="tourStep1" justify="center" :gutter="10" :wrap="true" >
+            <a-row id="tour-auth-form" justify="center" :gutter="10" :wrap="true" >
                 <a-col :span="24">
                     <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
                         <a-input 

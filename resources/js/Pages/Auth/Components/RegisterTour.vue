@@ -1,13 +1,13 @@
 
 <script>
     export default {
-        name: "LoginTour",
+        name: "RegisterTour",
     }
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
     import { h,ref,computed, onMounted } from 'vue';
-    import {  QuestionCircleOutlined } from '@ant-design/icons-vue';
+    import {  CameraOutlined, IdcardOutlined, LockOutlined, QuestionCircleOutlined, UserOutlined } from '@ant-design/icons-vue';
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
@@ -16,42 +16,37 @@
     // 4. Computed Properties
 
     const tourSteps = computed(() => [
+
         {
-            cover: h(
-                'img', 
-                { 
-                    alt: 'salud_chacao.png',
-                    style: 'width: 3rem; height: 3rem;',
-                    src: 'https://www.antdv.com/assets/logo.1ef800a8.svg',
-                }
-            ),
             title: h(
                 'div', 
-                { class: 'fs-4 d-flex flex-column align-items-center m-0 p-0' }, 
-                '¡Tu salud a un clic de distancia!'
+                { class: 'fs-4 text-center m-0 p-0' }, 
+                '¡Bienvenido a tu espacio de salud!'
             ),
-            description: h('div', { class: 'text-center fs-6' }, `
-                Bienvenido al nuevo portal de Salud. Agenda, consulta y gestiona tus citas médicas en segundos.
-                Permítenos mostrarte cómo aprovechar todas las herramientas que tenemos para ti.
-            `),
+            description: h('div', 
+            { class: 'fs-6 text-center m-0 p-0' }, 
+            [
+                h('p', 'Estamos aquí para facilitarte el acceso a la salud.'),
+                h('p', { class: 'mt-2' }, 'En este breve recorrido te enseñaremos cómo completar tu registro correctamente para empezar a disfrutar de nuestros servicios.')
+            ]),
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
             nextButtonProps: { 
-                children: () => h('span', '¡Muestrame!') 
+                children: () => h('span', 'Continuar')
             },
-            mask: true,
+            mask: true, 
         },
         {
             title: h(
                 'div', 
                 { class: 'fs-4 text-center m-0 p-0' }, 
-                'Entra a tu espacio de salud'
+                [h(CameraOutlined), ' Tu foto de perfil']
             ),
             description: h('div', { class: 'text-center fs-6' }, `
-                Solo necesitas tu cédula o correo además de tu contraseña para gestionar tus citas desde cualquier lugar.
+                Comienza subiendo una foto clara. Esto nos ayuda a identificarte rápidamente en el centro de salud.
             `),
-            target: () => document.getElementById('tour-auth-form'),
+            target: () => document.getElementById('tour-avatar'),
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
@@ -63,29 +58,12 @@
             title: h(
                 'div', 
                 { class: 'fs-4 text-center m-0 p-0' }, 
-                '¿Eres nuevo por aquí?'
+                [h(IdcardOutlined), ' Datos personales']
             ),
             description: h('div', { class: 'text-center fs-6' }, `
-                Crea tu perfil de paciente ahora mismo. Es el primer paso para tomar el control de tu bienestar y el de tu familia.
+                Ingresa tu cédula y correo. Asegúrate de que el correo esté activo para recibir tus confirmaciones de cita.
             `),
-            target: () => document.getElementById('tour-register-button'),
-            prevButtonProps: { 
-                children: () => h('span', 'Volver') 
-            },
-            nextButtonProps: { 
-                children: () => h('span', 'Continuar')
-            },     
-        },
-        {
-            title: h(
-                'div', 
-                { class: 'fs-4 text-center m-0 p-0' }, 
-                '¿Olvidaste tu clave? No te preocupes.'
-            ),
-            description: h('div', { class: 'text-center fs-6' }, `
-                Recuperar el acceso es muy fácil. Haz clic aquí y te guiaremos paso a paso para que vuelvas a ingresar de forma segura y sin complicaciones.
-            `),
-            target: () => document.getElementById('tour-forgot-password-button'),
+            target: () => document.getElementById('tour-identity'),
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
@@ -97,42 +75,58 @@
             title: h(
                 'div', 
                 { class: 'fs-4 text-center m-0 p-0' }, 
-                '¡Todo listo! Estás a un paso de cuidarte.'
+                [h(UserOutlined), ' Identificación']
             ),
-            description: h('div', { class: 'd-flex flex-column text-center fs-6' }, 
-                h(
-                    'div', 
-                    { }, 
-                    `
-                        Ahora que conoces las funciones principales, estás listo para explorar y aprovechar al máximo tu portal de salud.\n 
-                    `
-                ),
-                h(
-                    'div', 
-                    { }, 
-                    `
-                        ¡Tu bienestar está en tus manos!
-                    `
-                ),
-                h(
-                    'div', 
-                    { }, 
-                    'Puedes volver a ver esta guía en cualquier momento haciendo clic en el ícono de ayuda.'
-                )
+            description: h('div', { class: 'text-center fs-6' }, `
+                Escribe tus nombres, apellidos, selecciona tu género y fecha de nacimiento. Estos datos deben coincidir con tu documento de identidad.
+            `),
+            target: () => document.getElementById('tour-names'),
+            prevButtonProps: { 
+                children: () => h('span', 'Volver') 
+            },
+            nextButtonProps: { 
+                children: () => h('span', 'Continuar')
+            },
+        },
+        {
+            title: h(
+                'div', 
+                { class: 'fs-4 text-center m-0 p-0' }, 
+                [h(LockOutlined), ' Seguridad']
             ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Crea una contraseña segura que no compartas con nadie. Deberás confirmarla para evitar errores.
+            `),
+            target: () => document.getElementById('tour-password'),
+            prevButtonProps: { 
+                children: () => h('span', 'Volver') 
+            },
+            nextButtonProps: { 
+                children: () => h('span', 'Continuar')
+            },
+        },
+        {
+            title: h(
+                'div', 
+                { class: 'fs-4 text-center m-0 p-0' }, 
+                '¡Todo listo!'
+            ),
+            description: h('div', { class: 'text-center fs-6' }, `
+                Haz clic en "Registrar" para crear tu cuenta y empezar a agendar tus citas en el sistema.
+            `),
+            target: () => document.getElementById('tour-submit'),
             prevButtonProps: { 
                 children: () => h('span', 'Volver') 
             },
             nextButtonProps: { 
                 children: () => h('span', 'Finalizar')
             },
-            mask: true,
         },
     ]);
     
     // 5. Methods & Logic (Functions, Handlers)
     const handleFinishTour = () => {
-        localStorage.setItem('login_tour', 'true');
+        localStorage.setItem('register_tour', 'true');
     };
     const handleOpenTour = (val) => {
         openTour.value = val;
@@ -141,7 +135,7 @@
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
     onMounted(() => {
-        const hideTour = localStorage.getItem('login_tour') === 'true';
+        const hideTour = localStorage.getItem('register_tour') === 'true';
 
         if (!hideTour) {
             setTimeout(() => {

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,7 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_test_user',
-        'profile_photo_path',
+        'avatar',
     ];
 
     /**
@@ -54,7 +56,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'avatar',
     ];
 
     /**
@@ -69,4 +71,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected function avatar(): Attribute
+{
+    return Attribute::make(
+        get: function () {
+            // Si el campo en la BD es 'profile_photo_path'
+            return $this->profile_photo_path 
+                ? asset('storage/' . $this->profile_photo_path) 
+                : asset('images/default-avatar.png');
+        },
+    );
+}
 }

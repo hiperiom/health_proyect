@@ -12,6 +12,7 @@
     import LoginForm from '@/Components/Auth/LoginForm.vue';
     import LoginTour from './Components/LoginTour.vue';
     import { message } from 'ant-design-vue';
+    import AvatarCompany from './Components/AvatarCompany.vue';
 
     // 2. Props & Emits (defineProps, defineEmits)
     const loginForm = useForm({
@@ -52,10 +53,6 @@
     
     };
     // 3. State (ref, reactive)
-    const tourCurrentStep = ref(0);
-    const tourStep1 = ref(null);
-    const tourStep2 = ref(null);
-    const tourStep3 = ref(null);
     const loading = ref(false);
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
@@ -121,17 +118,19 @@
                 <a-col :span="24" class="p-2 text-center" >
                 </a-col>
                 <a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :xs="19" :sm="15" :md="15" :lg="15" :xl="15" :xxl="15" >
-                    <a-card>
+                    <a-card class="fade-in">
+                        <AvatarCompany />
                         <Header title="Iniciar Sesión" />
 
                         <LoginForm 
-                            ref="tourStep1"
+                         
                             :loginForm="loginForm" 
                             :rulesForm="rulesForm"
                             @handleSubmit="handleSubmit"
                         />
           
                         <a-button 
+                            id="tour-register-button"
                             ref="tourStep2"
                             type="link"
                             block
@@ -141,6 +140,7 @@
                             Registro de Paciente
                         </a-button>
                         <a-button 
+                            id="tour-forgot-password-button"
                             ref="tourStep3"
                             type="link"
                             block
@@ -158,9 +158,6 @@
                 <a-col :span="24" class="text-center">
                     <LoginTour 
                         v-model:tourCurrentStep="tourCurrentStep"
-                        :tourStep1="tourStep1"
-                        :tourStep2="tourStep2"
-                        :tourStep3="tourStep3"
                     />
                 </a-col>
             </a-row>
@@ -169,8 +166,5 @@
     
 </template>
 <style scoped>
-    .btn-success:hover {
-        color:var(--bs-white) !important;
-        border-color:var(--bs-success) !important;
-    }
+    
 </style>
