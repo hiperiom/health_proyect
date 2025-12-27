@@ -41,10 +41,10 @@ const sidebarItems = reactive([
             },
             {
                 icon: () => h(SafetyOutlined),
-                key: 'rols_permissions_index',
-                label:  h('div',{ },'Roles y Permisos' ),
+                key: 'roles_index',
+                label:  h('div',{ },'Roles' ),
                 onClick: () => {
-                    router.get(route('admin.rols_permissions'));
+                    router.get(route('admin.roles'));
                 },
             },
             
@@ -82,7 +82,7 @@ const page = usePage();
 
 
 const selectedKeys = computed(() => [route().current()]);
-console.log(route().current());
+
 // Opcional: Para que los submenús se abran solos si estás dentro de uno
 const openKeys = computed(() => {
     const current = route().current();

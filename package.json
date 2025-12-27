@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "ant-design-vue": "^4.2.6",
-        "brew": "^0.0.8"
+        "brew": "^0.0.8",
+        "vue-request": "^2.0.4"
     }
 }
