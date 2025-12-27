@@ -1,6 +1,6 @@
 <script setup>
     import { defineProps } from 'vue';
-    import AvatarSystem from '@/Pages/Auth/Components/AvatarCompany.vue';
+    import AvatarSystem from '@/Components/AvatarCompany.vue';
     import Footer from '@/Pages/Auth/Components/Footer.vue';
 
     const props = defineProps({

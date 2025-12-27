@@ -11,7 +11,6 @@
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
-    const tourCurrentStep = ref(0);
     const openTour = ref(false);
     // 4. Computed Properties
 
@@ -167,7 +166,6 @@
     </a-float-button>
 
     <a-tour 
-        v-model:tourCurrentStep="tourCurrentStep"
         :open="openTour" 
         type="primary"
         :steps="tourSteps" 

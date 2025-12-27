@@ -1,12 +1,3 @@
-/* @tailwind base;
- */
-/* @tailwind components; */
-/* @tailwind utilities; */
-
-/* [x-cloak] {
-		display: none;
-} */
-
 :root {
 	--bs-blue: #0d6efd;
 	--bs-indigo: #6610f2;
@@ -35,7 +26,7 @@
 	--bs-primary-hover: #003d52;
 	--bs-secondary: #6c757d;
 	--bs-success: #198754;
-	--bs-info: #0dcaf0;
+	--bs-info: #7feaff;
 	--bs-warning: #ffc107;
 	--bs-danger: #dc3545;
 	--bs-light: #f8f9fa;
@@ -135,7 +126,7 @@ html {
 /* background color start */
 
 .bg-primary {
-	background-color: #0d6efd !important;
+	background-color: var(--bs-primary) !important;
 }
 
 .bg-secondary {
@@ -3275,9 +3266,7 @@ html {
 	/* Blue 5 (Default primary color) */
 }
 
-.bg-primary {
-	background-color: var(--bs-primary) !important;
-}
+
 
 .bg-transparent {
 	background-color: transparent !important;
@@ -3386,7 +3375,7 @@ html {
 
 .btn-success {
 	/* Colores */
-	color: #fff;
+	color: var(--bs-white);
 	/* Texto: Blanco */
 	background-color: #198754;
 	/* Fondo: Verde de Bootstrap (Success) */
@@ -3407,11 +3396,6 @@ html {
 	/* Transición suave para los efectos */
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
-/* :where(.css-dev-only-do-not-override-b92jn9).btn-success.ant-btn-default:not(:disabled):hover {
-	color: #ffffff;
-	border-color: #198754;
-} */
 
 /* =========================================================
 	 ESTADO HOVER (Al pasar el ratón)
@@ -3685,52 +3669,45 @@ html {
 	font-style: italic !important;
 }
 
-.glass-container {
-	background: rgba(255, 255, 255, 0.15);
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	border-radius: 20px;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	box-shadow:
-		0 8px 32px rgba(0, 0, 0, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.5),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-		inset 0 0 20px 10px rgba(255, 255, 255, 1);
-	position: relative;
-	overflow: hidden;
-}
+	.glass-container {
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+		position: relative;
+		overflow: hidden;
 
-.glass-container::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 1px;
-	background: linear-gradient(90deg,
-			transparent,
-			rgba(255, 255, 255, 0.8),
-			transparent);
-}
 
-.glass-container::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 1px;
-	height: 100%;
-	background: linear-gradient(180deg,
-			rgba(255, 255, 255, 0.8),
-			transparent,
-			rgba(255, 255, 255, 0.3));
-}
+	}
+	.ant-form-item .ant-form-item-label >label {
+		color: var(--bs-white);
+	}
+	.ant-form-item .ant-form-item-explain-error {
+		color: #faad14;
+		background-color: #004a63;
+		border-radius: 0px 0px 5px 5px;
+		padding: 0px 0px 0px 5px;
+	}
+	.ant-btn-link:not(.btn-success) {
+		color: var(--bs-info);
+	}
     /* Personaliza el fondo de la burbuja */
     .ant-tour-primary .ant-tour-inner {
         background-color: var(--bs-primary) !important; 
         border-radius: 12px;
     }
+	.ant-upload-wrapper {
+    	color: var(--bs-white);
+	}
 
+	.ant-spin .ant-spin-dot-item {
+		background-color: var(--bs-white);
+	}
+	.ant-spin {
+		color: var(--bs-white);
+	}
     /* Personaliza la flechita que apunta al elemento */
     .ant-tour-primary .ant-tour-arrow-content {
         background-color: var(--bs-primary) !important;
@@ -3752,13 +3729,13 @@ html {
 	.ant-tour .ant-tour-primary {
 		--antd-arrow-background-color: var(--bs-primary) !important;
 	}
-	.ant-btn-primary {
+	/* .ant-btn-primary {
 		color: #fff;
 		background-color: var(--bs-primary);
 		box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
 	}
 	.ant-btn-primary:hover {
 		background-color: var(--bs-primary-hover) !important;
-	}
+	} */
 	.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
 	@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}

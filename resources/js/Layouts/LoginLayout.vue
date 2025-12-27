@@ -1,7 +1,7 @@
 <script setup>
 
 import Footer from '@/Pages/Auth/Components/Footer.vue';
-import AvatarSystem from '@/Pages/Auth/Components/AvatarCompany.vue';
+import AvatarSystem from '@/Components/AvatarCompany.vue';
 </script>
 <template>
     <div class="h-dvh-100 bg-primary d-flex flex-column">

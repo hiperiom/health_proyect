@@ -1,45 +1,22 @@
 <script>
     export default {
-        name: "LoginForm",
+        name: "LoginFields",
     }
 </script>
 
 <script setup>
-    import { ref } from 'vue';
-
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
     // 2. Props & Emits (defineProps, defineEmits)
-    defineProps({
-        loginForm: { type: Object, required: true },
-        rulesForm: { type: Object, required: true },
-     
-    });
-    const tourStep1 = ref(null);
-    const emit = defineEmits(['handleSubmit']);
-
-   
+    defineProps(['loginForm']);
     // 3. State (ref, reactive)
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
-    const handleSubmit = () => {
-        emit('handleSubmit'); 
-    };
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
     // 8. Expose (defineExpose)
-    defineExpose({
-        tourStep1
-    });
 </script>
 <template>
-    <a-spin  tip="Espere un momento..." :spinning="loginForm.processing">
-        <a-form 
-            layout="vertical" 
-            :model="loginForm" 
-            :rules="rulesForm"
-            @submit.prevent="handleSubmit"
-        >
-            <a-row id="tour-auth-form" justify="center" :gutter="10" :wrap="true" >
+    <a-row id="tour-auth-form" justify="center" :gutter="10" :wrap="true" >
                 <a-col :span="24">
                     <a-form-item ref="email" name="email" has-feedback label="Correo electrónico o cédula">
                         <a-input 
@@ -66,17 +43,14 @@
                         </a-button>
                     </a-form-item>
                 </a-col>
-            </a-row>
-            <a-row ref="step2"  justify="center" :gutter="10" :wrap="true" >
-                <a-col :span="24" class="text-center">
-                    <a-form-item v-if="false" name="remember" >
-                        <a-checkbox v-model:checked="loginForm.remember">Recordarme</a-checkbox>
-                    </a-form-item>
-                </a-col>
-            </a-row>
-
-        </a-form>
-    </a-spin> 
+    </a-row>
+    <a-row  justify="center" :gutter="10" :wrap="true" >
+        <a-col :span="24" class="text-center">
+            <a-form-item v-if="false" name="remember" >
+                <a-checkbox v-model:checked="loginForm.remember">Recordarme</a-checkbox>
+            </a-form-item>
+        </a-col>
+    </a-row>
 </template>
 <style lang="css" scoped>
 

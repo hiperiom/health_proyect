@@ -17,7 +17,7 @@
 	import AuthLayout from '@/Layouts/AuthLayout.vue';
 	import Header from '@/Pages/Auth/Components/Header.vue';
 	import RegisterTour from './Components/RegisterTour.vue';
-	import AvatarCompany from './Components/AvatarCompany.vue';
+	import AvatarCompany from '../../Components/AvatarCompany.vue';
 	import RegisterFields from './Components/RegisterFields.vue';
 	import AvatarUpload from './Components/AvatarUpload.vue';
 	// 2. Props & Emits (defineProps, defineEmits)
@@ -55,7 +55,7 @@
 			<a-row justify="center" :wrap="true">
 				<a-col :span="24" class="p-2 text-center"></a-col>
 				<a-col class="p-4 p-sm-4 p-md-4 p-lg-4 p-xl-4 p-xxl-4" :span="24">
-					<a-card class="fade-in">
+					<a-card class="glass-container fade-in">
 						<AvatarCompany />
 
 						<Header title="Nuevo Paciente" />
@@ -75,7 +75,6 @@
 										/>
 									</a-col>
 								</a-row>
-								
 								<RegisterFields :registerForm="registerForm" :genderOptions="genderOptions" />
 								
 								<a-row justify="center" :gutter="10" :wrap="true">

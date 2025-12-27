@@ -11,8 +11,12 @@
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
-    const tourCurrentStep = ref(0);
     const openTour = ref(false);
+    const tourLocale = {
+        next: 'Siguiente',
+        previous: 'Anterior',
+        finish: 'Finalizar',
+        };
     // 4. Computed Properties
 
     const tourSteps = computed(() => [
@@ -30,10 +34,10 @@
                 h('p', { class: 'mt-2' }, 'En este breve recorrido te enseñaremos cómo completar tu registro correctamente para empezar a disfrutar de nuestros servicios.')
             ]),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Continuar')
+                children: () => 'Continuar'
             },
             mask: true, 
         },
@@ -48,10 +52,10 @@
             `),
             target: () => document.getElementById('tour-avatar'),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Continuar')
+                children: () => 'Continuar'
             },
         },
         {
@@ -65,10 +69,10 @@
             `),
             target: () => document.getElementById('tour-identity'),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Continuar')
+                children: () => 'Continuar'
             },
         },
         {
@@ -82,10 +86,10 @@
             `),
             target: () => document.getElementById('tour-names'),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Continuar')
+                children: () => 'Continuar'
             },
         },
         {
@@ -99,10 +103,10 @@
             `),
             target: () => document.getElementById('tour-password'),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Continuar')
+                children: () => 'Continuar'
             },
         },
         {
@@ -116,10 +120,10 @@
             `),
             target: () => document.getElementById('tour-submit'),
             prevButtonProps: { 
-                children: () => h('span', 'Volver') 
+                children: () => 'Volver'
             },
             nextButtonProps: { 
-                children: () => h('span', 'Finalizar')
+                children: () => 'Finalizar'
             },
         },
     ]);
@@ -161,14 +165,12 @@
     </a-float-button>
 
     <a-tour 
-        v-model:tourCurrentStep="tourCurrentStep"
         :open="openTour" 
         type="primary"
         :steps="tourSteps" 
         @close="handleOpenTour(false)" 
         @finish="handleFinishTour"
     />
-        
    
 </template>
 <style lang="css">

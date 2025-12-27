@@ -1,3 +1,8 @@
+<script>
+    export default {
+        name: "Sidebar"
+    }
+</script>
 <script setup>
 // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
 import { computed, h, reactive } from 'vue'; 

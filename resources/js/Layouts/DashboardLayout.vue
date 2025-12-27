@@ -1,3 +1,4 @@
+
 <script setup>
 // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
 import { router } from '@inertiajs/vue3';

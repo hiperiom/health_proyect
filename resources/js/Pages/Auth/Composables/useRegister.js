@@ -19,9 +19,6 @@ export function useRegister() {
 	});
 	const registerFormRef = ref(null);
 	
-	
-
-	// Watchers para limpieza de datos
 	watch(
 		() => registerForm.first_names,
 		(newVal) => {
@@ -46,25 +43,19 @@ export function useRegister() {
 		router.visit(url);
 	};
 	const handleSubmit = async () => {
-		// 1. Limpieza de seguridad: Si no hay form, no hacemos nada
 		if (!registerFormRef.value) {
 			console.error('Error: registerFormRef no está vinculado al componente.');
 		return;
 		}
 
 		try {
-		// 2. Ejecutar validación con un bloque catch interno para el outOfDate
 		const values = await registerFormRef.value.validate().catch((err) => {
-			// Si el error es solo por outOfDate y no hay campos rojos, devolvemos los valores manualmente
 			if (err.outOfDate && err.errorFields.length === 0) {
 			return registerForm.data();
 			}
-			// Si hay errores reales, lanzamos el error para que caiga en el catch principal
 			throw err;
 		});
 
-		// 3. Envío de datos (Inertia)
-		// Usamos el objeto directo para evitar problemas de reactividad
 		registerForm.post(route('register'), {
 			onSuccess: () => {
 				message.success('Registro completado');
