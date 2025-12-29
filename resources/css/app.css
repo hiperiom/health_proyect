@@ -58,13 +58,15 @@ html {
 	flex-direction: column;
 	min-height: 0;
 	/* background-color: #004a63; */
-	/* background: url('./img/bg-hospital.png') no-repeat center center fixed;
+	background: url('../../public/img/bg-hospital.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover; */
+	background-size: cover;
 }
-
+.ant-layout {
+    background: transparent;
+}
 *,
 ::before,
 ::after {
@@ -3675,33 +3677,29 @@ html {
 		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid rgba(255, 255, 255, 0.2);
 		border: 1px solid rgba(255, 255, 255, 0.3);
-		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+		box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.37);
 		position: relative;
 		overflow: hidden;
 
 
 	}
-	.ant-form-item .ant-form-item-label >label {
-		color: var(--bs-white);
-	}
+
 	.ant-form-item .ant-form-item-explain-error {
 		color: #faad14;
 		background-color: #004a63;
 		border-radius: 0px 0px 5px 5px;
 		padding: 0px 0px 0px 5px;
 	}
-	.ant-btn-link:not(.btn-success) {
-		color: var(--bs-info);
-	}
+	
     /* Personaliza el fondo de la burbuja */
     .ant-tour-primary .ant-tour-inner {
         background-color: var(--bs-primary) !important; 
         border-radius: 12px;
     }
-	.ant-upload-wrapper {
-    	color: var(--bs-white);
-	}
 
+	.ant-menu-light {
+		background: transparent;
+	}
 	.ant-spin .ant-spin-dot-item {
 		background-color: var(--bs-white);
 	}

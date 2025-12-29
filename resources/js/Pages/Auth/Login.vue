@@ -49,7 +49,7 @@
                     <a-card class="glass-container fade-in">
                         <AvatarCompany />
                         <Header title="Iniciar Sesión" />
-                        <a-spin class="text-white"  tip="Espere un momento..." :spinning="loginForm.processing">
+                        <a-spin  tip="Espere un momento..." :spinning="loginForm.processing">
                             <a-form 
                                 ref="loginFormRef"
                                 layout="vertical" 
@@ -96,5 +96,5 @@
     
 </template>
 <style scoped>
-    
+
 </style>

@@ -14,7 +14,7 @@ export default {
 // 8. Expose (defineExpose)
 </script>
 <template>
-    <a-layout class="h-dvh-100 bg-primary text-white">
+    <a-layout class="h-dvh-100  text-white">
        
         <a-layout-header class="header">
             <slot name="header" />
