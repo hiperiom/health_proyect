@@ -9,10 +9,10 @@
 });
 </script>
 <template>
-    <a-typography-title class="fs-3 text-center text-white">
+    <a-typography-title class="fs-3 text-center">
         {{ title }}
     </a-typography-title>
-    <a-typography-title class="fs-6 fw-normal text-white text-center" >
+    <a-typography-title class="fs-6 fw-normal  text-center" >
         {{ subTitle }}
     </a-typography-title>
 </template>

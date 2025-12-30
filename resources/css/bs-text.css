@@ -1,0 +1,130 @@
+/* =========================================================
+   BOOTSTRAP 5.3 TEXT CLASSES - FULL SYSTEM
+   ========================================================= */
+
+/* =========================================================
+   1. BASE TEXT (Extra Small < 576px)
+   ========================================================= */
+
+/* Text Alignment */
+.text-start { text-align: left !important; }
+.text-end { text-align: right !important; }
+.text-center { text-align: center !important; }
+
+/* Text Wrapping and Overflow */
+.text-wrap { white-space: normal !important; }
+.text-nowrap { white-space: nowrap !important; }
+
+/* Text Transform */
+.text-lowercase { text-transform: lowercase !important; }
+.text-uppercase { text-transform: uppercase !important; }
+.text-capitalize { text-transform: capitalize !important; }
+
+/* Font Weight */
+.fw-light { font-weight: 300 !important; }
+.fw-lighter { font-weight: lighter !important; }
+.fw-normal { font-weight: 400 !important; }
+.fw-bold { font-weight: 700 !important; }
+.fw-semibold { font-weight: 600 !important; }
+.fw-bolder { font-weight: bolder !important; }
+
+/* Font Style */
+.fst-italic { font-style: italic !important; }
+.fst-normal { font-style: normal !important; }
+
+/* Line Height */
+.lh-1 { line-height: 1 !important; }
+.lh-sm { line-height: 1.25 !important; }
+.lh-base { line-height: 1.5 !important; }
+.lh-lg { line-height: 2 !important; }
+
+/* Font Size */
+.fs-1 { font-size: 2.5rem !important; }
+.fs-2 { font-size: 2rem !important; }
+.fs-3 { font-size: 1.75rem !important; }
+.fs-4 { font-size: 1.5rem !important; }
+.fs-5 { font-size: 1.25rem !important; }
+.fs-6 { font-size: 1rem !important; }
+
+/* Font Family */
+.font-monospace { font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
+
+/* Text Decoration */
+.text-decoration-none { text-decoration: none !important; }
+.text-decoration-underline { text-decoration: underline !important; }
+.text-decoration-line-through { text-decoration: line-through !important; }
+
+/* Text Color */
+.text-primary { color: var(--bs-primary) !important; }
+.text-secondary { color: var(--bs-secondary) !important; }
+.text-success { color: var(--bs-success) !important; }
+.text-info { color: var(--bs-info) !important; }
+.text-warning { color: var(--bs-warning) !important; }
+.text-danger { color: var(--bs-danger) !important; }
+.text-light { color: var(--bs-light) !important; }
+.text-dark { color: var(--bs-dark) !important; }
+.text-body { color: var(--bs-body-color) !important; }
+.text-muted { color: var(--bs-gray-600) !important; }
+.text-black { color: var(--bs-black) !important; }
+.text-white { color: var(--bs-white) !important; }
+.text-body-emphasis { color: var(--bs-body-color) !important; }
+.text-body-secondary { color: var(--bs-gray-600) !important; }
+.text-body-tertiary { color: var(--bs-gray-500) !important; }
+.text-primary-emphasis { color: var(--bs-primary) !important; }
+.text-secondary-emphasis { color: var(--bs-gray-900) !important; }
+.text-success-emphasis { color: var(--bs-success) !important; }
+.text-info-emphasis { color: var(--bs-cyan) !important; }
+.text-warning-emphasis { color: var(--bs-yellow) !important; }
+.text-danger-emphasis { color: var(--bs-danger) !important; }
+.text-light-emphasis { color: var(--bs-gray-700) !important; }
+.text-dark-emphasis { color: var(--bs-gray-900) !important; }
+
+/* =========================================================
+   2. SMALL (SM) TEXT ALIGNMENT (>= 576px)
+   ========================================================= */
+
+@media (min-width: 576px) {
+	.text-sm-start { text-align: left !important; }
+	.text-sm-end { text-align: right !important; }
+	.text-sm-center { text-align: center !important; }
+}
+
+/* =========================================================
+   3. MEDIUM (MD) TEXT ALIGNMENT (>= 768px)
+   ========================================================= */
+
+@media (min-width: 768px) {
+	.text-md-start { text-align: left !important; }
+	.text-md-end { text-align: right !important; }
+	.text-md-center { text-align: center !important; }
+}
+
+/* =========================================================
+   4. LARGE (LG) TEXT ALIGNMENT (>= 992px)
+   ========================================================= */
+
+@media (min-width: 992px) {
+	.text-lg-start { text-align: left !important; }
+	.text-lg-end { text-align: right !important; }
+	.text-lg-center { text-align: center !important; }
+}
+
+/* =========================================================
+   5. EXTRA LARGE (XL) TEXT ALIGNMENT (>= 1200px)
+   ========================================================= */
+
+@media (min-width: 1200px) {
+	.text-xl-start { text-align: left !important; }
+	.text-xl-end { text-align: right !important; }
+	.text-xl-center { text-align: center !important; }
+}
+
+/* =========================================================
+   6. EXTRA EXTRA LARGE (XXL) TEXT ALIGNMENT (>= 1400px)
+   ========================================================= */
+
+@media (min-width: 1400px) {
+	.text-xxl-start { text-align: left !important; }
+	.text-xxl-end { text-align: right !important; }
+	.text-xxl-center { text-align: center !important; }
+}

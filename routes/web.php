@@ -23,15 +23,15 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
             return null;
         })->name('admin.users.edit');
     });
-    Route::group(['prefix' => 'rols_permissions'], function () {
+    Route::group(['prefix' => 'roles'], function () {
         Route::get('/index', function () {
-            return Inertia::render('Dashboard/Administrator/RolsPermitions/Index');
-        })->name('admin.rols_permissions');
+            return Inertia::render('Dashboard/Administrator/Roles/Index');
+        })->name('admin.roles');
         Route::get('/create', function () {
-            return Inertia::render('Dashboard/Administrator/RolsPermitions/Create');
-        })->name('admin.rols_permissions.create');
+            return Inertia::render('Dashboard/Administrator/Roles/Create');
+        })->name('admin.roles.create');
         Route::get('/edit/{id}', function () {
             return null;
-        })->name('admin.rols_permissions.edit');
+        })->name('admin.roles.edit');
     });
 });

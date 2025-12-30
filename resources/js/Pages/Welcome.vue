@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import Login from './Auth/Login.vue';
 
 
@@ -8,4 +8,4 @@ import Login from './Auth/Login.vue';
     <Login />
  
   
-</template> -->
+</template>

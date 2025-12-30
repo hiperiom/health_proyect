@@ -1,21 +1,15 @@
-<script>
-    export default {
-        name: "UsersIndex",
-    }
-</script>
 <script setup>
     import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 </script>
 <template>
-    <DashboardLayout title="Usuarios" subtitle="Listado de usuarios registrados">
+    <DashboardLayout title="Dashboard" subtitle="Bienvenido a su panel de administración">
+
         <template #content>
 
-            Home Paciente
+            vISTA USUARIOS
         </template>
+  
+
+
     </DashboardLayout>
 </template>
-
-
-<style lang="scss" scoped>
-
-</style>

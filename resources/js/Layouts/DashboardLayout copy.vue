@@ -1,10 +1,7 @@
-
 <script setup>
 // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
 import { h,ref,computed, onMounted } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
-import SideBar from '@/Components/SideBar.vue';
-import AvatarCompany from '@/Components/AvatarCompany.vue';
 
 // 2. Props & Emits (defineProps, defineEmits)
 // 3. State (ref, reactive)
@@ -18,12 +15,9 @@ import AvatarCompany from '@/Components/AvatarCompany.vue';
 <template>
     <div class="h-dvh-100 d-flex flex-column  overflow-auto">
         <div class="d-flex flex-column flex-fill overflow-auto">
-            <a-row align="middle" class="mx-3 mt-2 glass-container rounded-3">
-                <a-col flex="none">
-                    <AvatarCompany :size="40" className="ms-2" />
-                </a-col>
+            <a-row >
                 <a-col flex="auto">
-                    <div >
+                    <div class="mx-3 mt-2 glass-container rounded-3">
                         <navbar />
                     </div>
                 </a-col>
@@ -57,13 +51,14 @@ import AvatarCompany from '@/Components/AvatarCompany.vue';
 
     /* En pantallas xs y sm (<768px) el sidebar ocupa todo el ancho y queda fixed.
        Ajustamos el contenido para no quedar solapado. */
-    /* @media (max-width: 767.98px) {
+    @media (max-width: 767.98px) {
         .sidebar-fixed {
             position: fixed;
         }
 
+        /* Si el navbar del sidebar cambia de altura, ajusta este valor */
         .sidebar-fixed + .main-fixed {
             margin-top: 64px;
         }
-    } */
+    }
 </style>

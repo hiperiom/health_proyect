@@ -43,3 +43,10 @@ export function getBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
+export function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        router.push('/'); // Ruta por defecto si no hay historial
+    }
+}; 

@@ -40,7 +40,7 @@
 </script>
 
 <template>
-    <AuthLayout>
+    <AuthLayout :loading="loginForm.processing">
         <template #content>
             <a-row  justify="center"  :wrap="true" >
                 <a-col :span="24" class="p-2 text-center" >
@@ -49,7 +49,7 @@
                     <a-card class="glass-container fade-in">
                         <AvatarCompany />
                         <Header title="Iniciar Sesión" />
-                        <a-spin class="text-white"  tip="Espere un momento..." :spinning="loginForm.processing">
+                        
                             <a-form 
                                 ref="loginFormRef"
                                 layout="vertical" 
@@ -69,7 +69,7 @@
                                     Registro de Paciente
                                 </a-button>
                             </a-form>
-                        </a-spin> 
+                        
                         
                         <a-button 
                             id="tour-forgot-password-button"
@@ -96,5 +96,5 @@
     
 </template>
 <style scoped>
-    
+
 </style>

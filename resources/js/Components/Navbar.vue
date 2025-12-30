@@ -98,20 +98,15 @@ const handleNavbarClick = ({ key }) => {
 <template>
     <a-menu 
         style="height:50px"
-        class="bg-primary py-2 text-white d-flex align-items-center"
+        class="d-flex align-items-center border-0"
         mode="horizontal" 
         :items="horizontalMenuItems" 
         @click="handleNavbarClick"
     />
 </template>
 <style>
-    .push-right {
+   .push-right {
         margin-left: auto !important;
     }
-    :where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-light .ant-menu-item:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected), :where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
-        color: var(--white);
-    }
-    :where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-light .ant-menu-item:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected), :where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
-        color: var(--dark);
-    }
+
 </style>

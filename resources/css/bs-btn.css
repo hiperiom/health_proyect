@@ -1,0 +1,615 @@
+/* =========================================================
+   BOOTSTRAP 5.3 BUTTON CLASSES - FULL SYSTEM
+   ========================================================= */
+
+/* =========================================================
+   1. BASE BUTTON STYLES
+   ========================================================= */
+
+/* Button Base */
+.btn {
+	display: inline-block;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--bs-body-color);
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	user-select: none;
+	background-color: transparent;
+	border: 1px solid transparent;
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	border-radius: 0.375rem;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn:hover {
+	color: var(--bs-body-color);
+	text-decoration: none;
+}
+
+.btn:focus, .btn.focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button Colors */
+.btn-primary {
+	color: var(--bs-white);
+	background-color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-primary-hover);
+	border-color: var(--bs-primary-hover);
+}
+
+.btn-primary:focus, .btn-primary.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-primary-hover);
+	border-color: var(--bs-primary-hover);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+}
+
+.btn-primary:active, .btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-primary-hover);
+	border-color: var(--bs-primary-hover);
+}
+
+.btn-primary:active:focus, .btn-primary.active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+}
+
+.btn-secondary {
+	color: var(--bs-white);
+	background-color: var(--bs-secondary);
+	border-color: var(--bs-secondary);
+}
+
+.btn-secondary:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-gray-600);
+	border-color: var(--bs-gray-600);
+}
+
+.btn-secondary:focus, .btn-secondary.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-gray-600);
+	border-color: var(--bs-gray-600);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.btn-secondary:active, .btn-secondary.active,
+.show > .btn-secondary.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-gray-600);
+	border-color: var(--bs-gray-600);
+}
+
+.btn-secondary:active:focus, .btn-secondary.active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.btn-success {
+	color: var(--bs-white);
+	background-color: var(--bs-success);
+	border-color: var(--bs-success);
+}
+
+.btn-success:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-green);
+	border-color: var(--bs-green);
+}
+
+.btn-success:focus, .btn-success.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-green);
+	border-color: var(--bs-green);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.5);
+}
+
+.btn-success:active, .btn-success.active,
+.show > .btn-success.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-green);
+	border-color: var(--bs-green);
+}
+
+.btn-success:active:focus, .btn-success.active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.5);
+}
+
+.btn-info {
+	color: var(--bs-white);
+	background-color: var(--bs-info);
+	border-color: var(--bs-info);
+}
+
+.btn-info:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-cyan);
+	border-color: var(--bs-cyan);
+}
+
+.btn-info:focus, .btn-info.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-cyan);
+	border-color: var(--bs-cyan);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-info-rgb), 0.5);
+}
+
+.btn-info:active, .btn-info.active,
+.show > .btn-info.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-cyan);
+	border-color: var(--bs-cyan);
+}
+
+.btn-info:active:focus, .btn-info.active:focus,
+.show > .btn-info.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-info-rgb), 0.5);
+}
+
+.btn-warning {
+	color: var(--bs-black);
+	background-color: var(--bs-warning);
+	border-color: var(--bs-warning);
+}
+
+.btn-warning:hover {
+	color: var(--bs-black);
+	background-color: var(--bs-yellow);
+	border-color: var(--bs-yellow);
+}
+
+.btn-warning:focus, .btn-warning.focus {
+	color: var(--bs-black);
+	background-color: var(--bs-yellow);
+	border-color: var(--bs-yellow);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-warning-rgb), 0.5);
+}
+
+.btn-warning:active, .btn-warning.active,
+.show > .btn-warning.dropdown-toggle {
+	color: var(--bs-black);
+	background-color: var(--bs-yellow);
+	border-color: var(--bs-yellow);
+}
+
+.btn-warning:active:focus, .btn-warning.active:focus,
+.show > .btn-warning.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-warning-rgb), 0.5);
+}
+
+.btn-danger {
+	color: var(--bs-white);
+	background-color: var(--bs-danger);
+	border-color: var(--bs-danger);
+}
+
+.btn-danger:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-red);
+	border-color: var(--bs-red);
+}
+
+.btn-danger:focus, .btn-danger.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-red);
+	border-color: var(--bs-red);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.5);
+}
+
+.btn-danger:active, .btn-danger.active,
+.show > .btn-danger.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-red);
+	border-color: var(--bs-red);
+}
+
+.btn-danger:active:focus, .btn-danger.active:focus,
+.show > .btn-danger.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.5);
+}
+
+.btn-light {
+	color: var(--bs-black);
+	background-color: var(--bs-light);
+	border-color: var(--bs-light);
+}
+
+.btn-light:hover {
+	color: var(--bs-black);
+	background-color: var(--bs-gray-100);
+	border-color: var(--bs-gray-100);
+}
+
+.btn-light:focus, .btn-light.focus {
+	color: var(--bs-black);
+	background-color: var(--bs-gray-100);
+	border-color: var(--bs-gray-100);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-light-rgb), 0.5);
+}
+
+.btn-light:active, .btn-light.active,
+.show > .btn-light.dropdown-toggle {
+	color: var(--bs-black);
+	background-color: var(--bs-gray-100);
+	border-color: var(--bs-gray-100);
+}
+
+.btn-light:active:focus, .btn-light.active:focus,
+.show > .btn-light.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-light-rgb), 0.5);
+}
+
+.btn-dark {
+	color: var(--bs-white);
+	background-color: var(--bs-dark);
+	border-color: var(--bs-dark);
+}
+
+.btn-dark:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-black);
+	border-color: var(--bs-black);
+}
+
+.btn-dark:focus, .btn-dark.focus {
+	color: var(--bs-white);
+	background-color: var(--bs-black);
+	border-color: var(--bs-black);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.5);
+}
+
+.btn-dark:active, .btn-dark.active,
+.show > .btn-dark.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-black);
+	border-color: var(--bs-black);
+}
+
+.btn-dark:active:focus, .btn-dark.active:focus,
+.show > .btn-dark.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.5);
+}
+
+.btn-link {
+	font-weight: 400;
+	color: var(--bs-primary);
+	text-decoration: underline;
+}
+
+.btn-link:hover {
+	color: var(--bs-primary-hover);
+	text-decoration: underline;
+}
+
+.btn-link:focus, .btn-link.focus {
+	text-decoration: underline;
+}
+
+.btn-link:disabled, .btn-link.disabled {
+	color: var(--bs-gray-600);
+	pointer-events: none;
+	text-decoration: none;
+}
+
+/* Button Outline Styles */
+.btn-outline-primary {
+	color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+}
+
+.btn-outline-primary:active, .btn-outline-primary.active,
+.show > .btn-outline-primary.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:active:focus,
+.show > .btn-outline-primary.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5);
+}
+
+.btn-outline-secondary {
+	color: var(--bs-secondary);
+	border-color: var(--bs-secondary);
+}
+
+.btn-outline-secondary:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-secondary);
+	border-color: var(--bs-secondary);
+}
+
+.btn-outline-secondary:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.btn-outline-secondary:active, .btn-outline-secondary.active,
+.show > .btn-outline-secondary.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-secondary);
+	border-color: var(--bs-secondary);
+}
+
+.btn-outline-secondary:active:focus,
+.show > .btn-outline-secondary.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-secondary-rgb), 0.5);
+}
+
+.btn-outline-success {
+	color: var(--bs-success);
+	border-color: var(--bs-success);
+}
+
+.btn-outline-success:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-success);
+	border-color: var(--bs-success);
+}
+
+.btn-outline-success:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.5);
+}
+
+.btn-outline-success:active, .btn-outline-success.active,
+.show > .btn-outline-success.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-success);
+	border-color: var(--bs-success);
+}
+
+.btn-outline-success:active:focus,
+.show > .btn-outline-success.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.5);
+}
+
+.btn-outline-info {
+	color: var(--bs-info);
+	border-color: var(--bs-info);
+}
+
+.btn-outline-info:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-info);
+	border-color: var(--bs-info);
+}
+
+.btn-outline-info:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-info-rgb), 0.5);
+}
+
+.btn-outline-info:active, .btn-outline-info.active,
+.show > .btn-outline-info.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-info);
+	border-color: var(--bs-info);
+}
+
+.btn-outline-info:active:focus,
+.show > .btn-outline-info.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-info-rgb), 0.5);
+}
+
+.btn-outline-warning {
+	color: var(--bs-warning);
+	border-color: var(--bs-warning);
+}
+
+.btn-outline-warning:hover {
+	color: var(--bs-black);
+	background-color: var(--bs-warning);
+	border-color: var(--bs-warning);
+}
+
+.btn-outline-warning:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-warning-rgb), 0.5);
+}
+
+.btn-outline-warning:active, .btn-outline-warning.active,
+.show > .btn-outline-warning.dropdown-toggle {
+	color: var(--bs-black);
+	background-color: var(--bs-warning);
+	border-color: var(--bs-warning);
+}
+
+.btn-outline-warning:active:focus,
+.show > .btn-outline-warning.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-warning-rgb), 0.5);
+}
+
+.btn-outline-danger {
+	color: var(--bs-danger);
+	border-color: var(--bs-danger);
+}
+
+.btn-outline-danger:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-danger);
+	border-color: var(--bs-danger);
+}
+
+.btn-outline-danger:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.5);
+}
+
+.btn-outline-danger:active, .btn-outline-danger.active,
+.show > .btn-outline-danger.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-danger);
+	border-color: var(--bs-danger);
+}
+
+.btn-outline-danger:active:focus,
+.show > .btn-outline-danger.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.5);
+}
+
+.btn-outline-light {
+	color: var(--bs-light);
+	border-color: var(--bs-light);
+}
+
+.btn-outline-light:hover {
+	color: var(--bs-black);
+	background-color: var(--bs-light);
+	border-color: var(--bs-light);
+}
+
+.btn-outline-light:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-light-rgb), 0.5);
+}
+
+.btn-outline-light:active, .btn-outline-light.active,
+.show > .btn-outline-light.dropdown-toggle {
+	color: var(--bs-black);
+	background-color: var(--bs-light);
+	border-color: var(--bs-light);
+}
+
+.btn-outline-light:active:focus,
+.show > .btn-outline-light.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-light-rgb), 0.5);
+}
+
+.btn-outline-dark {
+	color: var(--bs-dark);
+	border-color: var(--bs-dark);
+}
+
+.btn-outline-dark:hover {
+	color: var(--bs-white);
+	background-color: var(--bs-dark);
+	border-color: var(--bs-dark);
+}
+
+.btn-outline-dark:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.5);
+}
+
+.btn-outline-dark:active, .btn-outline-dark.active,
+.show > .btn-outline-dark.dropdown-toggle {
+	color: var(--bs-white);
+	background-color: var(--bs-dark);
+	border-color: var(--bs-dark);
+}
+
+.btn-outline-dark:active:focus,
+.show > .btn-outline-dark.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.5);
+}
+
+/* Button Sizes */
+.btn-sm {
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	border-radius: 0.25rem;
+}
+
+.btn-lg {
+	padding: 0.5rem 1rem;
+	font-size: 1.25rem;
+	border-radius: 0.5rem;
+}
+
+/* Button States */
+.btn:active, .btn.active {
+	outline: 0;
+}
+
+.btn:disabled, .btn.disabled, fieldset:disabled .btn {
+	pointer-events: none;
+	opacity: 0.65;
+}
+
+/* Button Groups */
+.btn-group {
+	position: relative;
+	display: inline-flex;
+	vertical-align: middle;
+}
+
+.btn-group > .btn {
+	position: relative;
+	flex: 1 1 auto;
+}
+
+.btn-group > .btn:not(:last-child) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.btn-group > .btn:not(:first-child) {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-left: -1px;
+}
+
+.btn-group-vertical {
+	position: relative;
+	display: inline-flex;
+	vertical-align: middle;
+	flex-direction: column;
+}
+
+.btn-group-vertical > .btn {
+	width: 100%;
+}
+
+.btn-group-vertical > .btn:not(:last-child) {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.btn-group-vertical > .btn:not(:first-child) {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: -1px;
+}
+
+/* Button Toolbar */
+.btn-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+
+.btn-toolbar .input-group {
+	width: auto;
+}
+
+/* Button Group Sizes */
+.btn-group-sm > .btn {
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	border-radius: 0.25rem;
+}
+
+.btn-group-lg > .btn {
+	padding: 0.5rem 1rem;
+	font-size: 1.25rem;
+	border-radius: 0.5rem;
+}

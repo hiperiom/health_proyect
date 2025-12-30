@@ -1,0 +1,267 @@
+/* =========================================================
+   BOOTSTRAP OPACITY CLASSES - OPTIMIZED
+   Usando variables CSS del archivo variables.css
+   ========================================================= */
+
+/* =========================================================
+   1. OPACITY BASIC - Opacidad Básica
+   ========================================================= */
+
+.opacity-0 { opacity: 0; }
+.opacity-10 { opacity: 0.1; }
+.opacity-25 { opacity: .25; }
+.opacity-50 { opacity: .5; }
+.opacity-75 { opacity: .75; }
+.opacity-90 { opacity: 0.9; }
+.opacity-100 { opacity: 1; }
+
+/* =========================================================
+   2. COLOR OPACITY - Colores con Opacidad
+   ========================================================= */
+
+/* Primary Colors with Opacity */
+.text-primary-10 { color: rgba(var(--bs-primary-rgb), 0.1) !important; }
+.text-primary-25 { color: rgba(var(--bs-primary-rgb), 0.25) !important; }
+.text-primary-50 { color: rgba(var(--bs-primary-rgb), 0.5) !important; }
+.text-primary-75 { color: rgba(var(--bs-primary-rgb), 0.75) !important; }
+
+.bg-primary-10 { background-color: rgba(var(--bs-primary-rgb), 0.1) !important; }
+.bg-primary-25 { background-color: rgba(var(--bs-primary-rgb), 0.25) !important; }
+.bg-primary-50 { background-color: rgba(var(--bs-primary-rgb), 0.5) !important; }
+.bg-primary-75 { background-color: rgba(var(--bs-primary-rgb), 0.75) !important; }
+
+.border-primary-10 { border-color: rgba(var(--bs-primary-rgb), 0.1) !important; }
+.border-primary-25 { border-color: rgba(var(--bs-primary-rgb), 0.25) !important; }
+.border-primary-50 { border-color: rgba(var(--bs-primary-rgb), 0.5) !important; }
+.border-primary-75 { border-color: rgba(var(--bs-primary-rgb), 0.75) !important; }
+
+/* Secondary Colors with Opacity */
+.text-secondary-10 { color: rgba(var(--bs-secondary-rgb), 0.1) !important; }
+.text-secondary-25 { color: rgba(var(--bs-secondary-rgb), 0.25) !important; }
+.text-secondary-50 { color: rgba(var(--bs-secondary-rgb), 0.5) !important; }
+.text-secondary-75 { color: rgba(var(--bs-secondary-rgb), 0.75) !important; }
+
+.bg-secondary-10 { background-color: rgba(var(--bs-secondary-rgb), 0.1) !important; }
+.bg-secondary-25 { background-color: rgba(var(--bs-secondary-rgb), 0.25) !important; }
+.bg-secondary-50 { background-color: rgba(var(--bs-secondary-rgb), 0.5) !important; }
+.bg-secondary-75 { background-color: rgba(var(--bs-secondary-rgb), 0.75) !important; }
+
+.border-secondary-10 { border-color: rgba(var(--bs-secondary-rgb), 0.1) !important; }
+.border-secondary-25 { border-color: rgba(var(--bs-secondary-rgb), 0.25) !important; }
+.border-secondary-50 { border-color: rgba(var(--bs-secondary-rgb), 0.5) !important; }
+.border-secondary-75 { border-color: rgba(var(--bs-secondary-rgb), 0.75) !important; }
+
+/* Success Colors with Opacity */
+.text-success-10 { color: rgba(var(--bs-success-rgb), 0.1) !important; }
+.text-success-25 { color: rgba(var(--bs-success-rgb), 0.25) !important; }
+.text-success-50 { color: rgba(var(--bs-success-rgb), 0.5) !important; }
+.text-success-75 { color: rgba(var(--bs-success-rgb), 0.75) !important; }
+
+.bg-success-10 { background-color: rgba(var(--bs-success-rgb), 0.1) !important; }
+.bg-success-25 { background-color: rgba(var(--bs-success-rgb), 0.25) !important; }
+.bg-success-50 { background-color: rgba(var(--bs-success-rgb), 0.5) !important; }
+.bg-success-75 { background-color: rgba(var(--bs-success-rgb), 0.75) !important; }
+
+.border-success-10 { border-color: rgba(var(--bs-success-rgb), 0.1) !important; }
+.border-success-25 { border-color: rgba(var(--bs-success-rgb), 0.25) !important; }
+.border-success-50 { border-color: rgba(var(--bs-success-rgb), 0.5) !important; }
+.border-success-75 { border-color: rgba(var(--bs-success-rgb), 0.75) !important; }
+
+/* Danger Colors with Opacity */
+.text-danger-10 { color: rgba(var(--bs-danger-rgb), 0.1) !important; }
+.text-danger-25 { color: rgba(var(--bs-danger-rgb), 0.25) !important; }
+.text-danger-50 { color: rgba(var(--bs-danger-rgb), 0.5) !important; }
+.text-danger-75 { color: rgba(var(--bs-danger-rgb), 0.75) !important; }
+
+.bg-danger-10 { background-color: rgba(var(--bs-danger-rgb), 0.1) !important; }
+.bg-danger-25 { background-color: rgba(var(--bs-danger-rgb), 0.25) !important; }
+.bg-danger-50 { background-color: rgba(var(--bs-danger-rgb), 0.5) !important; }
+.bg-danger-75 { background-color: rgba(var(--bs-danger-rgb), 0.75) !important; }
+
+.border-danger-10 { border-color: rgba(var(--bs-danger-rgb), 0.1) !important; }
+.border-danger-25 { border-color: rgba(var(--bs-danger-rgb), 0.25) !important; }
+.border-danger-50 { border-color: rgba(var(--bs-danger-rgb), 0.5) !important; }
+.border-danger-75 { border-color: rgba(var(--bs-danger-rgb), 0.75) !important; }
+
+/* Warning Colors with Opacity */
+.text-warning-10 { color: rgba(var(--bs-warning-rgb), 0.1) !important; }
+.text-warning-25 { color: rgba(var(--bs-warning-rgb), 0.25) !important; }
+.text-warning-50 { color: rgba(var(--bs-warning-rgb), 0.5) !important; }
+.text-warning-75 { color: rgba(var(--bs-warning-rgb), 0.75) !important; }
+
+.bg-warning-10 { background-color: rgba(var(--bs-warning-rgb), 0.1) !important; }
+.bg-warning-25 { background-color: rgba(var(--bs-warning-rgb), 0.25) !important; }
+.bg-warning-50 { background-color: rgba(var(--bs-warning-rgb), 0.5) !important; }
+.bg-warning-75 { background-color: rgba(var(--bs-warning-rgb), 0.75) !important; }
+
+.border-warning-10 { border-color: rgba(var(--bs-warning-rgb), 0.1) !important; }
+.border-warning-25 { border-color: rgba(var(--bs-warning-rgb), 0.25) !important; }
+.border-warning-50 { border-color: rgba(var(--bs-warning-rgb), 0.5) !important; }
+.border-warning-75 { border-color: rgba(var(--bs-warning-rgb), 0.75) !important; }
+
+/* Info Colors with Opacity */
+.text-info-10 { color: rgba(var(--bs-info-rgb), 0.1) !important; }
+.text-info-25 { color: rgba(var(--bs-info-rgb), 0.25) !important; }
+.text-info-50 { color: rgba(var(--bs-info-rgb), 0.5) !important; }
+.text-info-75 { color: rgba(var(--bs-info-rgb), 0.75) !important; }
+
+.bg-info-10 { background-color: rgba(var(--bs-info-rgb), 0.1) !important; }
+.bg-info-25 { background-color: rgba(var(--bs-info-rgb), 0.25) !important; }
+.bg-info-50 { background-color: rgba(var(--bs-info-rgb), 0.5) !important; }
+.bg-info-75 { background-color: rgba(var(--bs-info-rgb), 0.75) !important; }
+
+.border-info-10 { border-color: rgba(var(--bs-info-rgb), 0.1) !important; }
+.border-info-25 { border-color: rgba(var(--bs-info-rgb), 0.25) !important; }
+.border-info-50 { border-color: rgba(var(--bs-info-rgb), 0.5) !important; }
+.border-info-75 { border-color: rgba(var(--bs-info-rgb), 0.75) !important; }
+
+/* Light Colors with Opacity */
+.text-light-10 { color: rgba(var(--bs-light-rgb), 0.1) !important; }
+.text-light-25 { color: rgba(var(--bs-light-rgb), 0.25) !important; }
+.text-light-50 { color: rgba(var(--bs-light-rgb), 0.5) !important; }
+.text-light-75 { color: rgba(var(--bs-light-rgb), 0.75) !important; }
+
+.bg-light-10 { background-color: rgba(var(--bs-light-rgb), 0.1) !important; }
+.bg-light-25 { background-color: rgba(var(--bs-light-rgb), 0.25) !important; }
+.bg-light-50 { background-color: rgba(var(--bs-light-rgb), 0.5) !important; }
+.bg-light-75 { background-color: rgba(var(--bs-light-rgb), 0.75) !important; }
+
+.border-light-10 { border-color: rgba(var(--bs-light-rgb), 0.1) !important; }
+.border-light-25 { border-color: rgba(var(--bs-light-rgb), 0.25) !important; }
+.border-light-50 { border-color: rgba(var(--bs-light-rgb), 0.5) !important; }
+.border-light-75 { border-color: rgba(var(--bs-light-rgb), 0.75) !important; }
+
+/* Dark Colors with Opacity */
+.text-dark-10 { color: rgba(var(--bs-dark-rgb), 0.1) !important; }
+.text-dark-25 { color: rgba(var(--bs-dark-rgb), 0.25) !important; }
+.text-dark-50 { color: rgba(var(--bs-dark-rgb), 0.5) !important; }
+.text-dark-75 { color: rgba(var(--bs-dark-rgb), 0.75) !important; }
+
+.bg-dark-10 { background-color: rgba(var(--bs-dark-rgb), 0.1) !important; }
+.bg-dark-25 { background-color: rgba(var(--bs-dark-rgb), 0.25) !important; }
+.bg-dark-50 { background-color: rgba(var(--bs-dark-rgb), 0.5) !important; }
+.bg-dark-75 { background-color: rgba(var(--bs-dark-rgb), 0.75) !important; }
+
+.border-dark-10 { border-color: rgba(var(--bs-dark-rgb), 0.1) !important; }
+.border-dark-25 { border-color: rgba(var(--bs-dark-rgb), 0.25) !important; }
+.border-dark-50 { border-color: rgba(var(--bs-dark-rgb), 0.5) !important; }
+.border-dark-75 { border-color: rgba(var(--bs-dark-rgb), 0.75) !important; }
+
+/* =========================================================
+   3. VISIBILITY UTILITIES - Utilidades de Visibilidad
+   ========================================================= */
+
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+.opacity-hover:hover { opacity: 0.8 !important; }
+
+/* =========================================================
+   4. OPACITY RESPONSIVE - Responsive Breakpoints
+   ========================================================= */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	.opacity-sm-0 { opacity: 0; }
+	.opacity-sm-10 { opacity: 0.1; }
+	.opacity-sm-25 { opacity: .25; }
+	.opacity-sm-50 { opacity: .5; }
+	.opacity-sm-75 { opacity: .75; }
+	.opacity-sm-90 { opacity: 0.9; }
+	.opacity-sm-100 { opacity: 1; }
+	.visible-sm { visibility: visible !important; }
+	.invisible-sm { visibility: hidden !important; }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.opacity-md-0 { opacity: 0; }
+	.opacity-md-10 { opacity: 0.1; }
+	.opacity-md-25 { opacity: .25; }
+	.opacity-md-50 { opacity: .5; }
+	.opacity-md-75 { opacity: .75; }
+	.opacity-md-90 { opacity: 0.9; }
+	.opacity-md-100 { opacity: 1; }
+	.visible-md { visibility: visible !important; }
+	.invisible-md { visibility: hidden !important; }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	.opacity-lg-0 { opacity: 0; }
+	.opacity-lg-10 { opacity: 0.1; }
+	.opacity-lg-25 { opacity: .25; }
+	.opacity-lg-50 { opacity: .5; }
+	.opacity-lg-75 { opacity: .75; }
+	.opacity-lg-90 { opacity: 0.9; }
+	.opacity-lg-100 { opacity: 1; }
+	.visible-lg { visibility: visible !important; }
+	.invisible-lg { visibility: hidden !important; }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.opacity-xl-0 { opacity: 0; }
+	.opacity-xl-10 { opacity: 0.1; }
+	.opacity-xl-25 { opacity: .25; }
+	.opacity-xl-50 { opacity: .5; }
+	.opacity-xl-75 { opacity: .75; }
+	.opacity-xl-90 { opacity: 0.9; }
+	.opacity-xl-100 { opacity: 1; }
+	.visible-xl { visibility: visible !important; }
+	.invisible-xl { visibility: hidden !important; }
+}
+
+/* Extra extra large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+	.opacity-xxl-0 { opacity: 0; }
+	.opacity-xxl-10 { opacity: 0.1; }
+	.opacity-xxl-25 { opacity: .25; }
+	.opacity-xxl-50 { opacity: .5; }
+	.opacity-xxl-75 { opacity: .75; }
+	.opacity-xxl-90 { opacity: 0.9; }
+	.opacity-xxl-100 { opacity: 1; }
+	.visible-xxl { visibility: visible !important; }
+	.invisible-xxl { visibility: hidden !important; }
+}
+
+/* =========================================================
+   5. OPACITY HOVER STATES - Estados Hover
+   ========================================================= */
+
+.opacity-hover-0:hover { opacity: 0; }
+.opacity-hover-10:hover { opacity: 0.1; }
+.opacity-hover-25:hover { opacity: .25; }
+.opacity-hover-50:hover { opacity: .5; }
+.opacity-hover-75:hover { opacity: .75; }
+.opacity-hover-90:hover { opacity: 0.9; }
+.opacity-hover-100:hover { opacity: 1; }
+
+/* =========================================================
+   6. OPACITY TRANSITIONS - Transiciones de Opacidad
+   ========================================================= */
+
+.opacity-transition { transition: opacity 0.3s ease-in-out; }
+.opacity-transition-fast { transition: opacity 0.15s ease-in-out; }
+.opacity-transition-slow { transition: opacity 0.6s ease-in-out; }
+
+/* =========================================================
+   7. BACKDROP OPACITY - Opacidad de Fondo
+   ========================================================= */
+
+.backdrop-opacity-10 { backdrop-filter: blur(1px); opacity: 0.1; }
+.backdrop-opacity-25 { backdrop-filter: blur(2px); opacity: 0.25; }
+.backdrop-opacity-50 { backdrop-filter: blur(4px); opacity: 0.5; }
+.backdrop-opacity-75 { backdrop-filter: blur(8px); opacity: 0.75; }
+.backdrop-opacity-100 { backdrop-filter: blur(16px); opacity: 1; }
+
+/* =========================================================
+   8. FILTER OPACITY - Filtros de Opacidad
+   ========================================================= */
+
+.filter-none { filter: none; }
+.filter-grayscale { filter: grayscale(100%); }
+.filter-grayscale-50 { filter: grayscale(50%); }
+.filter-sepia { filter: sepia(100%); }
+.filter-sepia-50 { filter: sepia(50%); }
+.filter-blur { filter: blur(2px); }
+

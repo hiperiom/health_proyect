@@ -1,0 +1,35 @@
+body {
+	margin: 0;
+	line-height: inherit;
+}
+html {
+	display: flex;
+	flex: auto;
+	flex-direction: column;
+	min-height: 0;
+	background: url('../../public/img/bg-hospital.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	border-width: 0;
+	border-style: solid;
+	border-color:transparent;
+}
+.glass-container {
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.37);
+	position: relative;
+	overflow: hidden;
+
+
+}
