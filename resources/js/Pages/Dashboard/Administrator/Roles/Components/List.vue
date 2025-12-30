@@ -56,7 +56,7 @@
                                 <a-menu-item key="2">Eliminar</a-menu-item>
                             </a-menu>
                         </template>
-                        <a-button type="link" class="text-white">
+                        <a-button type="link" class="fs-5 text-black">
                             <MoreOutlined />
                         </a-button>
                     </a-dropdown>
