@@ -29,7 +29,7 @@ const handleCancelForm = () => {
 </script>
 
 <template>
-    <Spinner :loading="false">
+    <Spinner :loading="loading">
         <DashboardLayout>
             <template #header>
                 

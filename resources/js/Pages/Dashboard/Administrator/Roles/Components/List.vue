@@ -5,7 +5,7 @@
     import { useRolesList } from '../Composables/useRolesList';
 
     const props = defineProps({
-        loading: { type: Boolean, default: false },
+        //loading: { type: Boolean, default: false },
         fetchRoles: { type: Function, required: true },
         pagination: { type: Object, required: true },
     });
