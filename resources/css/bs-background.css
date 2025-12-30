@@ -1,0 +1,221 @@
+/* =========================================================
+   BOOTSTRAP BACKGROUND CLASSES - OPTIMIZED
+   Usando variables CSS del archivo variables.css
+   ========================================================= */
+
+/* =========================================================
+   1. BACKGROUND COLORS - Colores Principales
+   ========================================================= */
+
+/* Primary Colors */
+.bg-primary { background-color: var(--bs-primary) !important; }
+.bg-primary-hover { background-color: var(--bs-primary-hover) !important; }
+.bg-secondary { background-color: var(--bs-secondary) !important; }
+.bg-success { background-color: var(--bs-success) !important; }
+.bg-info { background-color: var(--bs-info) !important; }
+.bg-warning { background-color: var(--bs-warning) !important; }
+.bg-danger { background-color: var(--bs-danger) !important; }
+.bg-light { background-color: var(--bs-light) !important; }
+.bg-dark { background-color: var(--bs-dark) !important; }
+
+/* Standard Bootstrap Colors */
+.bg-blue { background-color: var(--bs-blue) !important; }
+.bg-indigo { background-color: var(--bs-indigo) !important; }
+.bg-purple { background-color: var(--bs-purple) !important; }
+.bg-pink { background-color: var(--bs-pink) !important; }
+.bg-red { background-color: var(--bs-red) !important; }
+.bg-orange { background-color: var(--bs-orange) !important; }
+.bg-yellow { background-color: var(--bs-yellow) !important; }
+.bg-green { background-color: var(--bs-green) !important; }
+.bg-teal { background-color: var(--bs-teal) !important; }
+.bg-cyan { background-color: var(--bs-cyan) !important; }
+.bg-white { background-color: var(--bs-white) !important; }
+.bg-black { background-color: var(--bs-black) !important; }
+.bg-transparent { background-color: transparent !important; }
+
+/* =========================================================
+   2. BACKGROUND GRAY SCALES - Escalas de Gris
+   ========================================================= */
+
+.bg-gray { background-color: var(--bs-gray) !important; }
+.bg-gray-dark { background-color: var(--bs-gray-dark) !important; }
+.bg-gray-100 { background-color: var(--bs-gray-100) !important; }
+.bg-gray-200 { background-color: var(--bs-gray-200) !important; }
+.bg-gray-300 { background-color: var(--bs-gray-300) !important; }
+.bg-gray-400 { background-color: var(--bs-gray-400) !important; }
+.bg-gray-500 { background-color: var(--bs-gray-500) !important; }
+.bg-gray-600 { background-color: var(--bs-gray-600) !important; }
+.bg-gray-700 { background-color: var(--bs-gray-700) !important; }
+.bg-gray-800 { background-color: var(--bs-gray-800) !important; }
+.bg-gray-900 { background-color: var(--bs-gray-900) !important; }
+
+/* =========================================================
+   3. BACKGROUND SUBTLE - Colores Sutiles
+   ========================================================= */
+
+.bg-primary-subtle { background-color: rgba(var(--bs-primary-rgb), 0.1) !important; }
+.bg-secondary-subtle { background-color: rgba(var(--bs-secondary-rgb), 0.1) !important; }
+.bg-success-subtle { background-color: rgba(var(--bs-success-rgb), 0.1) !important; }
+.bg-info-subtle { background-color: rgba(var(--bs-info-rgb), 0.1) !important; }
+.bg-warning-subtle { background-color: rgba(var(--bs-warning-rgb), 0.1) !important; }
+.bg-danger-subtle { background-color: rgba(var(--bs-danger-rgb), 0.1) !important; }
+.bg-light-subtle { background-color: rgba(var(--bs-light-rgb), 0.1) !important; }
+.bg-dark-subtle { background-color: rgba(var(--bs-dark-rgb), 0.1) !important; }
+
+/* =========================================================
+   4. BACKGROUND BODY - Fondos del Cuerpo
+   ========================================================= */
+
+.bg-body { background-color: var(--bs-body-bg) !important; }
+.bg-body-secondary { background-color: var(--bs-gray-200) !important; }
+.bg-body-tertiary { background-color: var(--bs-gray-100) !important; }
+
+/* =========================================================
+   5. BACKGROUND RESPONSIVE - Responsive Breakpoints
+   ========================================================= */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	.bg-sm-primary { background-color: var(--bs-primary) !important; }
+	.bg-sm-secondary { background-color: var(--bs-secondary) !important; }
+	.bg-sm-success { background-color: var(--bs-success) !important; }
+	.bg-sm-info { background-color: var(--bs-info) !important; }
+	.bg-sm-warning { background-color: var(--bs-warning) !important; }
+	.bg-sm-danger { background-color: var(--bs-danger) !important; }
+	.bg-sm-light { background-color: var(--bs-light) !important; }
+	.bg-sm-dark { background-color: var(--bs-dark) !important; }
+	.bg-sm-white { background-color: var(--bs-white) !important; }
+	.bg-sm-transparent { background-color: transparent !important; }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.bg-md-primary { background-color: var(--bs-primary) !important; }
+	.bg-md-secondary { background-color: var(--bs-secondary) !important; }
+	.bg-md-success { background-color: var(--bs-success) !important; }
+	.bg-md-info { background-color: var(--bs-info) !important; }
+	.bg-md-warning { background-color: var(--bs-warning) !important; }
+	.bg-md-danger { background-color: var(--bs-danger) !important; }
+	.bg-md-light { background-color: var(--bs-light) !important; }
+	.bg-md-dark { background-color: var(--bs-dark) !important; }
+	.bg-md-white { background-color: var(--bs-white) !important; }
+	.bg-md-transparent { background-color: transparent !important; }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	.bg-lg-primary { background-color: var(--bs-primary) !important; }
+	.bg-lg-secondary { background-color: var(--bs-secondary) !important; }
+	.bg-lg-success { background-color: var(--bs-success) !important; }
+	.bg-lg-info { background-color: var(--bs-info) !important; }
+	.bg-lg-warning { background-color: var(--bs-warning) !important; }
+	.bg-lg-danger { background-color: var(--bs-danger) !important; }
+	.bg-lg-light { background-color: var(--bs-light) !important; }
+	.bg-lg-dark { background-color: var(--bs-dark) !important; }
+	.bg-lg-white { background-color: var(--bs-white) !important; }
+	.bg-lg-transparent { background-color: transparent !important; }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.bg-xl-primary { background-color: var(--bs-primary) !important; }
+	.bg-xl-secondary { background-color: var(--bs-secondary) !important; }
+	.bg-xl-success { background-color: var(--bs-success) !important; }
+	.bg-xl-info { background-color: var(--bs-info) !important; }
+	.bg-xl-warning { background-color: var(--bs-warning) !important; }
+	.bg-xl-danger { background-color: var(--bs-danger) !important; }
+	.bg-xl-light { background-color: var(--bs-light) !important; }
+	.bg-xl-dark { background-color: var(--bs-dark) !important; }
+	.bg-xl-white { background-color: var(--bs-white) !important; }
+	.bg-xl-transparent { background-color: transparent !important; }
+}
+
+/* Extra extra large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+	.bg-xxl-primary { background-color: var(--bs-primary) !important; }
+	.bg-xxl-secondary { background-color: var(--bs-secondary) !important; }
+	.bg-xxl-success { background-color: var(--bs-success) !important; }
+	.bg-xxl-info { background-color: var(--bs-info) !important; }
+	.bg-xxl-warning { background-color: var(--bs-warning) !important; }
+	.bg-xxl-danger { background-color: var(--bs-danger) !important; }
+	.bg-xxl-light { background-color: var(--bs-light) !important; }
+	.bg-xxl-dark { background-color: var(--bs-dark) !important; }
+	.bg-xxl-white { background-color: var(--bs-white) !important; }
+	.bg-xxl-transparent { background-color: transparent !important; }
+}
+
+/* =========================================================
+   6. BACKGROUND GRADIENTS - Fondos con Gradientes
+   ========================================================= */
+
+/* Linear Gradients */
+.bg-gradient-primary {
+	background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary-hover) 100%) !important;
+}
+
+.bg-gradient-secondary {
+	background: linear-gradient(135deg, var(--bs-secondary) 0%, var(--bs-gray-600) 100%) !important;
+}
+
+.bg-gradient-success {
+	background: linear-gradient(135deg, var(--bs-success) 0%, #20a04b 100%) !important;
+}
+
+.bg-gradient-info {
+	background: linear-gradient(135deg, var(--bs-info) 0%, #5cc7e8 100%) !important;
+}
+
+.bg-gradient-warning {
+	background: linear-gradient(135deg, var(--bs-warning) 0%, #e6a700 100%) !important;
+}
+
+.bg-gradient-danger {
+	background: linear-gradient(135deg, var(--bs-danger) 0%, #c82333 100%) !important;
+}
+
+.bg-gradient-dark {
+	background: linear-gradient(135deg, var(--bs-dark) 0%, var(--bs-gray-800) 100%) !important;
+}
+
+.bg-gradient-light {
+	background: linear-gradient(135deg, var(--bs-light) 0%, var(--bs-gray-200) 100%) !important;
+}
+
+/* =========================================================
+   7. BACKGROUND HOVER STATES - Estados Hover
+   ========================================================= */
+
+.bg-hover-primary:hover { background-color: var(--bs-primary-hover) !important; }
+.bg-hover-secondary:hover { background-color: var(--bs-gray-600) !important; }
+.bg-hover-success:hover { background-color: #20a04b !important; }
+.bg-hover-info:hover { background-color: #5cc7e8 !important; }
+.bg-hover-warning:hover { background-color: #e6a700 !important; }
+.bg-hover-danger:hover { background-color: #c82333 !important; }
+.bg-hover-light:hover { background-color: var(--bs-gray-200) !important; }
+.bg-hover-dark:hover { background-color: var(--bs-gray-800) !important; }
+
+/* =========================================================
+   8. BACKGROUND UTILITIES - Utilidades Adicionales
+   ========================================================= */
+
+/* Background Attachment */
+.bg-fixed { background-attachment: fixed !important; }
+.bg-scroll { background-attachment: scroll !important; }
+
+/* Background Position */
+.bg-top { background-position: top !important; }
+.bg-bottom { background-position: bottom !important; }
+.bg-center { background-position: center !important; }
+.bg-left { background-position: left !important; }
+.bg-right { background-position: right !important; }
+
+/* Background Repeat */
+.bg-repeat { background-repeat: repeat !important; }
+.bg-no-repeat { background-repeat: no-repeat !important; }
+.bg-repeat-x { background-repeat: repeat-x !important; }
+.bg-repeat-y { background-repeat: repeat-y !important; }
+
+/* Background Size */
+.bg-auto { background-size: auto !important; }
+.bg-cover { background-size: cover !important; }
+.bg-contain { background-size: contain !important; }

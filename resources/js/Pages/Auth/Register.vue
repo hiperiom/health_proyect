@@ -50,7 +50,7 @@
 </script>
 
 <template>
-	<AuthLayout>
+	<AuthLayout :loading="registerForm.processing">
 		<template #content>
 			<a-row justify="center" :wrap="true">
 				<a-col :span="24" class="p-2 text-center"></a-col>
@@ -59,41 +59,41 @@
 						<AvatarCompany />
 
 						<Header title="Nuevo Paciente" />
-						<a-spin tip="Espere un momento..." :spinning="registerForm.processing">
-							<a-form 
-								ref="registerFormRef" 
-								layout="vertical" 
-								:model="registerForm" 
-								:rules="rulesForm"
-								@submit.prevent="handleSubmit"
-							>
-								<a-row justify="center" :gutter="10" :wrap="true">
-									<a-col :span="24" class="text-center">
-										<AvatarUpload 
-											v-model:value="registerForm.avatar" 
-                            				:loading="registerForm.processing"
-										/>
-									</a-col>
-								</a-row>
-								<RegisterFields :registerForm="registerForm" :genderOptions="genderOptions" />
-								
-								<a-row justify="center" :gutter="10" :wrap="true">
-									<a-col :xs="24" :sm="12" :md="10" :lg="10" :xl="8" class="text-center">
-										<a-row justify="center" :wrap="true">
-											<a-col :span="24" class="text-center">
-												<a-form-item class="mb-2">
-													<a-button id="tour-submit" type="primary" html-type="submit"
-														:loading="registerForm.processing"
-														:disabled="registerForm.processing" block>
-														Registrar
-													</a-button>
-												</a-form-item>
-											</a-col>
-										</a-row>
-									</a-col>
-								</a-row>
-							</a-form>
-						</a-spin>
+						
+						<a-form 
+							ref="registerFormRef" 
+							layout="vertical" 
+							:model="registerForm" 
+							:rules="rulesForm"
+							@submit.prevent="handleSubmit"
+						>
+							<a-row justify="center" :gutter="10" :wrap="true">
+								<a-col :span="24" class="text-center">
+									<AvatarUpload 
+										v-model:value="registerForm.avatar" 
+										:loading="registerForm.processing"
+									/>
+								</a-col>
+							</a-row>
+							<RegisterFields :registerForm="registerForm" :genderOptions="genderOptions" />
+							
+							<a-row justify="center" :gutter="10" :wrap="true">
+								<a-col :xs="24" :sm="12" :md="10" :lg="10" :xl="8" class="text-center">
+									<a-row justify="center" :wrap="true">
+										<a-col :span="24" class="text-center">
+											<a-form-item class="mb-2">
+												<a-button id="tour-submit" type="primary" html-type="submit"
+													:loading="registerForm.processing"
+													:disabled="registerForm.processing" block>
+													Registrar
+												</a-button>
+											</a-form-item>
+										</a-col>
+									</a-row>
+								</a-col>
+							</a-row>
+						</a-form>
+					
 						<div class="text-center">
 							<a-button type="link" @click="handleLogin">
 								Ya estoy registrado

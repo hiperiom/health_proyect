@@ -57,14 +57,13 @@ import AvatarCompany from '@/Components/AvatarCompany.vue';
 
     /* En pantallas xs y sm (<768px) el sidebar ocupa todo el ancho y queda fixed.
        Ajustamos el contenido para no quedar solapado. */
-    @media (max-width: 767.98px) {
+    /* @media (max-width: 767.98px) {
         .sidebar-fixed {
             position: fixed;
         }
 
-        /* Si el navbar del sidebar cambia de altura, ajusta este valor */
         .sidebar-fixed + .main-fixed {
             margin-top: 64px;
         }
-    }
+    } */
 </style>
