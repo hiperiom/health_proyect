@@ -58,8 +58,5 @@
     
 </template>
 <style>
-    .ant-result .ant-result-subtitle,
-    .ant-result .ant-result-title {
-        color: var(--bs-white);
-    }
+    
 </style>
