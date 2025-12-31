@@ -5,6 +5,8 @@
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+    import { h } from 'vue';
+    import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
     import Drawer from '@/Components/Drawer.vue';
     // 2. Props & Emits (defineProps, defineEmits)
     defineProps({
@@ -28,6 +30,15 @@
     // 8. Expose (defineExpose)
 </script>
 <template>
+  <a-button 
+      
+      type="primary" 
+      :icon="h(PlusOutlined)" 
+      @click="handleDrawer(true)"
+  >
+      Nuevo Rol
+  </a-button>
+  
   <Drawer
     title="Roles"
     :drawerOpen="drawerOpen"

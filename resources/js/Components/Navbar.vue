@@ -1,9 +1,9 @@
 <script setup>
 // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
 import { h, reactive } from 'vue';
-import { router } from '@inertiajs/vue3';
-import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
-import { Avatar } from 'ant-design-vue';
+import { router, usePage } from '@inertiajs/vue3';
+import { MenuUnfoldOutlined, MenuFoldOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { Avatar,Tag } from 'ant-design-vue';
 // 2. Props & Emits (defineProps, defineEmits)
 
 // 3. State (ref, reactive)
@@ -13,6 +13,9 @@ import { Avatar } from 'ant-design-vue';
         /* openKeys: ['sub1'],
         preOpenKeys: ['sub1'], */
     });
+    const page = usePage();
+    const {profile_photo_url, name} = page.props.auth.user;
+    const rol = page.props['0']['user.roles'][0];
     const horizontalMenuItems = reactive(
         [
             /* {
@@ -39,11 +42,12 @@ import { Avatar } from 'ant-design-vue';
                                     [
                                         h('i',{
                                             style:'font-size: 0.7rem;',
-                                        }, 'Administrador'),
-                                        h('b', 'Dr. Ranses J.'),
+                                            class:'text-'+rol.color
+                                        }, rol.name),
+                                        h('b', name),
                                     ]),
                                 h(Avatar, {
-                                    //src: 'https://www.antdv.com/assets/logo.1ef800a8.svg',
+                                    src: profile_photo_url,
                                     class: 'bg-white',
                                     size: 'default',
                                 }, 
@@ -58,14 +62,21 @@ import { Avatar } from 'ant-design-vue';
                         ),
                 class: 'push-right',
                 children: [
-                {
-                    key: 'logout',
-                    label: 'Salir',
-                    icon: () => h(LogoutOutlined),
-                    onClick: () => {
-                        router.post(route('logout'));
+                    {   
+                        key: 'profile',
+                        label: 'Perfil',
+                        icon: () => h(ProfileOutlined),
+                        
                     },
-                },
+                    {   
+                        key: 'logout',
+                        label: 'Salir',
+                        icon: () => h(LogoutOutlined),
+                        onClick: () => {
+                            router.post(route('logout'));
+                        },
+                    },
+                    
                 /* {
                     key: 'sub_option2',
                     label: 'Sub Option 2',

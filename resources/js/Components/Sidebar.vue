@@ -16,39 +16,66 @@ defineProps({
 const state = reactive({
     collapsed: false,
 });
+const page = usePage();
 
-// 1. Definimos las llaves (keys) usando el nombre de la ruta de Laravel
-const sidebarItems = reactive([
-    {
-        icon: () => h(DashboardOutlined),
-        key: 'dashboard', // Nombre de la ruta
-        label: h('div', {}, 'Dashboard'),
-        onClick: () => router.get(route('dashboard')),
-    },
-    {
-        label: h('div', {}, 'Administrador'),
-        type: 'group',
-        children: [
-            {
+
+const optionsList = [];
+    page.props.auth.user.roles.forEach(role => {
+        if (role.name === 'Administrador'){
+            optionsList.push({
                 icon: () => h(UserOutlined),
-                key: 'admin.users', // Nombre de la ruta
-                label: h('div', {}, 'Usuarios'),
-                onClick: () => router.get(route('admin.users')),
-            },
-            {
-                icon: () => h(SafetyOutlined),
-                key: 'admin.roles', // Nombre de la ruta
-                label: h('div', {}, 'Roles'),
-                onClick: () => router.get(route('admin.roles')),
-            },
-        ]
-    },
+                key: 'admin_group',      
+                label: h('div', role.name),
+                type: 'group',
+                children: [
+                    {
+                        icon: () => h(DashboardOutlined),
+                        key: 'dashboard',
+                        label: h('div', 'Inicio'),
+                        onClick: () => router.get(route('dashboard')),
+                    },
+                    /* {
+                        icon: () => h(UserOutlined),
+                        key: 'admin.users',
+                        label: h('div', {}, 'Usuarios'),
+                        onClick: () => router.get(route('admin.users')),
+                    }, */
+                    {
+                        icon: () => h(SafetyOutlined),
+                        key: 'roles.index',
+                        label: h('div', {}, 'Roles'),
+                        onClick: () => router.get(route('roles.index')),
+                    },
+                ]
+            })
+
+
+        }
+        if (role.name === 'Paciente'){
+            optionsList.push({
+                icon: () => h(UserOutlined),
+                key: 'patient_group',      
+                label: h('div', role.name),
+                type: 'group',
+                children: []
+            })
+
+
+        }
+    });
+
+
+
+
+const sidebarItems = reactive(optionsList
+    
+    /* ...(is_admim && 
     { label: h('div', {}, 'Paciente'), type: 'group' },
     { label: h('div', {}, 'Doctor'), type: 'group' },
     { label: h('div', {}, 'Personal de Enfermería'), type: 'group' },
     { label: h('div', {}, 'Gerente'), type: 'group' },
-    { label: h('div', {}, 'Atención al Paciente'), type: 'group' },
-]);
+    { label: h('div', {}, 'Atención al Paciente'), type: 'group' }, */
+);
 
 // 2. Sincronización automática con la ruta activa
 const selectedKeys = computed(() => {

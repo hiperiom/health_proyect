@@ -81,7 +81,7 @@ class CreateNewUser implements CreatesNewUsers
                 'dni' => $input['dni'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'avatar' => $avatarPath,
+                'profile_photo_path' => $avatarPath,
             ]);
             $user->assignRole('Paciente');
 

@@ -7,28 +7,32 @@ export function useRolesList(fetchRolesApi, pagination) {
 
     const loadData = async (params = {}) => {
         // Sincronizar parámetros de paginación
-        if (params.page) pagination.value.current = params.page;
-        if (params.results) pagination.value.pageSize = params.results;
+        if (params.current) pagination.value.current = params.current;
+        if (params.pageSize) pagination.value.pageSize = params.pageSize;
         
         // Preparar búsqueda
         const fetchParams = {
             ...params,
-            searchText: params.searchText !== undefined ? params.searchText : searchText.value
+            searchText: params.searchText !== undefined 
+                ? params.searchText 
+                : searchText.value
         };
 
         const res = await fetchRolesApi(fetchParams);
-        
+        console.log(res.data);
         if (res && res.data) {
-            dataSource.value = res.data;
+            dataSource.value = res.data.data || res.data;
             // Actualizar total desde headers (específico de JSONPlaceholder o tu API)
-            const totalCount = res.headers['x-total-count'] || 10;
+            const totalCount =  res.data.total 
+                                || (Array.isArray(res.data) ? res.data.length : 0);
             pagination.value.total = parseInt(totalCount);
         }
     };
 
     const handleTableChange = (pag, filters, sorter) => {
+        console.log("handleTableChange",pag);
         loadData({
-            results: pag.pageSize,
+            results: pag.pageSize || pagination.value.pageSize,
             page: pag.current,
             sortField: sorter.field,
             sortOrder: sorter.order,
@@ -41,7 +45,7 @@ export function useRolesList(fetchRolesApi, pagination) {
     };
     const handleRefresh = () => {
         searchText.value='';
-        loadData({ page: 1 });
+        loadData({ current: 1 });
     };
     return {
         dataSource,

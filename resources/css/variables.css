@@ -22,8 +22,8 @@
 	--bs-gray-800: #343a40;
 	--bs-gray-900: #212529;
 	--bs-black: #000;
-	--bs-primary: #004a63;
-	--bs-primary-hover: #003d52;
+	--bs-primary: #1677ff;
+	--bs-primary-hover: #4096ff;
 	--bs-secondary: #6c757d;
 	--bs-success: #198754;
 	--bs-info: #7feaff;
@@ -46,3 +46,6 @@
 	--bs-body-bg: #fff;
 	--bs-body-bg-rgb: 255, 255, 255;
 }
+
+
+ 	

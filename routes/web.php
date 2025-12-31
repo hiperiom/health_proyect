@@ -2,17 +2,21 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/',[AuthController::class, 'index']);
 
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
-    Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
-        
-    });
-    Route::group(['prefix' => 'users'], function () {
+Route::get('/',[AuthController::class,'index']);
+
+Route::middleware([
+    'auth:sanctum', 
+    config('jetstream.auth_session'), 
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/roles/data', [RolesController::class, 'data'])->name('roles.data');
+    Route::resource('roles', RolesController::class);
+    /* Route::group(['prefix' => 'users'], function () {
         Route::get('/index', function () {
             return Inertia::render('Dashboard/Administrator/Users/Index');
         })->name('admin.users');
@@ -33,5 +37,5 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
         Route::get('/edit/{id}', function () {
             return null;
         })->name('admin.roles.edit');
-    });
+    }); */
 });

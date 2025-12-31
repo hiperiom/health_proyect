@@ -36,12 +36,12 @@ import AvatarCompany from '@/Components/AvatarCompany.vue';
                 </a-col>
                 <a-col flex="auto" class="d-flex flex-column h-100 overflow-auto py-3 pe-3 ps-3">
                     <a-row class="mb-3">
-                        <a-col class="glass-container rounded-3 px-3 py-2" flex="auto">
+                        <a-col class="glass-container rounded-3 p-2" flex="auto">
                             <slot name="header" />
                         </a-col>
                     </a-row>
                     <a-row span="24" class="h-100">
-                        <a-col class="glass-container rounded-3 px-3 py-2" flex="auto">
+                        <a-col class="glass-container d-flex rounded-3 p-2" flex="auto">
                             <slot name="content" />
                             <slot name="footer" />
                         </a-col>

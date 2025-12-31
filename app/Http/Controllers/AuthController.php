@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\LoginRequest;
+/* use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegistrationRequest;
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RegistrationResource;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\RegistrationService;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; */
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -19,9 +18,14 @@ class AuthController extends Controller
     /**
      * Handle a login request.
      */
-    public function index(LoginRequest $request, LoginService $authService)
+    public function index()
     {
-        return Inertia::render('Welcome');
+        return Inertia::render('Welcome',[
+            'canLogin'=> Route::has('login'),
+            'canRegister'=> Route::has('register'),
+            'laravelVersions'=> Application::VERSION,
+            'phpVersions'=> PHP_VERSION,
+        ]);
     }
     /**
      * Handle a login request.
