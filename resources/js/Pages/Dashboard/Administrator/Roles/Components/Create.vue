@@ -5,25 +5,31 @@
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { h } from 'vue';
-    import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
+    import { h, ref } from 'vue';
+    import { PlusOutlined } from '@ant-design/icons-vue';
     import Drawer from '@/Components/Drawer.vue';
+    import { useCreate } from '../Composables/useCreate';
+    import { getCreateRules } from '../Utils/createRules';
+
     // 2. Props & Emits (defineProps, defineEmits)
-    defineProps({
-        drawerOpen: { type: Boolean, required: true },
-    });
-    const emit = defineEmits(['handleDrawer','handleSubmit','handleCancelForm']);
     // 3. State (ref, reactive)
+    const { 
+      form, 
+      formRef, 
+      handleSubmit 
+    } = useCreate();
+
+    const rulesForm = getCreateRules(form);
+
+    const drawerOpen= ref(false);
+
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
     const handleDrawer = (val) => {
-        emit('handleDrawer',val)
+        drawerOpen.value = val;
     };
-    const handleSubmit = () => {
-        emit('handleSubmit');
-    };
+  
     const handleCancelForm = () => {
-        emit('handleCancelForm');
     };
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
@@ -40,15 +46,35 @@
   </a-button>
   
   <Drawer
-    title="Roles"
+    title="Crear Rol"
     :drawerOpen="drawerOpen"
     @handleDrawer="handleDrawer"
   >
     <template #header>
-      hola
+      
     </template>
     <template #content>
-      hola 2
+      <div class="d-flex align-items-center justify-content-center h-100">
+        <a-form 
+          ref="formRef" 
+          layout="vertical" 
+          :model="form" 
+          :rules="rulesForm"
+          @submit.prevent="handleSubmit"
+        >
+          <a-form-item name="name" ref="name" has-feedback label="Nombre del Rol">
+            <a-input name="name" :maxlength="20" v-model:value="form.name"
+              placeholder="Escribe aquí..." />
+          </a-form-item>
+          <a-form-item name="color" ref="color" label="Color">
+            <a-select v-model:value="form.color">
+              <a-select-option  value="blue">Azul</a-select-option>
+              <a-select-option value="red">Rojo</a-select-option>
+              <a-select-option value="green">Verde</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-form>
+      </div>
     </template>
     <template #footer>
       <a-space>

@@ -8,7 +8,7 @@
     // 2. Props & Emits (defineProps, defineEmits)
     defineProps({
         title: { type: String, required: true },
-        width: { type: Number, default: 720 },
+        width: { type: Number, default: null },//720
         drawerOpen: { type: Boolean, required: true },
     });
     const emit = defineEmits(['handleDrawer']);
@@ -28,7 +28,7 @@
     :title="title"
     :width="width"
     :open="drawerOpen"
-    :body-style="{ paddingBottom: '80px' }"
+    :body-style="{ /* paddingBottom: '80px' */ }"
     :footer-style="{ textAlign: 'right' }"
     @close="handleDrawer(false)"
   >

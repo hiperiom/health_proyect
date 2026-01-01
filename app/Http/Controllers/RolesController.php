@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Role;
-use Inertia\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Http\Requests\Roles\StoreRequest;
+use App\Http\Resources\Roles\StoreResource;
+use App\Services\Role\StoreService;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class RolesController extends Controller
 {
@@ -39,10 +42,16 @@ class RolesController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return StoreResource
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request,StoreService $storeService): StoreResource|JsonResponse
     {
-        //
+        $result = $storeService->store($request->validated());
+        
+        return new StoreResource($result);
+        
     }
 
     /**

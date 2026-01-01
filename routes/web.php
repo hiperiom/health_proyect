@@ -15,6 +15,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/roles/data', [RolesController::class, 'data'])->name('roles.data');
+    Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
     Route::resource('roles', RolesController::class);
     /* Route::group(['prefix' => 'users'], function () {
         Route::get('/index', function () {

@@ -60,7 +60,7 @@ import { Avatar,Tag } from 'ant-design-vue';
                 
                             ] 
                         ),
-                class: 'push-right',
+                class: 'push-right fade-in',
                 children: [
                     {   
                         key: 'profile',
@@ -76,17 +76,6 @@ import { Avatar,Tag } from 'ant-design-vue';
                             router.post(route('logout'));
                         },
                     },
-                    
-                /* {
-                    key: 'sub_option2',
-                    label: 'Sub Option 2',
-                    icon: () => h(DesktopOutlined),
-                },
-                {
-                    key: 'sub_option3',
-                    label: 'Sub Option 3',
-                    icon: () => h(InboxOutlined),
-                }, */
                 ],
             
             },

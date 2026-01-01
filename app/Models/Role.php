@@ -11,5 +11,6 @@ class Role extends Model
         'name',
         'color',
         'description',
+        'guard_name',
     ];
 }
