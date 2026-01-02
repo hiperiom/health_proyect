@@ -13,15 +13,16 @@
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
+    const drawerOpen= ref(false);
+
     const { 
       form, 
       formRef, 
       handleSubmit 
-    } = useCreate();
+    } = useCreate(drawerOpen);
 
     const rulesForm = getCreateRules(form);
 
-    const drawerOpen= ref(false);
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
@@ -30,6 +31,8 @@
     };
   
     const handleCancelForm = () => {
+        form.reset();
+        drawerOpen.value = false;
     };
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)

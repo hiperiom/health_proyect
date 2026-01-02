@@ -6,17 +6,33 @@
 
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import {  
+    import { message } from 'ant-design-vue';
+    import axios from 'axios';
+    import {
         DeleteOutlined,
     } from '@ant-design/icons-vue';
+
     // 2. Props & Emits (defineProps, defineEmits)
+    const props = defineProps({
+        role: {
+            type: Object,
+            required: true,
+        },
+    });
+
     // 3. State (ref, reactive)
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
-    const handleDelete = e => {
-        console.log(e);
-        message.success('Click on Yes');
+    const handleDelete = async () => {
+        try {
+            await axios.delete(route('roles.destroy', props.role.id));
+            message.success('Rol eliminado exitosamente.');
+        } catch (error) {
+            const msg = error.response?.data?.message || 'Error al eliminar el rol.';
+            message.error(msg);
+        }
     };
+
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
     // 8. Expose (defineExpose)

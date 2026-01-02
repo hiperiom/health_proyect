@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Http\Requests\Roles\StoreRequest;
+use App\Http\Requests\Roles\UpdateRequest;
 use App\Http\Resources\Roles\StoreResource;
+use App\Http\Resources\Roles\UpdateResource;
 use App\Services\Role\StoreService;
+use App\Services\Role\UpdateService;
+use App\Services\Role\DeleteService;
+use Nette\Utils\Json;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class RolesController extends Controller
@@ -73,17 +78,30 @@ class RolesController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param UpdateRequest $request
+     * @param UpdateService $updateService
+     * @param string $id
+     * @return UpdateResource
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, UpdateService $updateService, string $id): UpdateResource
     {
-        //
+        $role = Role::findOrFail($id);
+        $result = $updateService->update($role, $request->validated());
+
+        return new UpdateResource($result);
     }
 
     /**
      * Remove the specified resource from storage.
+     * @param DeleteService $deleteService
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(string $id)
+    public function destroy(DeleteService $deleteService, string $id): JsonResponse
     {
-        //
+        $role = Role::findOrFail($id);
+        $deleteService->delete($role);
+
+        return response()->json(['message' => 'Rol eliminado exitosamente.']);
     }
 }

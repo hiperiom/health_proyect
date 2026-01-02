@@ -9,11 +9,11 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RoleCreated implements ShouldBroadcast
+class RoleDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $role;
+    public $roleData;
 
     /**
      * Get the channels the event should broadcast on.
@@ -32,6 +32,6 @@ class RoleCreated implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'roles.created';
+        return 'roles.deleted';
     }
 }

@@ -47,16 +47,13 @@
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
-    
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
     onMounted(() => {
         loadData();
-        window.Echo.channel('roles')
-        .listen('.data.created', (e) => {
-            message.success('Se ha creado un nuevo registro de rol.');
-            console.log('Nuevo rol creado, recargando datos...');
-            loadData();
+        const channel = window.Echo.channel('roles');
+        ['created', 'updated', 'deleted'].forEach(event => {
+            channel.listen(`.roles.${event}`, () => loadData());
         });
     });
     onUnmounted(() => {
@@ -104,11 +101,11 @@
                     :pagination="pagination"
                     @handleChange="handleTableChange"
                 >
-                    <template #bodyCell="{ column }">
+                    <template #bodyCell="{ column, record }">
                         <template v-if="column.dataIndex === 'actions'">
                             <a-flex :align="'center'">
-                                <EditRole  v-if="can_update" />
-                                <DeleteRole v-if="can_delete" />
+                                <EditRole v-if="can_update" :role="record" />
+                                <DeleteRole v-if="can_delete" :role="record" />
                             </a-flex>
                         </template>
                     </template>

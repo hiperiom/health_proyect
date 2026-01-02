@@ -1,5 +1,5 @@
-export const getCreateRules = (form) => ({
-	
+export const getEditRules = (form) => ({
+
 	name: [
 		{
 		validator: async (_rule, value) => {

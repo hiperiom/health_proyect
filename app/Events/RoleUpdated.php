@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RoleCreated implements ShouldBroadcast
+class RoleUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,6 +32,6 @@ class RoleCreated implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'roles.created';
+        return 'roles.updated';
     }
 }

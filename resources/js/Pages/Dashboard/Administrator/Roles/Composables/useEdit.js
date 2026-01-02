@@ -4,41 +4,41 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords } from '@/helpers/helpers';
 
-export function useCreate(drawerOpen) {
+export function useEdit(role,drawerOpen) {
     const form = useForm({
-            name: '',
-            color: 'blue',
-            guard_name: 'web',
-        });
-    const formRef = ref(null); 
-    
+        name: role.name || '',
+        color: role.color || 'blue',
+        guard_name: role.guard_name || 'web',
+    });
+    const formRef = ref(null);
+
     watch(
         () => form.name,
         (newVal) => {
             form.name = capitalizeWords(newVal);
         }
     );
-    const handleSubmit = async () => {
-		if (!formRef.value) {
-			console.error('Error: formRef no está vinculado al componente.');
-		return;
-		}
 
-		try {
+    const handleSubmit = async () => {
+        if (!formRef.value) {
+            console.error('Error: formRef no está vinculado al componente.');
+            return;
+        }
+
+        try {
             const values = await formRef.value.validate().catch((err) => {
                 if (err.outOfDate && err.errorFields.length === 0) {
                     return form.data();
                 }
                 throw err;
             });
-            
-            await axios.post(route('roles.store'), form.data());
-            message.success('¡Creado con éxito!');
-            
+
+            await axios.put(route('roles.update', role.id), form.data());
+            message.success('¡Actualizado con éxito!');
+
             form.reset();
             drawerOpen.value = false;
-	
-		} catch (error) {
+        } catch (error) {
             if (error.response?.status === 422) {
                 form.setError(error.response.data.errors);
                 message.warning('Revisa los campos del formulario');
@@ -46,11 +46,12 @@ export function useCreate(drawerOpen) {
                 const msg = error.response?.data?.message || 'Error inesperado';
                 message.error(msg);
             }
-		}
-	};
+        }
+    };
+
     return {
-       form,
-       formRef,
-       handleSubmit,
+        form,
+        formRef,
+        handleSubmit,
     };
 }
