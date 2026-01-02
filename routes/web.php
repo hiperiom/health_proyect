@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RolesController;
@@ -19,4 +21,7 @@ Route::middleware([
     Route::get('/roles/data', [RolesController::class, 'data'])->name('roles.data');
     Route::resource('roles', RolesController::class);
 
+    Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
+    Route::resource( 'users', UserController::class);
 });
+

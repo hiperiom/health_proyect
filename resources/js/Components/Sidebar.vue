@@ -34,16 +34,16 @@ const optionsList = [];
                         label: h('div', 'Inicio'),
                         onClick: () => router.get(route('dashboard')),
                     },
-                    /* {
+                    {
                         icon: () => h(UserOutlined),
-                        key: 'admin.users',
-                        label: h('div', {}, 'Usuarios'),
-                        onClick: () => router.get(route('admin.users')),
-                    }, */
+                        key: 'users.index',
+                        label: h('div', 'Usuarios'),
+                        onClick: () => router.get(route('users.index')),
+                    },
                     {
                         icon: () => h(SafetyOutlined),
                         key: 'roles.index',
-                        label: h('div', {}, 'Roles'),
+                        label: h('div', 'Roles'),
                         onClick: () => router.get(route('roles.index')),
                     },
                 ]
