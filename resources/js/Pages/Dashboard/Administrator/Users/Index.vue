@@ -38,9 +38,13 @@
     } = useIndex(modelName);
 
     const columns = [
-        //{ title: 'Usuario', dataIndex: 'name',  width: '20%' },
-        //{ title: 'Cédula', dataIndex: 'dni' },
-        //{ title: 'Correo', dataIndex: 'email' },
+        { title: 'Nombres', dataIndex: 'first_names'},
+        { title: 'Apellidos', dataIndex: 'last_names' },
+        { title: 'Cédula', dataIndex: 'dni' },
+        { title: 'Correo', dataIndex: 'email' },
+        { title: 'Nacimiento', dataIndex: 'birthday' },
+        { title: 'Género', dataIndex: 'gender' },
+
         { title: 'Acciones', dataIndex: 'actions', width: '100px' },
     ];
     const page = usePage();
@@ -107,6 +111,20 @@
                     @handleChange="handleTableChange"
                 >
                     <template #bodyCell="{ column, record }">
+                        <template v-if="column.dataIndex === 'first_names'">
+                            {{ record.profile.first_names }}
+                        </template>
+                        <template v-if="column.dataIndex === 'last_names'">
+                            {{ record.profile.last_names }}
+                        </template>
+                        <template v-if="column.dataIndex === 'birthday'">
+                            {{ record.profile.birthday }}
+                        </template>
+                        <template v-if="column.dataIndex === 'gender'">
+                            {{ record.profile.gender.toUpperCase() }}
+                        </template>
+                    
+                        
                         <template v-if="column.dataIndex === 'actions'">
                             <a-flex :align="'center'">
                                 <EditItem v-if="can_update" :item="record" :modelName="modelName" />

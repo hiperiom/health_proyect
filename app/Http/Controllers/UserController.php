@@ -12,15 +12,19 @@ class UserController extends Controller
 {
     public function data(Request $request): JsonResponse
     {
-        $roles = User::query()
+        $users = User::query()
+        ->with('profile')
         ->when(
             $request->searchText, 
             function($query, $search) {
-                $query->where('name', 'like', "%{$search}%");
+                $query->where('name', 'like', "%{$search}%")
+                ->orWhereHas('profile', function($qProfile) use ($search) {
+                      $qProfile->where('movil_phone', 'like', "%{$search}%");
+                  });
             })
             ->orderBy('created_at','desc')
         ->paginate($request->pageSize ?? 7);
-        return response()->json($roles);
+        return response()->json($users);
     }
     /**
      * Display a listing of the resource.

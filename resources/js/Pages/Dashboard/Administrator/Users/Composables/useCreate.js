@@ -6,18 +6,30 @@ import { capitalizeWords } from '@/helpers/helpers';
 
 export function useCreate(drawerOpen, modelName) {
     const form = useForm({
-            //name: '',
-            //color: 'blue',
-            //guard_name: 'web',
-        });
+        dni: '',
+        email: '',
+        password: '12345678',
+        password_confirmation: '12345678',
+        terms: false,
+        first_names: '',
+        last_names: '',
+        gender: null,
+        birthday: '',
+        avatar: null,
+        terms: false,
+    });
     const formRef = ref(null); 
     
-    /* watch(
-        () => form.name,
+    watch(() => form.first_names,
         (newVal) => {
-            form.name = capitalizeWords(newVal);
+            form.first_names = capitalizeWords(newVal);
         }
-    ); */
+    );
+    watch(() => form.last_names,
+        (newVal) => {
+            form.last_names = capitalizeWords(newVal);
+        }
+    );
     const handleSubmit = async () => {
         if (!formRef.value) {
             console.error('Error: formRef no está vinculado al componente.');
