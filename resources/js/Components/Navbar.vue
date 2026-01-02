@@ -2,7 +2,7 @@
 // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
 import { h, reactive } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
-import { MenuUnfoldOutlined, MenuFoldOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { MenuUnfoldOutlined, MenuFoldOutlined,LockOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { Avatar,Tag } from 'ant-design-vue';
 // 2. Props & Emits (defineProps, defineEmits)
 
@@ -66,6 +66,12 @@ import { Avatar,Tag } from 'ant-design-vue';
                         key: 'profile',
                         label: 'Perfil',
                         icon: () => h(ProfileOutlined),
+                        
+                    },
+                    {   
+                        key: 'segurity',
+                        label: 'Seguridad',
+                        icon: () => h(LockOutlined),
                         
                     },
                     {   
