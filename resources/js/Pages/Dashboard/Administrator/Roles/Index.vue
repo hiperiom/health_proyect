@@ -5,9 +5,10 @@
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { h, onMounted } from 'vue';
+    import { h, onMounted, onUnmounted } from 'vue';
     import { ReloadOutlined,} from '@ant-design/icons-vue';
     import { usePage } from '@inertiajs/vue3';
+    import { message } from 'ant-design-vue';
 
     import DashboardLayout from '@/Layouts/DashboardLayout.vue';
     import CreateRole from './Components/Create.vue';
@@ -51,6 +52,15 @@
     // 7. Lifecycle Hooks (onMounted, etc.)
     onMounted(() => {
         loadData();
+        window.Echo.channel('roles')
+        .listen('.data.created', (e) => {
+            message.success('Se ha creado un nuevo registro de rol.');
+            console.log('Nuevo rol creado, recargando datos...');
+            loadData();
+        });
+    });
+    onUnmounted(() => {
+        window.Echo.leaveChannel('roles');
     });
     // 8. Expose (defineExpose)
 

@@ -21,6 +21,7 @@ class RolesController extends Controller
             function($query, $search) {
                 $query->where('name', 'like', "%{$search}%");
             })
+            ->orderBy('created_at','desc')
         ->paginate($request->pageSize ?? 7);
         return response()->json($roles);
     }
