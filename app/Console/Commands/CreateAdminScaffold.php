@@ -5,98 +5,118 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Artisan;
 
 class CreateAdminScaffold extends Command
 {
-    protected $signature = 'make:new-module {name : El nombre del módulo/página/modelo}';
-    protected $description = 'Scaffolding integral: Frontend Vue + Backend Completo (Model, Service, Request, Events, Resources)';
+    protected $signature = 'make:new-module {name : El nombre del módulo/modelo}';
+    protected $description = 'Scaffolding integral: Frontend Vue + Backend Completo + Rutas + Estructura de Clases';
 
     public function handle()
     {
         $name = $this->argument('name');
-        $moduleName = Str::studly($name); // Ejemplo: UserProfile
-        $modelName = Str::singular($moduleName); // Ejemplo: UserProfile
+        $moduleName = Str::studly($name);
+        $modelName = Str::singular($moduleName);
+        $controllerName = "{$modelName}Controller";
 
         $this->info("🚀 Iniciando scaffolding integral para: {$moduleName}");
 
-        // --- 1. FRONTEND (VUE) ---
+        // 1. FRONTEND (VUE)
         $this->generateFrontend($moduleName);
 
-        // --- 2. BACKEND CORE (Model, Mig, Fact, Seed, Controller, Request) ---
-        // Usamos --all para la base, luego personalizamos las carpetas de Request
+        // 2. BACKEND CORE (Model, Mig, Fact, Seed, Controller)
         $this->call('make:model', ['name' => $modelName, '--all' => true]);
 
-        // --- 3. ESTRUCTURAS PERSONALIZADAS (Services, Requests, Events, Resources, Observers) ---
+        // 3. ESTRUCTURAS PERSONALIZADAS (Services, Requests, Events, Resources, Observers)
         $this->generateBackendCustomStructures($modelName);
 
-        // --- 4. REGISTRO EN PROVIDER ---
-        $this->registerObserver($modelName);
+        // 4. REGISTRO AUTOMÁTICO DE RUTA EN WEB.PHP
+        $this->registerRoute($modelName, $controllerName);
 
-        $this->info("✅ ¡Proceso completado! No olvides definir la ruta Route::resource en web.php o api.php");
+        // 5. AVISO DE OBSERVER
+        $this->warn("\n⚠️  Recuerda registrar el Observer en AppServiceProvider.php:");
+        $this->line("{$modelName}::observe({$modelName}Observer::class);");
+        
+        // 6. REGISTRO DE PERMISOS
+        $this->registerPermissions($modelName);
+
+        $this->info("\n✅ ¡Proceso completado con éxito!");
     }
-
-    protected function generateFrontend($moduleName)
+    protected function registerPermissions($modelName)
     {
-        $basePath = resource_path("js/Pages/Dashboard/Administrator/{$moduleName}");
+        // Convertimos el modelo a kebab-case plural (ej: Product -> products)
+        $permissionPart = Str::kebab(Str::plural($modelName));
+        $actions = ['create', 'read', 'update', 'delete'];
 
-        if (!File::exists($basePath)) {
-            File::makeDirectory($basePath, 0755, true);
-            File::makeDirectory("{$basePath}/Components", 0755, true);
-            File::makeDirectory("{$basePath}/Composables", 0755, true);
-            File::makeDirectory("{$basePath}/Utils", 0755, true);
+        // Verificamos que el modelo de Spatie existe
+        if (!class_exists(\Spatie\Permission\Models\Permission::class) || 
+            !class_exists(\Spatie\Permission\Models\Role::class)) {
+            $this->warn("   - No se pudieron asignar permisos: Modelos de Spatie no encontrados.");
+            return;
+        }
 
-            // Archivo Raíz
-            $this->createVueFile($basePath, 'Index', $moduleName);
+        // Buscamos el Rol del Administrador (ID 1)
+        $adminRole = \Spatie\Permission\Models\Role::find(1);
 
-            // Componentes
-            foreach (['Create', 'Edit', 'Delete', 'Tour'] as $comp) {
-                $this->createVueFile("{$basePath}/Components", $comp, $moduleName);
+        if (!$adminRole) {
+            $this->error("   - No se encontró el Rol con ID 1. No se pudieron asignar los permisos.");
+            return;
+        }
+
+        foreach ($actions as $action) {
+            $permissionName = "{$action} {$permissionPart}";
+
+            // 1. Crear el permiso si no existe
+            $permission = \Spatie\Permission\Models\Permission::firstOrCreate([
+                'name' => $permissionName,
+                'guard_name' => 'web' // O el guard que utilices
+            ]);
+
+            // 2. Asociar al rol de administrador (role_has_permissions)
+            if (!$adminRole->hasPermissionTo($permissionName)) {
+                $adminRole->givePermissionTo($permission);
+                $this->line("   - Permiso <info>{$permissionName}</info> creado y asignado al Administrador.");
+            } else {
+                $this->line("   - El permiso <comment>{$permissionName}</comment> ya estaba asignado.");
             }
-
-            // Composables
-            foreach (['useCreate', 'useEdit', 'useIndex'] as $file) {
-                File::put("{$basePath}/Composables/{$file}.js", "export function {$file}() {\n    // Lógica\n}");
-            }
-
-            // Utils
-            foreach (['createRules', 'editRules'] as $file) {
-                File::put("{$basePath}/Utils/{$file}.js", "export const {$file} = {};");
-            }
-            
-            $this->line("   - Frontend Vue creado.");
         }
     }
 
     protected function generateBackendCustomStructures($model)
     {
-        // SERVICES
-        $this->createFolderAndFiles(app_path("Services/{$model}"), [
-            "StoreService.php", "UpdateService.php", "DeleteService.php"
-        ], "namespace App\Services\\{$model};\n\nclass ");
+        // --- RESOURCES ---
+        $resourcePath = app_path("Http/Resources/{$model}");
+        $this->createFolderAndFiles(
+            $resourcePath, 
+            ["{$model}Created.php", "{$model}Updated.php", "{$model}Deleted.php"], 
+            'resource', 
+            $model
+        );
 
-        // REQUESTS (Reorganizar el default de Laravel a carpeta)
-        $this->createFolderAndFiles(app_path("Http/Requests/{$model}"), [
+        // --- REQUESTS ---
+        $requestPath = app_path("Http/Requests/{$model}");
+        $this->createFolderAndFiles($requestPath, [
             "StoreRequest.php", "UpdateRequest.php"
-        ], "namespace App\Http\Requests\\{$model};\n\nuse Illuminate\Foundation\Http\FormRequest;\n\nclass ");
+        ], 'request', $model);
 
-        // EVENTS
-        $this->createFolderAndFiles(app_path("Events/{$model}"), [
+        // --- SERVICES ---
+        $servicePath = app_path("Services/{$model}");
+        $this->createFolderAndFiles($servicePath, [
+            "StoreService.php", "UpdateService.php", "DeleteService.php"
+        ], 'service', $model);
+
+        // --- EVENTS ---
+        $eventPath = app_path("Events/{$model}");
+        $this->createFolderAndFiles($eventPath, [
             "{$model}Created.php", "{$model}Updated.php", "{$model}Deleted.php"
-        ], "namespace App\Events\\{$model};\n\nclass ");
+        ], 'event', $model);
 
-        // RESOURCES
-        $this->createFolderAndFiles(app_path("Http/Resources/{$model}"), [
-            "{$model}Resource.php", "{$model}Collection.php"
-        ], "namespace App\Http\Resources\\{$model};\n\nuse Illuminate\Http\Resources\Json\JsonResource;\n\nclass ");
-
-        // OBSERVER
+        // --- OBSERVER ---
         $this->call('make:observer', ['name' => "{$model}Observer", '--model' => $model]);
         
-        $this->line("   - Estructuras de Backend (Services, Events, Resources) creadas.");
+        $this->line("   - Backend especializado (Resources, Requests, Services) creado.");
     }
 
-    protected function createFolderAndFiles($path, $files, $contentPrefix)
+    protected function createFolderAndFiles($path, $files, $type, $model)
     {
         if (!File::exists($path)) {
             File::makeDirectory($path, 0755, true);
@@ -104,7 +124,50 @@ class CreateAdminScaffold extends Command
 
         foreach ($files as $file) {
             $className = str_replace('.php', '', $file);
-            File::put("{$path}/{$file}", "<?php\n\n{$contentPrefix}{$className} \n{\n    //\n}");
+            $content = $this->getTemplate(
+                $type, 
+                $className, 
+                $model
+            );
+            File::put("{$path}/{$file}", $content);
+        }
+    }
+
+    protected function getTemplate($type, $className, $model)
+    {
+        return match ($type) {
+            'resource' => "<?php\n\nnamespace App\Http\Resources\\{$model};\n\nuse Illuminate\Http\Request;\nuse Illuminate\Http\Resources\Json\JsonResource;\n\nclass {$className} extends JsonResource\n{\n    /**\n     * Transform the resource into an array.\n     *\n     * @return array<string, mixed>\n     */\n    public function toArray(Request \$request): array\n    {\n        return [];\n    }\n}",
+            
+            'request' => "<?php\n\nnamespace App\Http\Requests\\{$model};\n\nuse Illuminate\Foundation\Http\FormRequest;\n\nclass {$className} extends FormRequest\n{\n    public function authorize(): bool\n    {\n        return true;\n    }\n\n    public function rules(): array\n    {\n        return [];\n    }\n}",
+            
+            'service' => "<?php\n\nnamespace App\Services\\{$model};\n\nclass {$className}\n{\n    public function execute(array \$data)\n    {\n        // Lógica de negocio\n    }\n}",
+            
+            'event' => "<?php\n\nnamespace App\Events\\{$model};\n\nuse Illuminate\Foundation\Events\Dispatchable;\nuse Illuminate\Queue\SerializesModels;\n\nclass {$className}\n{\n    use Dispatchable, SerializesModels;\n\n    public function __construct(public \$model)\n    {\n        //\n    }\n}",
+            
+            default => "<?php\n\nnamespace App\\{$type}\\{$model};\n\nclass {$className} {}"
+        };
+    }
+
+    protected function generateFrontend($moduleName)
+    {
+        $basePath = resource_path("js/Pages/Dashboard/Administrator/{$moduleName}");
+        if (!File::exists($basePath)) {
+            File::makeDirectory($basePath, 0755, true);
+            File::makeDirectory("{$basePath}/Components", 0755, true);
+            File::makeDirectory("{$basePath}/Composables", 0755, true);
+            File::makeDirectory("{$basePath}/Utils", 0755, true);
+
+            $this->createVueFile($basePath, 'Index', $moduleName);
+            foreach (['Create', 'Edit', 'Delete', 'Tour'] as $comp) {
+                $this->createVueFile("{$basePath}/Components", $comp, $moduleName);
+            }
+            foreach (['useCreate', 'useEdit', 'useIndex'] as $file) {
+                File::put("{$basePath}/Composables/{$file}.js", "export function {$file}() {\n    // Lógica\n}");
+            }
+            foreach (['createRules', 'editRules'] as $file) {
+                File::put("{$basePath}/Utils/{$file}.js", "export const {$file} = {};");
+            }
+            $this->line("   - Frontend Vue creado.");
         }
     }
 
@@ -118,14 +181,14 @@ class CreateAdminScaffold extends Command
     }
 </script>
 <script setup>
-    // 1. Imports
-    // 2. Props & Emits
-    // 3. State
-    // 4. Computed
-    // 5. Methods
+    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+    // 2. Props & Emits (defineProps, defineEmits)
+    // 3. State (ref, reactive)
+    // 4. Computed Properties
+    // 5. Methods & Logic (Functions, Handlers)
     // 6. Watchers
-    // 7. Lifecycle
-    // 8. Expose
+    // 7. Lifecycle Hooks (onMounted, etc.)
+    // 8. Expose (defineExpose)
 </script>
 
 <template>
@@ -140,9 +203,20 @@ EOT;
         File::put("{$path}/{$fileName}.vue", $template);
     }
 
-    protected function registerObserver($model)
+    protected function registerRoute($modelName, $controllerName)
     {
-        $this->warn("⚠️  Recuerda registrar el Observer en AppServiceProvider.php:");
-        $this->line("{$model}::observe({$model}Observer::class);");
+        $webPath = base_path('routes/web.php');
+        $routeName = Str::kebab(Str::plural($modelName));
+        $controllerImport = "use App\Http\Controllers\\{$controllerName};";
+        $routeLine = "Route::resource('{$routeName}', {$controllerName}::class);";
+        $content = File::get($webPath);
+        if (!str_contains($content, $routeLine)) {
+            if (!str_contains($content, $controllerImport)) {
+                $content = preg_replace('/^<\?php/', "<?php\n\n{$controllerImport}", $content);
+            }
+            $content .= "\n{$routeLine}";
+            File::put($webPath, $content);
+            $this->line("   - Ruta resource '{$routeName}' añadida.");
+        }
     }
 }
