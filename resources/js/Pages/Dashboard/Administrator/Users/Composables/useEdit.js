@@ -2,22 +2,37 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
-import { capitalizeWords } from '@/helpers/helpers';
+import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useEdit(role,drawerOpen,modelName) {
+export function useEdit(item,modalOpen,modelName) {
     const form = useForm({
-       //name: role.name || '',
-       //color: role.color || 'blue',
-       //guard_name: role.guard_name || 'web',
+        dni: '',
+        email: '',
+        first_names: '',
+        last_names: '',
+        gender: null,
+        birthday: '',
     });
     const formRef = ref(null);
 
-    /* watch(
-        () => form.name,
+    watch(
+        () => form.first_names,
         (newVal) => {
-            form.name = capitalizeWords(newVal);
+        form.first_names = capitalizeWords(newVal);
         }
-    ); */
+    );
+    watch(
+        () => form.last_names,
+        (newVal) => {
+        form.last_names = capitalizeWords(newVal);
+        }
+    );
+    watch(
+        () => form.email,
+        (newVal) => {
+        form.email = normalizeText(newVal);
+        }
+    );
 
     const handleSubmit = async () => {
         if (!formRef.value) {
@@ -33,11 +48,11 @@ export function useEdit(role,drawerOpen,modelName) {
                 throw err;
             });
 
-            await axios.put(route(modelName.toLowerCase() +'.update', role.id), form.data());
+            await axios.put(route(modelName.toLowerCase() +'.update', item.id), form.data());
             message.success('¡Actualizado con éxito!');
 
             form.reset();
-            drawerOpen.value = false;
+            modalOpen.value = false;
         } catch (error) {
             if (error.response?.status === 422) {
                 form.setError(error.response.data.errors);

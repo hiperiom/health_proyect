@@ -33,6 +33,7 @@ class CreateNewUser implements CreatesNewUsers
                 'gender' => ['required','string','max:1'],
                 'avatar'=> ['nullable','image','mimes:jpeg,png,jpg','max:2048'],
                 'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+                'birthday' => ['nullable','date'],
             ],
             [
                 'dni.required' => 'El Documento de Identidad es obligatorio.',

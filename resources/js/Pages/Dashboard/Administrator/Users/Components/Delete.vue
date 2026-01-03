@@ -29,9 +29,10 @@
     // 5. Methods & Logic (Functions, Handlers)
     const handleDelete = async () => {
         try {
-            await axios.delete(route(modelName.toLowerCase() +'.destroy', props.item.id));
+            await axios.delete(route(props.modelName.toLowerCase() +'.destroy', props.item));
             message.success('Registro eliminado exitosamente.');
         } catch (error) {
+            console.log(error);
             const msg = error.response?.data?.message || 'Error al eliminar el registro.';
             message.error(msg);
         }

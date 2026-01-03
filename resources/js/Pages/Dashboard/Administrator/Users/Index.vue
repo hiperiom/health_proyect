@@ -62,7 +62,9 @@
         loadData();
         const channel = window.Echo.channel( modelName.toLowerCase() );
         ['created', 'updated', 'deleted'].forEach(event => {
-            channel.listen(`.${ modelName.toLowerCase() }.${event}`, () => loadData());
+            channel.listen(`.${ modelName.toLowerCase() }.${event}`, () => {
+                loadData();
+            });
         });
     });
     onUnmounted(() => {

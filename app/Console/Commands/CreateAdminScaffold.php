@@ -25,6 +25,7 @@ class CreateAdminScaffold extends Command
 
         // 2. BACKEND CORE (Model, Mig, Fact, Seed, Controller)
         $this->call('make:model', ['name' => $modelName, '--all' => true]);
+        $this->createController($modelName, $controllerName);
 
         // 3. ESTRUCTURAS PERSONALIZADAS (Services, Requests, Events, Resources, Observers)
         $this->generateBackendCustomStructures($modelName);
@@ -40,6 +41,13 @@ class CreateAdminScaffold extends Command
         $this->registerPermissions($modelName);
 
         $this->info("\n✅ ¡Proceso completado con éxito!");
+    }
+    protected function createController($model, $controllerName)
+    {
+        $path = app_path("Http/Controllers/{$controllerName}.php");
+        $content = $this->getTemplate('controller', $controllerName, $model);
+        File::put($path, $content);
+        $this->line("   - Controlador {$controllerName} creado con boilerplate.");
     }
     protected function registerPermissions($modelName)
     {
@@ -87,7 +95,7 @@ class CreateAdminScaffold extends Command
         $resourcePath = app_path("Http/Resources/{$model}");
         $this->createFolderAndFiles(
             $resourcePath, 
-            ["{$model}Created.php", "{$model}Updated.php", "{$model}Deleted.php"], 
+            ["StoreResource.php", "UpdatedResource.php", "DeletedResource.php"], 
             'resource', 
             $model
         );
@@ -106,12 +114,17 @@ class CreateAdminScaffold extends Command
 
         // --- EVENTS ---
         $eventPath = app_path("Events/{$model}");
-        $this->createFolderAndFiles($eventPath, [
-            "{$model}Created.php", "{$model}Updated.php", "{$model}Deleted.php"
+        $this->createFolderAndFiles(
+            $eventPath, 
+            [ "CreatedEvent.php", "UpdatedEvent.php", "DeletedEvent.php"
         ], 'event', $model);
 
         // --- OBSERVER ---
-        $this->call('make:observer', ['name' => "{$model}Observer", '--model' => $model]);
+        $this->createFolderAndFiles(
+            app_path("Observers"), 
+            ["{$model}Observer.php"], 
+            'observer', $model
+        );
         
         $this->line("   - Backend especializado (Resources, Requests, Services) creado.");
     }
@@ -142,7 +155,11 @@ class CreateAdminScaffold extends Command
             
             'service' => "<?php\n\nnamespace App\Services\\{$model};\n\nclass {$className}\n{\n    public function execute(array \$data)\n    {\n        // Lógica de negocio\n    }\n}",
             
-            'event' => "<?php\n\nnamespace App\Events\\{$model};\n\nuse Illuminate\Foundation\Events\Dispatchable;\nuse Illuminate\Queue\SerializesModels;\n\nclass {$className}\n{\n    use Dispatchable, SerializesModels;\n\n    public function __construct(public \$model)\n    {\n        //\n    }\n}",
+            'event' => "<?php\n\nnamespace App\Events\\{$model};\n\nuse App\Models\\{$model};\nuse Illuminate\Broadcasting\Channel;\nuse Illuminate\Broadcasting\InteractsWithSockets;\nuse Illuminate\Contracts\Broadcasting\ShouldBroadcast;\nuse Illuminate\Foundation\Events\Dispatchable;\nuse Illuminate\Queue\SerializesModels;\n\nclass {$className} implements ShouldBroadcast\n{\n    use Dispatchable, InteractsWithSockets, SerializesModels;\n\n    public function __construct(public {$model} \$model) {}\n\n    public function broadcastOn(): array\n    {\n        return [new Channel('" . Str::kebab(Str::plural($model)) . "')];\n    }\n\n    public function broadcastAs(): string\n    {\n        return '" . Str::kebab(Str::plural($model)) . ".' . strtolower(str_replace('{$model}', '', '{$className}'));\n    }\n}",
+            
+            'controller' => "<?php\n\nnamespace App\Http\Controllers;\n\nuse App\Models\\{$model};\nuse Illuminate\Http\Request;\nuse Symfony\Component\HttpFoundation\JsonResponse;\nuse App\Http\Requests\\{$model}\StoreRequest;\nuse App\Http\Requests\\{$model}\UpdateRequest;\nuse App\Http\Resources\\{$model}\\{$model}Created;\nuse App\Http\Resources\\{$model}\\{$model}Updated;\nuse App\Services\\{$model}\StoreService;\nuse App\Services\\{$model}\UpdateService;\nuse App\Services\\{$model}\DeleteService;\n\nclass {$className} extends Controller\n{\n    public function data(Request \$request): JsonResponse\n    {\n        \$items = {$model}::query()->when(\$request->searchText, function(\$query, \$search) {\n            \$query->where('name', 'like', \"%{\$search}%\");\n        })->orderBy('created_at', 'desc')->paginate(\$request->pageSize ?? 7);\n        return response()->json(\$items);\n    }\n\n    public function index()\n    {\n        return inertia('Dashboard/Administrator/{$model}/Index');\n    }\n\n    public function store(StoreRequest \$request, StoreService \$service): {$model}Created\n    {\n        \$result = \$service->execute(\$request->validated());\n        return new {$model}Created(\$result);\n    }\n\n    public function update(UpdateRequest \$request, UpdateService \$service, \$id): {$model}Updated\n    {\n        \$modelInstance = {$model}::findOrFail(\$id);\n        \$result = \$service->execute(\$modelInstance, \$request->validated());\n        return new {$model}Updated(\$result);\n    }\n\n    public function destroy(DeleteService \$service, \$id): JsonResponse\n    {\n        \$modelInstance = {$model}::findOrFail(\$id);\n        \$service->execute(\$modelInstance);\n        return response()->json(['message' => 'Eliminado exitosamente']);\n    }\n}",
+            
+            'observer' => "<?php\n\nnamespace App\Observers;\n\nuse App\Models\\{$model};\nuse App\Events\\{$model}\\{$model}Created;\nuse App\Events\\{$model}\\{$model}Updated;\nuse App\Events\\{$model}\\{$model}Deleted;\n\nclass {$className}\n{\n    public function created({$model} \$modelInstance): void { event(new {$model}Created(\$modelInstance)); }\n    public function updated({$model} \$modelInstance): void { event(new {$model}Updated(\$modelInstance)); }\n    public function deleted({$model} \$modelInstance): void { event(new {$model}Deleted(\$modelInstance)); }\n    public function restored({$model} \$modelInstance): void {}\n    public function forceDeleted({$model} \$modelInstance): void {}\n}",
             
             default => "<?php\n\nnamespace App\\{$type}\\{$model};\n\nclass {$className} {}"
         };

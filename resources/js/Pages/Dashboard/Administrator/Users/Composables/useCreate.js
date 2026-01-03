@@ -2,38 +2,43 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
-import { capitalizeWords } from '@/helpers/helpers';
+import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useCreate(drawerOpen, modelName) {
+export function useCreate(modalOpen, modelName) {
     const form = useForm({
         dni: '',
         email: '',
         password: '12345678',
         password_confirmation: '12345678',
-        terms: false,
         first_names: '',
         last_names: '',
         gender: null,
         birthday: '',
-        avatar: null,
-        terms: false,
     });
     const formRef = ref(null); 
     
-    watch(() => form.first_names,
+    watch(
+        () => form.first_names,
         (newVal) => {
-            form.first_names = capitalizeWords(newVal);
+        form.first_names = capitalizeWords(newVal);
         }
     );
-    watch(() => form.last_names,
+    watch(
+        () => form.last_names,
         (newVal) => {
-            form.last_names = capitalizeWords(newVal);
+        form.last_names = capitalizeWords(newVal);
+        }
+    );
+    watch(
+        () => form.email,
+        (newVal) => {
+        form.email = normalizeText(newVal);
         }
     );
     const handleSubmit = async () => {
         if (!formRef.value) {
             console.error('Error: formRef no está vinculado al componente.');
-        return;
+            return;
         }
 
         try {
@@ -48,7 +53,7 @@ export function useCreate(drawerOpen, modelName) {
             message.success('¡Creado con éxito!');
             
             form.reset();
-            drawerOpen.value = false;
+            modalOpen.value = false;
     
         } catch (error) {
             if (error.response?.status === 422) {

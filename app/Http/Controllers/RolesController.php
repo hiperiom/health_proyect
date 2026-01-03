@@ -12,7 +12,6 @@ use App\Http\Resources\Roles\StoreResource;
 use App\Http\Resources\Roles\UpdateResource;
 use App\Services\Role\StoreService;
 use App\Services\Role\UpdateService;
-use App\Services\Role\DeleteService;
 
 class RolesController extends Controller
 {
@@ -91,15 +90,14 @@ class RolesController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param DeleteService $deleteService
      * @param string $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(DeleteService $deleteService, string $id): JsonResponse
+    public function destroy(string $id): JsonResponse
     {
         $role = Role::findOrFail($id);
-        $deleteService->delete($role);
+        $role->delete();
 
-        return response()->json(['message' => 'Rol eliminado exitosamente.']);
+        return response()->json(['message' => 'Registro eliminado exitosamente.']);
     }
 }

@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\User\StoreResource;
+use App\Http\Resources\User\UpdatedResource;
+use App\Services\User\StoreService;
+use App\Services\User\UpdateService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -18,8 +22,10 @@ class UserController extends Controller
             $request->searchText, 
             function($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
                 ->orWhereHas('profile', function($qProfile) use ($search) {
-                      $qProfile->where('movil_phone', 'like', "%{$search}%");
+                      $qProfile->where('first_names', 'like', "%{$search}%")
+                      ->orWhere('last_names', 'like', "%{$search}%");
                   });
             })
             ->orderBy('created_at','desc')
@@ -45,9 +51,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
-    {
-        //
+    public function store(StoreRequest $request, StoreService $storeService){
+        $result = $storeService->execute($request->validated());
+        return new StoreResource($result);
     }
 
     /**
@@ -69,16 +75,22 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateRequest $request, UpdateService $updateService, string $id): UpdatedResource
     {
-        //
-    }
+        $user = User::findOrFail($id);
 
+        $result = $updateService->execute($user, $request->validated());
+
+        return new UpdatedResource($result);
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+     public function destroy(string $id): JsonResponse
     {
-        //
+        $role = User::findOrFail($id);
+        $role->delete();
+
+        return response()->json(['message' => 'Registro eliminado exitosamente.']);
     }
 }

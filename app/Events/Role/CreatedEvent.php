@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Role;
 
 use App\Models\Role;
 use Illuminate\Broadcasting\Channel;
@@ -9,12 +9,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RoleDeleted implements ShouldBroadcast
+class CreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $roleData;
+    public $role;
 
+    public function __construct($role)
+    {
+        $this->role = $role;
+    }
     /**
      * Get the channels the event should broadcast on.
      *
@@ -32,6 +36,6 @@ class RoleDeleted implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'roles.deleted';
+        return 'roles.created';
     }
 }

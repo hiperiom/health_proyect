@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\User;
 
-use App\Models\Role;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RoleUpdated implements ShouldBroadcast
+class DeletedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $role;
+    public $user;
+
+    public function __construct($user)
+    {
+        $this->user = $user->toArray();
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -23,7 +27,7 @@ class RoleUpdated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('roles'),
+            new Channel('users'),
         ];
     }
 
@@ -32,6 +36,6 @@ class RoleUpdated implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'roles.updated';
+        return 'users.deleted';
     }
 }

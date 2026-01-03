@@ -3,9 +3,9 @@
 namespace App\Observers;
 
 use App\Models\Role;
-use App\Events\RoleCreated;
-use App\Events\RoleUpdated;
-use App\Events\RoleDeleted;
+use App\Events\Role\CreatedEvent;
+use App\Events\Role\UpdatedEvent;
+use App\Events\Role\DeletedEvent;
 
 class RoleObserver
 {
@@ -14,7 +14,7 @@ class RoleObserver
      */
     public function created(Role $role): void
     {
-        event(new RoleCreated($role));
+        event(new CreatedEvent($role));
     }
 
     /**
@@ -22,7 +22,7 @@ class RoleObserver
      */
     public function updated(Role $role): void
     {
-        event(new RoleUpdated($role));
+        event(new UpdatedEvent($role));
     }
 
     /**
@@ -30,7 +30,7 @@ class RoleObserver
      */
     public function deleted(Role $role): void
     {
-        event(new RoleDeleted($role));
+        event(new DeletedEvent($role));
     }
 
     /**
