@@ -6,7 +6,7 @@
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { h, ref } from 'vue';
+    import { h, onUnmounted, ref } from 'vue';
     import { PlusOutlined } from '@ant-design/icons-vue';
     
     import Modal from '@/Components/Modal.vue';
@@ -56,6 +56,9 @@
     };
     // 6. Watchers
     // 7. Lifecycle Hooks (onMounted, etc.)
+    onUnmounted(() => {
+        form.reset();
+    });
     // 8. Expose (defineExpose)
 </script>
 <template>

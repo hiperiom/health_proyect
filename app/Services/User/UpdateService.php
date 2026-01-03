@@ -12,8 +12,7 @@ class UpdateService
 
     public function execute(User $user, array $data): User
     {
-        $request = app(Request::class); 
-        $avatarPath = null;
+       
         if (request()->hasFile('avatar')) {
             $data['profile_photo_path'] = request()->file('avatar')->store('user_avatars', 'public');
         }
@@ -34,7 +33,7 @@ class UpdateService
             'first_names' => $data['first_names'],
             'last_names' => $data['last_names'],
             'gender' => $data['gender'],
-            'birthday' => $data['birthday'],
+            'birthday' => date('Y-m-d', strtotime($data['birthday'])),
 
         ]);
 

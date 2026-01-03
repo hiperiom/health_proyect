@@ -6,14 +6,23 @@ use App\Models\User;
 use App\Events\User\CreatedEvent;
 use App\Events\User\UpdatedEvent;
 use App\Events\User\DeletedEvent;
-
+use App\Services\UserProfile\StoreService;
 class UserObserver
 {
+    public function __construct(
+        protected StoreService $profileService
+    ) {}
     /**
      * Handle the Role "created" event.
      */
     public function created(User $user): void
     {
+        $user->assignRole('Paciente');
+        
+        $this->profileService->execute(
+            $user->id, 
+            request()->all()
+        );
         event(new CreatedEvent($user));
     }
 
