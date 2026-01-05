@@ -46,6 +46,12 @@ const optionsList = [];
                         label: h('div', 'Roles'),
                         onClick: () => router.get(route('roles.index')),
                     },
+                    {
+                        icon: () => h(SafetyOutlined),
+                        key: 'medic-especialities.index',
+                        label: h('div', 'Especialidades'),
+                        onClick: () => router.get(route('medic-especialities.index')),
+                    },
                 ]
             })
 

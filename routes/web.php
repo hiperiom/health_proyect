@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MedicEspecialityController;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -23,5 +24,9 @@ Route::middleware([
 
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
     Route::resource( 'users', UserController::class);
+    
+    Route::get('/medic-especialities/data', [MedicEspecialityController::class, 'data'])->name('medic-especialities.data');
+    Route::resource('medic-especialities', MedicEspecialityController::class);
+
 });
 

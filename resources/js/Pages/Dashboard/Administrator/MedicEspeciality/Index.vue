@@ -1,6 +1,6 @@
 <script>
-    const modelTitle = "Usuarios";
-    const modelName = "Users";
+    const modelTitle = "Especialidades";
+    const modelName = "MedicEspecialityIndex";
     export default {
         name: modelName +"Index",
     }
@@ -46,10 +46,10 @@
     ];
     const page = usePage();
 
-    const can_create = page.props[0]['user.permissions'].includes('create ' + modelName.toLowerCase())
-    const can_read = page.props[0]['user.permissions'].includes('read ' + modelName.toLowerCase())
-    const can_update = page.props[0]['user.permissions'].includes('update ' + modelName.toLowerCase())
-    const can_delete = page.props[0]['user.permissions'].includes('delete ' + modelName.toLowerCase())
+    const can_create = page.props[0]['user.permissions'].includes('create ' + 'medic-especialities')
+    const can_read = page.props[0]['user.permissions'].includes('read ' + 'medic-especialities')
+    const can_update = page.props[0]['user.permissions'].includes('update ' + 'medic-especialities')
+    const can_delete = page.props[0]['user.permissions'].includes('delete ' + 'medic-especialities')
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
@@ -59,7 +59,7 @@
         loadData();
         const channel = window.Echo.channel( modelName.toLowerCase() );
         ['created', 'updated', 'deleted'].forEach(event => {
-            channel.listen(`.${ modelName.toLowerCase() }.${event}`, () => {
+            channel.listen("." + modelName.toLowerCase() + "." + event, () => {
                 loadData();
             });
         });
@@ -131,7 +131,4 @@
         </DashboardLayout>
     </Spinner>
 </template>
-<style>
-
-
-</style>
+<style></style>
