@@ -4,37 +4,23 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useCreate(modalOpen, modelName) {
-    const form = useForm({
-        dni: '',
-        email: '',
-        password: '12345678',
-        password_confirmation: '12345678',
-        first_names: '',
-        last_names: '',
-        gender: null,
-        birthday: '',
+export function useCreate(modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {};
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = '';
     });
+
+    const form = useForm(initialFormData);
     const formRef = ref(null); 
     
     watch(
-        () => form.first_names,
+        () => form.name,
         (newVal) => {
-        form.first_names = capitalizeWords(newVal);
+        form.name = capitalizeWords(newVal);
         }
     );
-    watch(
-        () => form.last_names,
-        (newVal) => {
-        form.last_names = capitalizeWords(newVal);
-        }
-    );
-    watch(
-        () => form.email,
-        (newVal) => {
-        form.email = normalizeText(newVal);
-        }
-    );
+
     const handleSubmit = async () => {
         if (!formRef.value) {
             console.error('Error: formRef no está vinculado al componente.');
@@ -49,7 +35,7 @@ export function useCreate(modalOpen, modelName) {
                 throw err;
             });
             
-            await axios.post(route(modelName.toLowerCase() +'.store'), form.data());
+            await axios.post(route(config.modelName +'.store'), form.data());
             message.success('¡Creado con éxito!');
             
             form.reset();

@@ -53,7 +53,7 @@
         loadData();
         const channel = window.Echo.channel('roles');
         ['created', 'updated', 'deleted'].forEach(event => {
-            console.log(`.roles.${event}`);
+    
             channel.listen(`.roles.${event}`, () => loadData());
         });
     });

@@ -1,14 +1,14 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-export function useIndex(modelName) {
+export function useIndex(config) {
     const loading = ref(false);
     const dataSource = ref([]);
     const searchText = ref('');
     const pagination = ref({
         total: 0,
         page: 1,
-        pageSize: 8
+        pageSize: config.defaultPageSize || 8
     });
 
     const handleTableChange = (pag, filters, sorter) => {
@@ -57,7 +57,7 @@ export function useIndex(modelName) {
             const pageSize = params.results || pagination.value.pageSize;
             const searchText = params.searchText || '';
 
-            const res = await axios.get(route(modelName.toLowerCase() +'.data'), {
+            const res = await axios.get(route(config.modelName +'.data'), {
                 params: {
                     page: page,      
                     pageSize: pageSize,    

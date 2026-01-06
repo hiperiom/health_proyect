@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MedicEspeciality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Http\Requests\MedicEspeciality\StoreRequest;
 use App\Http\Requests\MedicEspeciality\UpdateRequest;
@@ -11,6 +12,7 @@ use App\Http\Resources\MedicEspeciality\StoreResource;
 use App\Http\Resources\MedicEspeciality\UpdatedResource;
 use App\Services\MedicEspeciality\StoreService;
 use App\Services\MedicEspeciality\UpdateService;
+use App\Events\MedicEspeciality\DeletedEvent;
 
 class MedicEspecialityController extends Controller
 {
@@ -43,7 +45,8 @@ class MedicEspecialityController extends Controller
     public function destroy($id): JsonResponse
     {
         $modelInstance = MedicEspeciality::findOrFail($id);
-        $service->execute($modelInstance);
+        $modelInstance->delete();
+
         return response()->json(['message' => 'Eliminado exitosamente']);
     }
 }

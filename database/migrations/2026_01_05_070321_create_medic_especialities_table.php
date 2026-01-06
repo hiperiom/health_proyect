@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('medic_especialities', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->string('icon')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

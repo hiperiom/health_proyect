@@ -4,33 +4,20 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useEdit(item,modalOpen,modelName) {
-    const form = useForm({
-        dni: '',
-        email: '',
-        first_names: '',
-        last_names: '',
-        gender: null,
-        birthday: '',
+export function useEdit(item, modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {};
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = '';
     });
+
+    const form = useForm(initialFormData);
     const formRef = ref(null);
 
     watch(
-        () => form.first_names,
+        () => form.name,
         (newVal) => {
-        form.first_names = capitalizeWords(newVal);
-        }
-    );
-    watch(
-        () => form.last_names,
-        (newVal) => {
-        form.last_names = capitalizeWords(newVal);
-        }
-    );
-    watch(
-        () => form.email,
-        (newVal) => {
-        form.email = normalizeText(newVal);
+        form.name = capitalizeWords(newVal);
         }
     );
 
@@ -48,7 +35,7 @@ export function useEdit(item,modalOpen,modelName) {
                 throw err;
             });
 
-            await axios.put(route(modelName.toLowerCase() +'.update', item.id), form.data());
+            await axios.put(route(config.modelName +'.update', {id: item.id}), form.data());
             message.success('¡Actualizado con éxito!');
 
             form.reset();
@@ -70,4 +57,3 @@ export function useEdit(item,modalOpen,modelName) {
         handleSubmit,
     };
 }
-

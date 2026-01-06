@@ -29,7 +29,7 @@
         // 5. Methods & Logic (Functions, Handlers)
         const handleDelete = async () => {
             try {
-                await axios.delete(route(props.modelName.toLowerCase() +'.destroy', props.item));
+                await axios.delete(route('medic-especialities' +'.destroy', {id: props.item.id}));
                 message.success('Registro eliminado exitosamente.');
             } catch (error) {
                 console.log(error);

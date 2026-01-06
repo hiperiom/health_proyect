@@ -6,6 +6,7 @@ use App\Models\MedicEspeciality;
 use App\Events\MedicEspeciality\CreatedEvent;
 use App\Events\MedicEspeciality\UpdatedEvent;
 use App\Events\MedicEspeciality\DeletedEvent;
+use Illuminate\Support\Facades\Log;
 
 class MedicEspecialityObserver
 {

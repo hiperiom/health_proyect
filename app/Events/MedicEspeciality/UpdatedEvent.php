@@ -13,7 +13,12 @@ class UpdatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public MedicEspeciality $model) {}
+    public $medicEspecialities;
+
+    public function __construct($medicEspecialities)
+    {
+        $this->medicEspecialities = $medicEspecialities;
+    }
 
     public function broadcastOn(): array
     {
@@ -22,6 +27,6 @@ class UpdatedEvent implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'medic-especialities.' . strtolower(str_replace('MedicEspeciality', '', 'UpdatedEvent'));
+        return 'medic-especialities.updated' ;
     }
 }

@@ -13,8 +13,12 @@ class CreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public MedicEspeciality $model) {}
+    public $medicEspecialities;
 
+    public function __construct($medicEspecialities)
+    {
+        $this->medicEspecialities = $medicEspecialities;
+    }
     public function broadcastOn(): array
     {
         return [new Channel('medic-especialities')];
@@ -22,6 +26,6 @@ class CreatedEvent implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'medic-especialities.' . strtolower(str_replace('MedicEspeciality', '', 'CreatedEvent'));
+        return 'medic-especialities.created' ;
     }
 }
