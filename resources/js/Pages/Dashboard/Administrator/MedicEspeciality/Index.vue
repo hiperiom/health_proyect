@@ -130,7 +130,7 @@
         loadData();
         const channel = window.Echo.channel(config.echoChannel);
         config.echoEvents.forEach(event => {
-            channel.listen(`.${config.echoChannel}.${event}`, () => {
+            channel.listen("."+ config.echoChannel + "." + event, () => {
                 loadData();
             });
         });
