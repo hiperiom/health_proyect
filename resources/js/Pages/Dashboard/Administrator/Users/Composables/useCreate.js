@@ -4,17 +4,25 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useCreate(modalOpen, modelName) {
-    const form = useForm({
-        dni: '',
-        email: '',
-        password: '12345678',
-        password_confirmation: '12345678',
-        first_names: '',
-        last_names: '',
-        gender: null,
-        birthday: '',
+export function useCreate(modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {
+        avatar: null,
+    };
+
+    // Agregar campos del formulario principal
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = '';
     });
+
+    // Agregar campos adicionales para creación
+    if (config.createOnlyFields) {
+        Object.keys(config.createOnlyFields).forEach(field => {
+            initialFormData[field] = config.createOnlyFields[field].default || '';
+        });
+    }
+
+    const form = useForm(initialFormData);
     const formRef = ref(null); 
     
     watch(
@@ -49,8 +57,12 @@ export function useCreate(modalOpen, modelName) {
                 throw err;
             });
             
-            await axios.post(route(modelName.toLowerCase() +'.store'), form.data());
-            message.success('¡Creado con éxito!');
+            await axios.post(route(config.modelNameKebabCase +'.store'), form.data(),{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            message.success('¡Registro creado con éxito!');
             
             form.reset();
             modalOpen.value = false;

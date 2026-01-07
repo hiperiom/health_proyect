@@ -1,15 +1,19 @@
 <script>
     const modelTitle = "Especialidades";
-    const modelName = "MedicEspecialityIndex";
+    const modelTitleSingular = "Especialidad";
+    const modelName = "MedicEspeciality";
+    const modelNameKebabCase = "medic-especiality";
+    const modelNameRoutes = "medic-especialities";
+    const fileName = + modelName + "Index";
     export default {
-        name: modelName +"Index",
+        name: fileName,
     }
 </script>
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
     import { h, onMounted, onUnmounted, provide } from 'vue';
-    import { ReloadOutlined,} from '@ant-design/icons-vue';
     import { usePage } from '@inertiajs/vue3';
+    import { ReloadOutlined,} from '@ant-design/icons-vue';
 
     import DashboardLayout from '@/Layouts/DashboardLayout.vue';
     import Spinner from '@/Components/Spinner.vue';
@@ -26,12 +30,15 @@
     // 3. State (ref, reactive)
 
     // CONFIGURACIÓN CENTRALIZADA
+    const page = usePage();
+
     const config = {
         // Información básica del modelo
-        modelName: 'medic-especialities',
-        modelTitle: 'Especialidades',
-        modelTitleSingular: 'Especialidad',
-
+        modelName,
+        modelNameKebabCase,
+        modelTitle,
+        modelTitleSingular,
+        modelNameRoutes,
         // Campos del formulario
         formFields: {
             name: {
@@ -56,7 +63,7 @@
         ],
 
         // Configuración de Echo/WebSocket
-        echoChannel: 'medic-especialities',
+        echoChannel: modelNameRoutes, // modelNameRoutes / modelNameKebabCase
         echoEvents: ['created', 'updated', 'deleted'],
 
         // Configuración de paginación
@@ -85,11 +92,21 @@
                     { required: true, message: 'La descripción es obligatoria' }
                 ]
             })
-        }
-    };
+        },
+        // Permisos centralizados
+        user_permissions: {
+            can_create: page.props[0]['user.permissions'].includes('create ' + modelNameRoutes),
+            can_read: page.props[0]['user.permissions'].includes('read ' + modelNameRoutes),
+            can_update: page.props[0]['user.permissions'].includes('update ' + modelNameRoutes),
+            can_delete: page.props[0]['user.permissions'].includes('delete ' + modelNameRoutes)
+        },
+        permissionsNames: page.props[0]['user.permissions']
 
+    };
+    console.log(config);
+    const {  can_read } = config.user_permissions;
+    
     // Proporcionar configuración a componentes hijos
-    provide('medicEspecialityConfig', config);
 
     const {
         loading,
@@ -101,19 +118,9 @@
         handleSearch,
         handleRefresh,
     } = useIndex(config);
-
+    
     // Actualizar paginación con el valor de configuración
     pagination.value.pageSize = config.defaultPageSize;
-
-    const page = usePage();
-
-    // Permisos centralizados
-    const permissions = {
-        create: page.props[0]['user.permissions'].includes('create ' + config.modelName),
-        read: page.props[0]['user.permissions'].includes('read ' + config.modelName),
-        update: page.props[0]['user.permissions'].includes('update ' + config.modelName),
-        delete: page.props[0]['user.permissions'].includes('delete ' + config.modelName)
-    };
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
@@ -129,7 +136,7 @@
         });
     });
     onUnmounted(() => {
-        window.Echo.leaveChannel(config.modelName.toLowerCase());
+        window.Echo.leaveChannel(config.modelNameKebabCase);
     });
     // 8. Expose (defineExpose)
 </script>
@@ -138,30 +145,39 @@
     <Spinner >
         <DashboardLayout>
             <template #header>
-                <a-page-header class="py-0 ps-2 pe-0 " :title="config.modelTitle" backIcon="false">
+                <a-page-header class="py-0 ps-2 pe-0 " 
+                    :title="config.modelTitle" 
+                    :backIcon="false"
+                >
                     <template #extra>
                         <a-input-search
-                            v-if="permissions.create"
+                            :disabled="!can_read"
+                            :title="can_read ? 'Buscar en listado de ' + config.modelTitle : 'Sin permisos para consultar'"
                             v-model:value="searchText"
                             :placeholder="config.searchPlaceholder"
                             @search="handleSearch"
                         />
                         <a-button
-                            v-if="permissions.create"
+                            :disabled="!can_read"
+                            :title="can_read ? 'Refrescar listado de ' + config.modelTitle : 'Sin permisos para refrescar'"
                             :icon="h(ReloadOutlined)"
                             @click="handleRefresh"
                         />
-                        <TourItem  v-if="permissions.create" />
-                        <CreateItem  v-if="permissions.create" :config="config" />
-                        <div v-else>Sin permisos para crear</div>
-
+                        <TourItem 
+                            :config="config"  
+                        />
+                        <CreateItem  
+                            :config="config" 
+                        />
+                        
                     </template>
                 </a-page-header>
             </template>
 
             <template #content>
                 <Table
-                    v-if="permissions.read"
+                    v-if="can_read"
+                    :locale="{ emptyText: 'No hay registros para mostrar' }"
                     :loading="loading"
                     :columns="config.tableColumns"
                     :data-source="dataSource"
@@ -181,8 +197,14 @@
 
                         <template v-if="column.dataIndex === 'actions'">
                             <a-flex :align="'center'">
-                                <EditItem v-if="permissions.update" :item="record" :config="config" />
-                                <DeleteItem v-if="permissions.delete" :item="record" :config="config" />
+                                <EditItem 
+                                    :item="record" 
+                                    :config="config" 
+                                />
+                                <DeleteItem 
+                                    :item="record" 
+                                    :config="config" 
+                                />
                             </a-flex>
                         </template>
                     </template>
@@ -191,4 +213,4 @@
         </DashboardLayout>
     </Spinner>
 </template>
-<style></style>
+<style lang="scss" scoped></style>

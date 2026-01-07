@@ -57,7 +57,7 @@ export function useIndex(config) {
             const pageSize = params.results || pagination.value.pageSize;
             const searchText = params.searchText || '';
 
-            const res = await axios.get(route(config.modelName +'.data'), {
+            const res = await axios.get(route(config.modelNameRoutes +'.data'), {
                 params: {
                     page: page,      
                     pageSize: pageSize,    

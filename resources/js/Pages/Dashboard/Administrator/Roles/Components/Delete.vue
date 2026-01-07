@@ -1,6 +1,6 @@
 <script>
     export default {
-        name: "DeleteRole",
+        name: "DeleteItem",
     }
 </script>
 
@@ -14,7 +14,11 @@
 
     // 2. Props & Emits (defineProps, defineEmits)
     const props = defineProps({
-        role: {
+        item: {
+            type: Object,
+            required: true,
+        },
+        config: {
             type: Object,
             required: true,
         },
@@ -25,10 +29,11 @@
     // 5. Methods & Logic (Functions, Handlers)
     const handleDelete = async () => {
         try {
-            await axios.delete(route('roles.destroy', props.role.id));
-            message.success('Rol eliminado exitosamente.');
+            await axios.delete(route(props.config.modelNameKebabCase +'.destroy', props.item));
+            message.success(props.config.modelTitleSingular + ' eliminado exitosamente.');
         } catch (error) {
-            const msg = error.response?.data?.message || 'Error al eliminar el rol.';
+            console.log(error);
+            const msg = error.response?.data?.message || 'Error al eliminar el ' + props.config.modelTitleSingular.toLowerCase() + '.';
             message.error(msg);
         }
     };
@@ -40,12 +45,12 @@
 <template>
     <a-popconfirm
         placement="bottomRight"
-        title="¿Quieres eliminar el registro?"
+        :title="'¿Quieres eliminar este ' + config.modelTitleSingular.toLowerCase() + '?'"
         ok-text="Si"
         cancel-text="No"
         @confirm="handleDelete"
     >
-        <a href="#"><DeleteOutlined /></a>
+        <a href="#" :title="'Eliminar ' + config.modelTitleSingular"><DeleteOutlined /></a>
     </a-popconfirm>
 </template>
 <style lang="css" scoped>

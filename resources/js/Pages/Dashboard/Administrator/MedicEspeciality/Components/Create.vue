@@ -5,7 +5,7 @@
     </script>
     <script setup>
         // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-        import { h, onUnmounted, ref, inject } from 'vue';
+        import { h, onUnmounted, ref } from 'vue';
         import { PlusOutlined } from '@ant-design/icons-vue';
 
         import Modal from '@/Components/Modal.vue';
@@ -25,10 +25,12 @@
         const modalOpen = ref(false);
 
         const {
-        form,
-        formRef,
-        handleSubmit
+            form,
+            formRef,
+            handleSubmit
         } = useCreate(modalOpen, props.config);
+
+        const { can_create } = props.config.user_permissions;
 
         // Usar reglas de validación de la configuración
         const rulesForm = props.config.validationRules.create(form);
@@ -40,9 +42,8 @@
             modalOpen.value = true;
         };
         const handleCancelForm = () => {
-        form.reset();
-        //drawerOpen.value = false;
-        modalOpen.value = false;
+            form.reset();
+            modalOpen.value = false;
         };
         // 6. Watchers
         // 7. Lifecycle Hooks (onMounted, etc.)
@@ -54,11 +55,13 @@
     <template>
     <a-button
         :icon="h(PlusOutlined)"
-        type="primary"
-        @click="handleModal(true)"
+        :type="can_create ? 'primary' : 'disabled'"
+        @click="can_create ? handleModal(true) : null"
+        :title="can_create ? 'Crear ' + config.modelTitleSingular : 'No tienes permisos para crear'"
     >
         Nueva {{ config.modelTitleSingular }}
     </a-button>
+
     <Modal
         :title="'Crear ' + config.modelTitleSingular"
         :openModal="modalOpen"

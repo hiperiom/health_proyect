@@ -31,6 +31,8 @@
             handleSubmit
         } = useEdit(props.item, modalOpen, props.config);
 
+        const { can_update } = props.config.user_permissions;
+
         // Usar reglas de validación de la configuración
         const rulesForm = props.config.validationRules.edit(form);
 
@@ -60,10 +62,11 @@
 
     <template>
         <a-button
-            type="link"
-            @click="handleModal(true)"
+            :icon="h(EditOutlined)"
+            :type="can_update ? 'link' : 'disabled'"
+            @click="can_update ? handleModal(true) : null"
+            :title="can_update ? 'Editar ' + config.modelTitleSingular : 'No tienes permisos para editar'"
         >
-            <EditOutlined />
         </a-button>
         <Modal
             :title="'Editar ' + config.modelTitleSingular"

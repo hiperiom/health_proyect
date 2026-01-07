@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-export function useIndex() {
+export function useIndex(config) {
     const loading = ref(false);
     const drawerOpen = ref(false);
     const dataSource = ref([]);
@@ -9,7 +9,7 @@ export function useIndex() {
     const pagination = ref({
         total: 0,
         page: 1,
-        pageSize: 8
+        pageSize: config.defaultPageSize || 8
     });
 
     
@@ -56,7 +56,7 @@ export function useIndex() {
             const pageSize = params.results || pagination.value.pageSize;
             const searchText = params.searchText || '';
 
-            const res = await axios.get(route('roles.data'), {
+            const res = await axios.get(route(config.modelNameKebabCase +'.data'), {
                 params: {
                     page: page,      
                     pageSize: pageSize,    

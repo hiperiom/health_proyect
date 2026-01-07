@@ -4,15 +4,16 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords, normalizeText } from '@/helpers/helpers';
 
-export function useEdit(item,modalOpen,modelName) {
-    const form = useForm({
-        dni: '',
-        email: '',
-        first_names: '',
-        last_names: '',
-        gender: null,
-        birthday: '',
+export function useEdit(item, modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {
+        avatar: null
+    };
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = '';
     });
+
+    const form = useForm(initialFormData);
     const formRef = ref(null);
 
     watch(
@@ -48,10 +49,10 @@ export function useEdit(item,modalOpen,modelName) {
                 throw err;
             });
 
-            await axios.put(route(modelName.toLowerCase() +'.update', item.id), form.data());
-            message.success('¡Actualizado con éxito!');
+            await axios.put(route(config.modelNameKebabCase +'.update', item.id), form.data());
+            message.success('¡Registro actualizado con éxito!');
 
-            form.reset();
+            form.resetAndClearErrors();
             modalOpen.value = false;
         } catch (error) {
             if (error.response?.status === 422) {

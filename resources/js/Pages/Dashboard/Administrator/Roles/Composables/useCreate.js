@@ -4,12 +4,23 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords } from '@/helpers/helpers';
 
-export function useCreate(drawerOpen) {
-    const form = useForm({
-            name: '',
-            color: 'blue',
-            guard_name: 'web',
+export function useCreate(modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {};
+
+    // Agregar campos del formulario principal
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = '';
+    });
+
+    // Agregar campos adicionales para creación
+    if (config.createOnlyFields) {
+        Object.keys(config.createOnlyFields).forEach(field => {
+            initialFormData[field] = config.createOnlyFields[field].default || '';
         });
+    }
+
+    const form = useForm(initialFormData);
     const formRef = ref(null); 
     
     watch(
@@ -32,11 +43,11 @@ export function useCreate(drawerOpen) {
                 throw err;
             });
             
-            await axios.post(route('roles.store'), form.data());
+            await axios.post(route(config.modelNameKebabCase +'.store'), form.data());
             message.success('¡Creado con éxito!');
-            
+
             form.reset();
-            drawerOpen.value = false;
+            modalOpen.value = false;
 	
 		} catch (error) {
             if (error.response?.status === 422) {

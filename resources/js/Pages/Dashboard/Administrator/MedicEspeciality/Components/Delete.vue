@@ -18,11 +18,14 @@
                 type: Object,
                 required: true,
             },
-            modelName: {
-                type: String,
+            config: {
+                type: Object,
                 required: true,
             },
+
         });
+
+        const { can_delete } = props.config.user_permissions;
 
         // 3. State (ref, reactive)
         // 4. Computed Properties
@@ -44,6 +47,7 @@
     </script>
     <template>
         <a-popconfirm
+            :disabled="!can_delete"
             placement="bottomRight"
             title="¿Quieres eliminar el registro?"
             ok-text="Si"

@@ -18,8 +18,8 @@
             type: Object,
             required: true,
         },
-        modelName: {
-            type: String,
+        config: {
+            type: Object,
             required: true,
         },
     });
@@ -29,11 +29,11 @@
     // 5. Methods & Logic (Functions, Handlers)
     const handleDelete = async () => {
         try {
-            await axios.delete(route(props.modelName.toLowerCase() +'.destroy', props.item));
-            message.success('Registro eliminado exitosamente.');
+            await axios.delete(route(props.config.modelNameKebabCase +'.destroy', props.item));
+            message.success(props.config.modelTitleSingular + ' eliminado exitosamente.');
         } catch (error) {
             console.log(error);
-            const msg = error.response?.data?.message || 'Error al eliminar el registro.';
+            const msg = error.response?.data?.message || 'Error al eliminar el ' + props.config.modelTitleSingular.toLowerCase() + '.';
             message.error(msg);
         }
     };
@@ -45,12 +45,12 @@
 <template>
     <a-popconfirm
         placement="bottomRight"
-        title="¿Quieres eliminar el registro?"
+        :title="'¿Quieres eliminar este ' + config.modelTitleSingular.toLowerCase() + '?'"
         ok-text="Si"
         cancel-text="No"
         @confirm="handleDelete"
     >
-        <a href="#"><DeleteOutlined /></a>
+        <a href="#" :title="'Eliminar ' + config.modelTitleSingular"><DeleteOutlined /></a>
     </a-popconfirm>
 </template>
 <style lang="css" scoped>

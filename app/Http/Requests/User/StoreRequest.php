@@ -14,6 +14,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'dni' => 'required|numeric|digits_between:6,8 |unique:users,dni',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:8',

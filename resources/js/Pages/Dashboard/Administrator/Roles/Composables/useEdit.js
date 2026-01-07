@@ -4,12 +4,14 @@ import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
 import { capitalizeWords } from '@/helpers/helpers';
 
-export function useEdit(role,drawerOpen) {
-    const form = useForm({
-        name: role.name || '',
-        color: role.color || 'blue',
-        guard_name: role.guard_name || 'web',
+export function useEdit(item, modalOpen, config) {
+    // Crear formulario dinámicamente basado en la configuración
+    const initialFormData = {};
+    Object.keys(config.formFields).forEach(field => {
+        initialFormData[field] = item[field] || '';
     });
+
+    const form = useForm(initialFormData);
     const formRef = ref(null);
 
     watch(
@@ -33,11 +35,11 @@ export function useEdit(role,drawerOpen) {
                 throw err;
             });
 
-            await axios.put(route('roles.update', role.id), form.data());
+            await axios.put(route(config.modelNameKebabCase +'.update', item.id), form.data());
             message.success('¡Actualizado con éxito!');
 
             form.reset();
-            drawerOpen.value = false;
+            modalOpen.value = false;
         } catch (error) {
             if (error.response?.status === 422) {
                 form.setError(error.response.data.errors);

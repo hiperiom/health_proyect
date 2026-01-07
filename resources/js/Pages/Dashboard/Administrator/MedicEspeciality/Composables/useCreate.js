@@ -2,7 +2,7 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import { useForm } from '@inertiajs/vue3';
-import { capitalizeWords, normalizeText } from '@/helpers/helpers';
+import { capitalizeWords } from '@/helpers/helpers';
 
 export function useCreate(modalOpen, config) {
     // Crear formulario dinámicamente basado en la configuración
@@ -16,8 +16,8 @@ export function useCreate(modalOpen, config) {
     
     watch(
         () => form.name,
-        (newVal) => {
-        form.name = capitalizeWords(newVal);
+            (newVal) => {
+            form.name = capitalizeWords(newVal);
         }
     );
 
@@ -35,8 +35,8 @@ export function useCreate(modalOpen, config) {
                 throw err;
             });
             
-            await axios.post(route(config.modelName +'.store'), form.data());
-            message.success('¡Creado con éxito!');
+            await axios.post(route(config.modelNameRoutes +'.store'), form.data());
+            message.success('¡Registro creado con éxito!');
             
             form.reset();
             modalOpen.value = false;
@@ -52,8 +52,8 @@ export function useCreate(modalOpen, config) {
         }
     };
     return {
-    form,
-    formRef,
-    handleSubmit,
+        form,
+        formRef,
+        handleSubmit,
     };
 }

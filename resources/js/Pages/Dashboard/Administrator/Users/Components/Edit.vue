@@ -1,49 +1,39 @@
-<script>
-    const modelTitle = "Usuario";
-    export default {
-        name: "EditItem",
-    }
-</script>
-<script setup>
-    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { h, ref, watch } from 'vue';
-    import { EditOutlined } from '@ant-design/icons-vue';
-    import { useEdit } from '../Composables/useEdit';
-    import { getEditRules } from '../Utils/editRules';
-    import Spinner from '@/Components/Spinner.vue';
-    import Modal from '@/Components/Modal.vue';
+    <script>
+        export default {
+            name: "EditItem",
+        }
+    </script>
+    <script setup>
+        // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+        import { h, ref, watch } from 'vue';
+        import { EditOutlined } from '@ant-design/icons-vue';
+        import AvatarUpload from '@/Pages/Auth/Components/AvatarUpload.vue';
+        import { useEdit } from '../Composables/useEdit';
+        import Spinner from '@/Components/Spinner.vue';
+        import Modal from '@/Components/Modal.vue';
 
-    // 2. Props & Emits (defineProps, defineEmits)
-    const props = defineProps({
-        item: {
-            type: Object,
-            required: true,
-        },
-        modelName: {
-            type: String,
-            required: true,
-        },
-    });
+        // 2. Props & Emits (defineProps, defineEmits)
+        const props = defineProps({
+            item: {
+                type: Object,
+                required: true,
+            },
+            config: {
+                type: Object,
+                required: true,
+            },
+        });
 
-    // 3. State (ref, reactive)
-    const modalOpen = ref(false);
-    const {
-        form,
-        formRef,
-        handleSubmit
-    } = useEdit(props.item,modalOpen,props.modelName);
+        // 3. State (ref, reactive)
+        const modalOpen = ref(false);
+        const {
+            form,
+            formRef,
+            handleSubmit
+        } = useEdit(props.item, modalOpen, props.config);
 
-    const rulesForm = getEditRules(form);
-    const genderOptions = [
-          {
-          value: 'm',
-          label: 'Masculino',
-          },
-          {
-          value: 'f',
-          label: 'Femenino',
-          },
-      ];
+        // Usar reglas de validación de la configuración
+        const rulesForm = props.config.validationRules.edit(form);
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
@@ -58,12 +48,14 @@
     // 6. Watchers
     watch(() => props.item, (newItem) => {
         if (newItem) {
-            form.first_names = newItem.profile.first_names || '';
-            form.last_names = newItem.profile.last_names || '';
-            form.dni = newItem.dni || '';
-            form.email = newItem.email || '';
-            form.birthday = newItem.profile.birthday || '';
-            form.gender = newItem.profile.gender || '';
+            // Poblar el formulario dinámicamente con los datos del item
+            Object.keys(props.config.formFields).forEach(fieldName => {
+                if (fieldName === 'first_names' || fieldName === 'last_names' || fieldName === 'birthday' || fieldName === 'gender') {
+                    form[fieldName] = newItem.profile[fieldName] || '';
+                } else {
+                    form[fieldName] = newItem[fieldName] || '';
+                }
+            });
         }
     }, { immediate: true });
 
@@ -71,89 +63,60 @@
     // 8. Expose (defineExpose)
 </script>
 <template>
-  <a-button 
-    type="link" 
+  <a-button
+    type="link"
     @click="handleModal(true)"
   >
       <EditOutlined />
   </a-button>
   <Modal
-      :title="'Editar ' + modelTitle"
-      :openModal="modalOpen"      
+      :title="'Editar ' + config.modelTitleSingular"
+      :openModal="modalOpen"
       @handleCancelForm="handleCancelForm"
   >
       <template #content>
         <Spinner :loading="form.processing" >
           <div class="d-flex align-items-center justify-content-center h-100">
             <a-form ref="formRef" layout="vertical" :model="form" :rules="rulesForm" @submit.prevent="handleSubmit">
-              <a-row id="tour-identity" justify="center" :gutter="10" :wrap="true">
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item name="dni" ref="dni" has-feedback label="Cédula">
-                    <a-input name="dni" :maxlength="8" v-model:value="form.dni" placeholder="Escribe aquí tu cédula" />
-                  </a-form-item>
-                </a-col>
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item name="email" ref="email" has-feedback label="Correo electrónico">
-                    <a-input name="email" v-model:value="form.email" placeholder="Escribe aquí tu correo electrónico" />
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row id="tour-names" justify="center" :gutter="10" :wrap="true">
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item 
-                    name="first_names" 
-                    ref="first_names" 
-                    has-feedback 
-                    label="Nombres"
-                  >
-                    <a-input 
-                      name="first_names" 
-                      :maxlength="50" 
-                      v-model:value="form.first_names"
-                      placeholder="Escribe tu primer y segundo nombre" 
-                    />
-                  </a-form-item>
-                </a-col>
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item 
-                    name="last_names" 
-                    ref="last_names" 
-                    has-feedback 
-                    label="Apellidos"
-                  >
-                    <a-input 
-                      name="last_names" 
-                      :maxlength="50" 
-                      v-model:value="form.last_names"
-                      placeholder="Escribe tu primer y segundo apellido" 
-                    />
-                  </a-form-item>
-                </a-col>
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item name="gender" has-feedback label="Género">
-                    <a-select name="gender" placeholder="Selecciona el sexo" v-model:value="form.gender"
-                      :options="genderOptions" style="width: 100%" />
-                  </a-form-item>
-                </a-col>
-                <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
-                  <a-form-item name="birthday" ref="birthday" has-feedback label="Fecha de nacimiento">
-                    <a-date-picker 
-                      value-format="YYYY-MM-DD" 
-                      format="DD/MM/YYYY"
-                      v-model:value="form.birthday" 
-                      style="width: 100%" 
-                      placeholder="Escribe tu fecha de nacimiento dia/mes/año" 
-                    />
-                  </a-form-item>
-                </a-col>
-              </a-row>
+             
 
-              <a-row justify="center" :gutter="10" :wrap="true">
-                <a-col :span="24" class="text-center">
-                  <a-form-item v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
-                    <a-checkbox v-model:checked="form.terms">
-                      Acepto los términos y condiciones
-                    </a-checkbox>
+              <a-row id="tour-identity" justify="center" :gutter="10" :wrap="true">
+                <a-col span="24" >
+                  <a-form-item :name="'avatar'" :ref="'avatar'" has-feedback :label="'Foto de Perfil'">
+                    <AvatarUpload 
+                      v-model:value="form.avatar" 
+                      :loading="form.processing"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col v-for="(fieldConfig, fieldName) in config.formFields" :key="fieldName" :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :xxl="12">
+                  <a-form-item v-if="fieldConfig.type !== 'avatar'" :name="fieldName" :ref="fieldName" has-feedback :label="fieldConfig.label">
+                    <!-- Input text -->
+                    <a-input
+                      v-if="fieldConfig.type === 'input'"
+                      :name="fieldName"
+                      :maxlength="fieldConfig.maxlength"
+                      v-model:value="form[fieldName]"
+                      :placeholder="fieldConfig.placeholder"
+                    />
+                    <!-- Select -->
+                    <a-select
+                      v-else-if="fieldConfig.type === 'select'"
+                      :name="fieldName"
+                      :placeholder="fieldConfig.placeholder"
+                      v-model:value="form[fieldName]"
+                      :options="fieldConfig.options"
+                      style="width: 100%"
+                    />
+                    <!-- Date picker -->
+                    <a-date-picker
+                      v-else-if="fieldConfig.type === 'date'"
+                      :value-format="fieldConfig.valueFormat"
+                      :format="fieldConfig.format"
+                      v-model:value="form[fieldName]"
+                      style="width: 100%"
+                      :placeholder="fieldConfig.placeholder"
+                    />
                   </a-form-item>
                 </a-col>
               </a-row>

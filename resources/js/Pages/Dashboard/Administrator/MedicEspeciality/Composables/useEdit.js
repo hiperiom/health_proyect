@@ -35,8 +35,8 @@ export function useEdit(item, modalOpen, config) {
                 throw err;
             });
 
-            await axios.put(route(config.modelName +'.update', {id: item.id}), form.data());
-            message.success('¡Actualizado con éxito!');
+            await axios.put(route(config.modelNameRoutes +'.update', {id: item.id}), form.data());
+            message.success('¡Registro actualizado con éxito!');
 
             form.reset();
             modalOpen.value = false;
