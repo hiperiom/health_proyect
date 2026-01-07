@@ -79,14 +79,73 @@ class CreateAdminScaffold extends Command
         // 4. REGISTRO AUTOMÁTICO DE RUTA EN WEB.PHP
         $this->registerRoute($config['modelNameKebabCase'], $config['modelNameController']);
 
-        // 5. AVISO DE OBSERVER
-        $this->error("\n⚠️  Recuerda registrar el Observer en AppServiceProvider.php:");
-        $this->line("{$config['modelNameSingular']}::observe({$config['modelNameSingular']}Observer::class);");
-        
+        // 5. REGISTRO AUTOMÁTICO DEL OBSERVER
+        $this->registerObserver($config['modelNameSingular']);
+
         // 6. REGISTRO DE PERMISOS
         $this->registerPermissions($config['modelNameSingular']);
 
         $this->info("\n✅ ¡Proceso completado con éxito!");
+    }
+    protected function registerObserver($modelName)
+    {
+        $appServiceProviderPath = app_path('Providers/AppServiceProvider.php');
+
+        if (!File::exists($appServiceProviderPath)) {
+            $this->error("   - No se encontró AppServiceProvider.php");
+            return;
+        }
+
+        $content = File::get($appServiceProviderPath);
+
+        // Verificar si ya está registrado el observer
+        $observerLine = "{$modelName}::observe({$modelName}Observer::class);";
+        if (str_contains($content, $observerLine)) {
+            $this->line("   - Observer <comment>{$modelName}Observer</comment> ya estaba registrado.");
+            return;
+        }
+
+        // Verificar si existe el import del modelo
+        $modelImport = "use App\Models\\{$modelName};";
+        if (!str_contains($content, $modelImport)) {
+            // Agregar el import del modelo
+            $content = preg_replace(
+                '/(use App\\\\Models\\\\[^;]+;)/',
+                "$1\n{$modelImport}",
+                $content,
+                1
+            );
+        }
+
+        // Verificar si existe el import del observer
+        $observerImport = "use App\\Observers\\{$modelName}Observer;";
+        if (!str_contains($content, $observerImport)) {
+            // Agregar el import del observer
+            $content = preg_replace(
+                '/(use App\\\\Observers\\\\[^;]+;)/',
+                "$1\n{$observerImport}",
+                $content,
+                1
+            );
+        }
+
+        // Agregar la línea del observer en el método boot
+        $pattern = '/(public function boot\(\): void\s*\{[^}]*)(Schema::defaultStringLength\(191\);)/s';
+
+        if (preg_match($pattern, $content, $matches)) {
+            $replacement = $matches[1] . $matches[2] . "\n        {$observerLine}";
+            $content = preg_replace($pattern, $replacement, $content);
+        } else {
+            // Si no encuentra el patrón, buscar el método boot y agregar al final
+            $content = preg_replace(
+                '/(public function boot\(\): void\s*\{[^}]*)\}/s',
+                "$1        {$observerLine}\n    }",
+                $content
+            );
+        }
+
+        File::put($appServiceProviderPath, $content);
+        $this->line("   - Observer <info>{$modelName}Observer</info> registrado automáticamente en AppServiceProvider.");
     }
     protected function generateFrontend($config)
     {
