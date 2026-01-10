@@ -13,19 +13,19 @@ defineProps({
     title: String,
 });
 
-const state = reactive({
-    collapsed: false,
-});
-const page = usePage();
+    const state = reactive({
+        collapsed: false,
+    });
+    const page = usePage();
 
 
-const optionsList = [];
+    const optionsList = [];
     page.props.auth.user.roles.forEach(role => {
         if (role.name === 'Administrador'){
             optionsList.push({
                 icon: () => h(UserOutlined),
                 key: 'admin_group',      
-                label: h('div', role.name),
+                label: h('div', collapsed ? role.name:''),
                 type: 'group',
                 children: [
                     {
@@ -37,7 +37,7 @@ const optionsList = [];
                     {
                         icon: () => h(UserOutlined),
                         key: 'users.index',
-                        label: h('div', 'Usuarios'),
+                        label: h('div', 'Usuariosssss1111'),
                         onClick: () => router.get(route('users.index')),
                     },
                     {
@@ -73,15 +73,15 @@ const optionsList = [];
 
 
 
-const sidebarItems = reactive(optionsList
-    
-    /* ...(is_admim && 
-    { label: h('div', {}, 'Paciente'), type: 'group' },
-    { label: h('div', {}, 'Doctor'), type: 'group' },
-    { label: h('div', {}, 'Personal de Enfermería'), type: 'group' },
-    { label: h('div', {}, 'Gerente'), type: 'group' },
-    { label: h('div', {}, 'Atención al Paciente'), type: 'group' }, */
-);
+    const sidebarItems = reactive(optionsList
+        
+        /* ...(is_admim && 
+        { label: h('div', {}, 'Paciente'), type: 'group' },
+        { label: h('div', {}, 'Doctor'), type: 'group' },
+        { label: h('div', {}, 'Personal de Enfermería'), type: 'group' },
+        { label: h('div', {}, 'Gerente'), type: 'group' },
+        { label: h('div', {}, 'Atención al Paciente'), type: 'group' }, */
+    );
 
 // 2. Sincronización automática con la ruta activa
 const selectedKeys = computed(() => {

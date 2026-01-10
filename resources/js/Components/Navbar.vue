@@ -1,29 +1,20 @@
 <script setup>
-// 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-import { h, reactive } from 'vue';
-import { router, usePage } from '@inertiajs/vue3';
-import { MenuUnfoldOutlined, MenuFoldOutlined,LockOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
-import { Avatar,Tag } from 'ant-design-vue';
-// 2. Props & Emits (defineProps, defineEmits)
+    // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
+    import { h, reactive } from 'vue';
+    import { router, usePage } from '@inertiajs/vue3';
+    import { LockOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
+    import { Avatar,Tag } from 'ant-design-vue';
+    // 2. Props & Emits (defineProps, defineEmits)
 
-// 3. State (ref, reactive)
+    // 3. State (ref, reactive)
     const state = reactive({
         collapsed: false,
-        /* selectedKeys: ['1'], */
-        /* openKeys: ['sub1'],
-        preOpenKeys: ['sub1'], */
     });
     const page = usePage();
     const {profile_photo_url, name} = page.props.auth.user;
     const rol = page.props['0']['user.roles'][0];
     const horizontalMenuItems = reactive(
         [
-            /* {
-                key: 'sidebar_trigger',
-                icon: () => {
-                    return state.collapsed ? h(MenuUnfoldOutlined) : h(MenuFoldOutlined);
-                },
-            }, */
             {
                 key: 'home_menu',
                 label:  h(
@@ -60,7 +51,7 @@ import { Avatar,Tag } from 'ant-design-vue';
                 
                             ] 
                         ),
-                class: 'push-right fade-in',
+                class: 'fade-in pe-0',
                 children: [
                     {   
                         key: 'profile',
@@ -89,17 +80,12 @@ import { Avatar,Tag } from 'ant-design-vue';
         ]);
 
 
-// 4. Computed Properties
-// 5. Methods & Logic (Functions, Handlers)
-const handleNavbarClick = ({ key }) => {
-  
-  /* if (key === 'sidebar_trigger') {
-    toggleCollapsed();
-  } */
-};
-// 6. Watchers
-// 7. Lifecycle Hooks (onMounted, etc.)
-// 8. Expose (defineExpose)
+    // 4. Computed Properties
+    // 5. Methods & Logic (Functions, Handlers)
+
+    // 6. Watchers
+    // 7. Lifecycle Hooks (onMounted, etc.)
+    // 8. Expose (defineExpose)
 </script>
 <template>
     <a-menu 
@@ -107,12 +93,9 @@ const handleNavbarClick = ({ key }) => {
         class="d-flex align-items-center border-0"
         mode="horizontal" 
         :items="horizontalMenuItems" 
-        @click="handleNavbarClick"
+    
     />
 </template>
 <style>
-   .push-right {
-        margin-left: auto !important;
-    }
-
+ 
 </style>
