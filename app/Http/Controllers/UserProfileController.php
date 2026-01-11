@@ -28,7 +28,7 @@ class UserProfileController extends Controller
 
 	public function index()
 	{
-		return inertia('Dashboard/Administrator/UserProfile/Index');
+		
 	}
 
 	public function create()

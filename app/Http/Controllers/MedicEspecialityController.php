@@ -26,7 +26,7 @@ class MedicEspecialityController extends Controller
 
     public function index()
     {
-        return inertia('Dashboard/Administrator/MedicEspeciality/Index');
+        return inertia('Dashboard/MedicEspeciality/Index');
     }
 
     public function store(StoreRequest $request, StoreService $service): StoreResource

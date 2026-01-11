@@ -14,7 +14,6 @@ class UpdateRequest extends FormRequest
         public function rules(): array
     {
         $userId = ($this->route('user'));
-      
         return [
             'dni' => "required|numeric|digits_between:6,8 |unique:users,dni,{$userId}",
             'email' => "required|email|unique:users,email,{$userId}",

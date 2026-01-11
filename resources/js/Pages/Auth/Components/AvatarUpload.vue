@@ -6,12 +6,12 @@
 
 <script setup>
     // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-    import { ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import { LoadingOutlined, UserOutlined } from '@ant-design/icons-vue';
     import { getBase64 } from '@/helpers/helpers';
     // 2. Props & Emits (defineProps, defineEmits)
     const props = defineProps({
-        value: { type: [Object, File], default: null },
+        value: { type: [Object, File, String], default: null },
         loading: { type: Boolean, default: false }
     });
     const emit = defineEmits(['update:value']);
@@ -22,6 +22,16 @@
     const internalFileList = ref([]);
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
+    const initImage = () => {
+    if (typeof props.value === 'string' && props.value.startsWith('http')) {
+            internalFileList.value = [{
+                uid: '-1',
+                name: 'Foto actual',
+                status: 'done',
+                url: props.value, // Aquí es donde ocurre la magia del preview
+            }];
+        }
+    };
     const handleBeforeUpload = (file) => {
         emit('update:value', file); // Notifica al formulario que hay un archivo
 
@@ -55,14 +65,24 @@
         internalFileList.value = [];
     };
     // 6. Watchers
+    watch(() => props.value, (newVal) => {
+        if (!newVal) {
+            internalFileList.value = [];
+        } else if (typeof newVal === 'string' && internalFileList.value.length === 0) {
+            initImage();
+        }
+    }, { immediate: true });
     // 7. Lifecycle Hooks (onMounted, etc.)
+    onMounted(() => {
+        initImage();
+    });
     // 8. Expose (defineExpose)
 </script>
 <template>
     <div id="tour-avatar" class="text-center mb-6">
         <a-upload 
             id="tour-avatar" 
-           
+            v-model:file-list="internalFileList"
             list-type="picture-card" 
             :max-count="1"
             :show-upload-list="true"

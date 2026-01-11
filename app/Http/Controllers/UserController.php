@@ -37,7 +37,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return inertia('Dashboard/Administrator/Users/Index');
+        return inertia('Dashboard/Users/Index');
     }
 
     /**

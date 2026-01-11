@@ -32,7 +32,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        return inertia('Dashboard/Administrator/Roles/Index');
+        return inertia('Dashboard/Roles/Index');
     }
 
     /**

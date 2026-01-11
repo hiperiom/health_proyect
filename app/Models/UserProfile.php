@@ -32,10 +32,10 @@ class UserProfile extends Model
     /**
      * Get the formatted birthday (día-mes-año).
      */
-    public function getBirthdayAttribute($value)
+    /* public function getBirthdayAttribute($value)
     {
         return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
-    }
+    } */
     /* public function getBirthdayFormattedAttribute()
     {
         return $this->birthday ? $this->birthday->format('d-m-Y') : null;
