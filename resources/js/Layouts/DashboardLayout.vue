@@ -9,7 +9,7 @@
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
-    const selectedKeys = ref(['1']);
+    const selectedKeys = computed(() => [route().current()]);
     const collapsed = ref(false);
     const state = reactive({
         collapsed: false,
@@ -52,6 +52,12 @@
                             key: 'medic-especialities.index',
                             label: h('div', 'Especialidades'),
                             onClick: () => router.get(route('medic-especialities.index')),
+                        },
+                        {
+                            icon: () => h(SafetyOutlined),
+                            key: 'medics.index',
+                            label: h('div', 'Médicos'),
+                            onClick: () => router.get(route('medics.index')),
                         },
 
                     ]

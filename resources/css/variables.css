@@ -22,7 +22,8 @@
 	--bs-gray-800: #343a40;
 	--bs-gray-900: #212529;
 	--bs-black: #000;
-	--bs-primary: #1677ff;
+	/* --bs-primary: #1677ff; */
+	--bs-primary: #009688;
 	--bs-primary-hover: #4096ff;
 	--bs-secondary: #6c757d;
 	--bs-success: #198754;

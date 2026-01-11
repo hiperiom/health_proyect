@@ -37,11 +37,15 @@ class RoleSeeder extends Seeder
         $permission_delete_user_profile = Permission::create(['name' => 'delete user-profile']);
 
         $permission_create_medic_especialities = Permission::create(['name' => 'create medic-especialities']);
-        $permission_read_medic_especialitie = Permission::create(['name' => 'read medic-especialities']);
-        $permission_update_medic_especialitie = Permission::create(['name' => 'update medic-especialities']);
-        $permission_delete_medic_especialitie = Permission::create(['name' => 'delete medic-especialities']);
-        
+        $permission_read_medic_especialities = Permission::create(['name' => 'read medic-especialities']);
+        $permission_update_medic_especialities = Permission::create(['name' => 'update medic-especialities']);
+        $permission_delete_medic_especialities = Permission::create(['name' => 'delete medic-especialities']);
 
+        $permission_create_medics = Permission::create(['name' => 'create medics']);
+        $permission_read_medics = Permission::create(['name' => 'read medics']);
+        $permission_update_medics = Permission::create(['name' => 'update medics']);
+        $permission_delete_medics = Permission::create(['name' => 'delete medics']);
+        
         $permissions_Admin = [
             $permission_create_role,
             $permission_read_role,
@@ -56,9 +60,13 @@ class RoleSeeder extends Seeder
             $permission_update_user_profile,
             $permission_delete_user_profile,
             $permission_create_medic_especialities,
-            $permission_read_medic_especialitie,
-            $permission_update_medic_especialitie,
-            $permission_delete_medic_especialitie,
+            $permission_read_medic_especialities,
+            $permission_update_medic_especialities,
+            $permission_delete_medic_especialities,
+            $permission_create_medics,
+            $permission_read_medics,
+            $permission_update_medics,
+            $permission_delete_medics,
         ];
 
         $permission_patient = [
