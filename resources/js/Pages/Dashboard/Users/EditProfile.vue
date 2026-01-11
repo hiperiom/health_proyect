@@ -10,13 +10,12 @@
     </script>
     <script setup>
         // 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-        import { h, onMounted, ref, watch } from 'vue';
+        import { watch } from 'vue';
         import { usePage } from '@inertiajs/vue3';
         import Modal from '@/Components/Modal.vue';
         import Spinner from '@/Components/Spinner.vue';
         import { useEditProfile } from './Composables/useEditProfile.js';
         import AvatarUpload from '@/Pages/Auth/Components/AvatarUpload.vue';
-        
         
         // 2. Props & Emits (defineProps, defineEmits)
         const props = defineProps({
@@ -133,11 +132,6 @@
         // 5. Methods & Logic (Functions, Handlers)
 
         const handleCancelForm = () => {
-            // Reset to current item values
-            /*  Object.keys(props.config.formFields).forEach(fieldName => {
-            form[fieldName] = props.item[fieldName] || '';
-            });
-            modalOpen.value = false; */
             emits('handleOpenModalEditProfile', false);
         };
         const handleSubmit = async () => {

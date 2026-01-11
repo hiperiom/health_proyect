@@ -5,12 +5,14 @@
     import { LockOutlined, ProfileOutlined,LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
     import { Avatar,Tag } from 'ant-design-vue';
     import EditProfile from '@/Pages/Dashboard/Users/EditProfile.vue';
+    import EditSegurity from '@/Pages/Dashboard/Users/EditSegurity.vue';
     // 2. Props & Emits (defineProps, defineEmits)
 
     // 3. State (ref, reactive)
     const state = reactive({
         collapsed: false,
     });
+    const editSegurityModal = ref(false);
     const editProfileModal = ref(false);
     const page = usePage();
     const {
@@ -23,6 +25,9 @@
 
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
+    const handleOpenModalEditSegurity = (value) => {
+        editSegurityModal.value = value;
+    };
     const handleOpenModalEditProfile = (value) => {
         editProfileModal.value = value;
     };
@@ -79,7 +84,9 @@
                         key: 'segurity',
                         label: 'Seguridad',
                         icon: () => h(LockOutlined),
-                        
+                         onClick: () => {
+                            editSegurityModal.value = true;
+                        },
                     },
                     {   
                         key: 'logout',
@@ -111,7 +118,12 @@
             :editProfileModal="editProfileModal"
             @handleOpenModalEditProfile="handleOpenModalEditProfile" 
             :user_id="user_id"
-        />    
+        />   
+        <EditSegurity 
+            :editSegurityModal="editSegurityModal"
+            @handleOpenModalEditSegurity="handleOpenModalEditSegurity" 
+            :user_id="user_id"
+        />
     </div>
     
     
