@@ -25,22 +25,6 @@ class UserProfile extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'birthday' => 'date',
-    ];
-
-    /**
-     * Get the formatted birthday (día-mes-año).
-     */
-    /* public function getBirthdayAttribute($value)
-    {
-        return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
-    } */
-    /* public function getBirthdayFormattedAttribute()
-    {
-        return $this->birthday ? $this->birthday->format('d-m-Y') : null;
-    } */
-
     /**
      * Get the user that owns the profile.
      */

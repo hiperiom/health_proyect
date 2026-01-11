@@ -25,7 +25,7 @@
     import DeleteItem from './Components/Delete.vue';
 
     import { useIndex } from './Composables/useIndex.js';
-import { Avatar } from 'ant-design-vue';
+    import { Avatar } from 'ant-design-vue';
 
     // 2. Props & Emits (defineProps, defineEmits)
     // 3. State (ref, reactive)
@@ -303,7 +303,8 @@ import { Avatar } from 'ant-design-vue';
                             {{ record.email }}
                         </template>
                         <template v-if="column.dataIndex === 'birthday'">
-                            {{ record.profile.birthday }}
+                            
+                            {{ $date(record.profile.birthday).format('DD/MM/YYYY') }}
                         </template>
                         <template v-if="column.dataIndex === 'gender'">
                             {{ record.profile.gender.toUpperCase() }}

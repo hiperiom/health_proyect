@@ -53,12 +53,7 @@
                             label: h('div', 'Especialidades'),
                             onClick: () => router.get(route('medic-especialities.index')),
                         },
-                        {
-                            icon: () => h(SafetyOutlined),
-                            key: 'user-profile.index',
-                            label: h('div', 'Perfiles de usuario'),
-                            onClick: () => router.get(route('user-profile.index')),
-                        },
+
                     ]
                 })
 

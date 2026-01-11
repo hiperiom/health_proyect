@@ -10,14 +10,24 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import Antd from 'ant-design-vue';
 
 import '../css/ant-design-vue/dist/antd.css';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/es'; 
 
+dayjs.extend(relativeTime);
+dayjs.locale('es'); // Configurar español por defecto
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: () => `${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) });
+        
+        // 3. Inyectar Day.js globalmente
+        app.config.globalProperties.$date = dayjs;
+
+        return app
             .use(plugin)
             .use(ZiggyVue)
             .use(Antd)
