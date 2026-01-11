@@ -31,10 +31,10 @@ class RoleSeeder extends Seeder
         $permission_update_user = Permission::create(['name' => 'update users']);
         $permission_delete_user = Permission::create(['name' => 'delete users']);
 
-        $permission_create_user_profile = Permission::create(['name' => 'create user_profile']);
-        $permission_read_user_profile = Permission::create(['name' => 'read user_profile']);
-        $permission_update_user_profile = Permission::create(['name' => 'update user_profile']);
-        $permission_delete_user_profile = Permission::create(['name' => 'delete user_profile']);
+        $permission_create_user_profile = Permission::create(['name' => 'create user-profile']);
+        $permission_read_user_profile = Permission::create(['name' => 'read user-profile']);
+        $permission_update_user_profile = Permission::create(['name' => 'update user-profile']);
+        $permission_delete_user_profile = Permission::create(['name' => 'delete user-profile']);
 
         $permission_create_medic_especialities = Permission::create(['name' => 'create medic-especialities']);
         $permission_read_medic_especialitie = Permission::create(['name' => 'read medic-especialities']);

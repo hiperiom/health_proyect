@@ -2,65 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\UserProfile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Http\Requests\UserProfile\StoreRequest;
 use App\Http\Requests\UserProfile\UpdateRequest;
+use App\Http\Resources\UserProfile\StoreResource;
+use App\Http\Resources\UserProfile\UpdateResource;
+use App\Services\UserProfile\StoreService;
+use App\Services\UserProfile\UpdateService;
 
 class UserProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+	public function data(Request $request): JsonResponse
+	{
+		$data = UserProfile::query()
+			->when($request->searchText, function($query, $search) {
+				$query->where('name', 'like', "%$search%");
+			})
+			->orderBy('created_at', 'desc')
+			->paginate($request->pageSize ?? 7);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+		return response()->json($data);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRequest $request)
-    {
-        //
-    }
+	public function index()
+	{
+		return inertia('Dashboard/Administrator/UserProfile/Index');
+	}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserProfile $userProfile)
-    {
-        //
-    }
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserProfile $userProfile)
-    {
-        //
-    }
+	public function store(StoreRequest $request, StoreService $storeService): StoreResource|JsonResponse
+	{
+		$result = $storeService->execute($request->validated());
+		return new StoreResource($result);
+	}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRequest $request, UserProfile $userProfile)
-    {
-        //
-    }
+	public function show(string $id)
+	{
+		//
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserProfile $userProfile)
-    {
-        //
-    }
+	public function edit(string $id)
+	{
+		//
+	}
+
+	public function update(UpdateRequest $request, UpdateService $updateService, string $id): UpdateResource
+	{
+		$userprofile = UserProfile::findOrFail($id);
+		$result = $updateService->execute($userprofile, $request->validated());
+		return new UpdateResource($result);
+	}
+
+	public function destroy(string $id): JsonResponse
+	{
+		$userprofile = UserProfile::findOrFail($id);
+		$userprofile->delete();
+		return response()->json(['message' => 'Registro eliminado exitosamente.']);
+	}
 }
