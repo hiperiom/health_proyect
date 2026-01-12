@@ -6,10 +6,6 @@
 </script>
 <script setup>
 	// 1. Imports (Vue, Inertia, Ant Design, Icons, Components)
-	import { ref } from 'vue';
-	import { LoadingOutlined, UserOutlined } from '@ant-design/icons-vue';
-	import { getBase64 } from '@/helpers/helpers';
-
 	import { useRegister } from './Composables/useRegister';
 	import { getRegisterRules } from './Utils/registerRules';
 
@@ -69,10 +65,12 @@
 						>
 							<a-row justify="center" :gutter="10" :wrap="true">
 								<a-col :span="24" class="text-center">
+									<a-form-item name="avatar" ref="avatar" has-feedback >
 									<AvatarUpload 
 										v-model:value="registerForm.avatar" 
 										:loading="registerForm.processing"
 									/>
+									</a-form-item>
 								</a-col>
 							</a-row>
 							<RegisterFields :registerForm="registerForm" :genderOptions="genderOptions" />

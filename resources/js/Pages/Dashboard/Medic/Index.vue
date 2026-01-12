@@ -14,6 +14,7 @@
     import { h, onMounted, onUnmounted, provide } from 'vue';
     import { usePage } from '@inertiajs/vue3';
     import { ReloadOutlined,} from '@ant-design/icons-vue';
+    import axios from 'axios';
 
     import DashboardLayout from '@/Layouts/DashboardLayout.vue';
     import Spinner from '@/Components/Spinner.vue';
@@ -93,14 +94,6 @@
 
         // Campos adicionales para creación (password)
         createOnlyFields: {
-            password: {
-                default: '12345678',
-                required: true
-            },
-            password_confirmation: {
-                default: '12345678',
-                required: true
-            },
             terms: {
                 default: false,
                 required: false

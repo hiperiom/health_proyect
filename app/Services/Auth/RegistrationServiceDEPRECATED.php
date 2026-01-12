@@ -24,7 +24,12 @@ class RegistrationService
     public function store(array $data): array
     {
         return DB::transaction(function () use ($data) {
-            
+
+            // Set default password if not provided
+            if (!isset($data['password']) || empty($data['password'])) {
+                $data['password'] = '12345678';
+            }
+
             $user = User::create([
                 'dni' => $data['dni'] ?? null,
                 'email' => $data['email'],
@@ -32,14 +37,14 @@ class RegistrationService
             ]);
             
             $data['user_id'] = $user->id;
-            
+
             $paramsProfile = Arr::only($data, [
-                'user_id',
                 'first_names',
                 'last_names',
                 'gender',
+                'birthday',
             ]);
-            $profile = $this->storeUserProfileService->store($paramsProfile);
+            $profile = $this->storeUserProfileService->execute($user->id, $paramsProfile);
 
             $token = $user->createToken('auth_token')->plainTextToken;
 

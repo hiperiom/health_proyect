@@ -25,6 +25,8 @@ Route::middleware([
     Route::resource('roles', RolesController::class);
 
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
+    Route::get('/users/check-dni', [UserController::class, 'checkDni'])->name('users.check-dni');
+    Route::get('/users/by-dni/{dni}', [UserController::class, 'getByDni'])->name('users.by-dni');
     Route::resource( 'users', UserController::class);
     Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
 
@@ -40,4 +42,3 @@ Route::middleware([
 
 
 });
-

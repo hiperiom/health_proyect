@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Helpers\NameHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,8 +18,8 @@ class UpdateService
             $data['profile_photo_path'] = request()->file('avatar')->store('user_avatars', 'public');
         }
 
-        $firstName = $this->extractFirstName($data['first_names']);
-        $lastName = $this->extractFirstName($data['last_names']);
+        $firstName = NameHelper::extractFirstName($data['first_names']);
+        $lastName = NameHelper::extractFirstName($data['last_names']);
 
         $fullName = trim($firstName . ' ' . $lastName);
 
@@ -38,16 +39,5 @@ class UpdateService
         ]);
 
         return $user->fresh();
-    }
-    private function extractFirstName(string $fullNameString): string
-    {
-        // 1. Limpiar espacios iniciales/finales
-        $fullNameString = trim($fullNameString);
-
-        // 2. Dividir la cadena en palabras (usando uno o más espacios como delimitador)
-        $words = preg_split('/\s+/', $fullNameString);
-
-        // 3. Devolver la primera palabra si existe, o una cadena vacía
-        return $words[0] ?? '';
     }
 }

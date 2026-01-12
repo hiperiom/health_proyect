@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
         $role_admin = Role::create(['name' => 'Administrador', 'color' => 'blue']);
         $role_patient = Role::create(['name' => 'Paciente', 'color' => 'green']);
-        $role_medic = Role::create(['name' => 'Medico', 'color' => 'primary']);
+        $role_medic = Role::create(['name' => 'Médico', 'color' => 'primary']);
         $role_nurse = Role::create(['name' => 'Enfermería', 'color' => 'warning']);
         $role_patient_atention = Role::create(['name' => 'Atención al Paciente', 'color' => 'danger']);
         

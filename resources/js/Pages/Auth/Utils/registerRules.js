@@ -1,4 +1,27 @@
 export const getRegisterRules = (form) => ({
+	avatar: [
+		{
+			validator: async (_rule, value) => {
+				
+				const file = value;
+				if (!file) {
+					return Promise.resolve();
+				}
+				const isJPG = file.type === 'image/jpeg';
+				const isPNG = file.type === 'image/png';
+				if (!isJPG && !isPNG) {
+					return Promise.reject('El formato de la foto debe ser JPG o PNG');
+				}
+				const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 
+				console.log(`La foto pesa: ${sizeInMB} MB`);
+				
+				if (file.size > 2 * 1024 * 1024) {
+					return Promise.reject('El tamaño de la foto debe ser menor a 2 MB');
+				}
+				return Promise.resolve();
+			},
+		},
+	],
 	dni: [
 		{
 		validator: async (_rule, value) => {

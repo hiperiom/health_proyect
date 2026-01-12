@@ -47,6 +47,9 @@ class StoreRequest extends FormRequest
             'gender.required' => 'El género es obligatorio.',
             'gender.char' => 'El género debe ser un carácter.',
             'gender.max' => 'El género no debe exceder un carácter.',
+            'avatar.image' => 'El archivo debe ser una imagen.',
+            'avatar.mimes' => 'El archivo debe ser un archivo de imagen.',
+            'avatar.max' => 'El archivo no debe exceder los 2048 bytes.',
         ];
     }
 }

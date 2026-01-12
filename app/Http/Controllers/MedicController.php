@@ -16,14 +16,21 @@ class MedicController extends Controller
 {
 	public function data(Request $request): JsonResponse
 	{
-		$data = Medic::query()
-			->when($request->searchText, function($query, $search) {
-				$query->where('name', 'like', "%$search%");
-			})
-			->orderBy('created_at', 'desc')
-			->paginate($request->pageSize ?? 7);
-
-		return response()->json($data);
+		$users = Medic::query()
+        ->with('profile')
+        ->when(
+            $request->searchText, 
+            function($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhereHas('profile', function($qProfile) use ($search) {
+                      $qProfile->where('first_names', 'like', "%{$search}%")
+                      ->orWhere('last_names', 'like', "%{$search}%");
+                  });
+            })
+            ->orderBy('created_at','desc')
+        ->paginate($request->pageSize ?? 7);
+        return response()->json($users);
 	}
 
 	public function index()

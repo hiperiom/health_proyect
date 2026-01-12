@@ -6,11 +6,21 @@ use App\Models\Medic;
 use App\Events\Medic\CreatedEvent;
 use App\Events\Medic\UpdatedEvent;
 use App\Events\Medic\DeletedEvent;
-
+use App\Services\UserProfile\StoreService;
 class MedicObserver
 {
+    public function __construct(
+        protected StoreService $profileService
+    ) {}
     public function created(Medic $medic): void
     {
+        $medic->assignRole('Paciente');
+        $medic->assignRole('Médico');
+        
+        $this->profileService->execute(
+            $medic->id, 
+            request()->all()
+        );
         event(new CreatedEvent($medic));
     }
 

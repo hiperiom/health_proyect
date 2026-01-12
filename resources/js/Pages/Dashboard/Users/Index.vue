@@ -93,14 +93,6 @@
 
         // Campos adicionales para creación (password)
         createOnlyFields: {
-            password: {
-                default: '12345678',
-                required: true
-            },
-            password_confirmation: {
-                default: '12345678',
-                required: true
-            },
             terms: {
                 default: false,
                 required: false
@@ -132,6 +124,29 @@
         // Reglas de validación
         validationRules: {
             create: (form) => ({
+                avatar: [
+                    {
+                        validator: async (_rule, value) => {
+                            
+                            const file = value;
+                            if (!file) {
+                                return Promise.resolve();
+                            }
+                            const isJPG = file.type === 'image/jpeg';
+                            const isPNG = file.type === 'image/png';
+                            if (!isJPG && !isPNG) {
+                                return Promise.reject('El formato de la foto debe ser JPG o PNG');
+                            }
+                            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 
+                            console.log(`La foto pesa: ${sizeInMB} MB`);
+                            
+                            if (file.size > 2 * 1024 * 1024) {
+                                return Promise.reject('El tamaño de la foto debe ser menor a 2 MB');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ],
                 dni: [
                     { required: true, message: 'La cédula es obligatoria' },
                     { pattern: /^\d{7,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
@@ -171,6 +186,29 @@
                 ]
             }),
             edit: (form) => ({
+                avatar: [
+                    {
+                        validator: async (_rule, value) => {
+                            
+                            const file = value;
+                            if (!file) {
+                                return Promise.resolve();
+                            }
+                            const isJPG = file.type === 'image/jpeg';
+                            const isPNG = file.type === 'image/png';
+                            if (!isJPG && !isPNG) {
+                                return Promise.reject('El formato de la foto debe ser JPG o PNG');
+                            }
+                            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 
+                            console.log(`La foto pesa: ${sizeInMB} MB`);
+                            
+                            if (file.size > 2 * 1024 * 1024) {
+                                return Promise.reject('El tamaño de la foto debe ser menor a 2 MB');
+                            }
+                            return Promise.resolve();
+                        },
+                    },
+                ],
                 dni: [
                     { required: true, message: 'La cédula es obligatoria' },
                     { pattern: /^\d{7,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
@@ -302,7 +340,7 @@
                         <template v-if="column.dataIndex === 'email'">
                             {{ record.email }}
                         </template>
-                        <template v-if="column.dataIndex === 'birthday'">
+                        <template v-if="column.dataIndex === 'birthday' && record.profile.birthday">
                             
                             {{ $date(record.profile.birthday).format('DD/MM/YYYY') }}
                         </template>

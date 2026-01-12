@@ -26,6 +26,30 @@ export function useCreate(modalOpen, config) {
     const formRef = ref(null); 
     
     watch(
+        () => form.dni,
+        async (newDni) => {
+            if (newDni && /^\d{7,8}$/.test(newDni)) {
+                try {
+                    const checkResponse = await axios.get(route('users.check-dni', { dni: newDni }));
+                    if (checkResponse.data.exists) {
+                        const userResponse = await axios.get(route('users.by-dni', newDni));
+                        if (userResponse.data.data) {
+                            const userData = userResponse.data.data;
+                            form.avatar = userData.profile_photo_url;
+                            form.email = userData.email;
+                            form.first_names = userData.first_names;
+                            form.last_names = userData.last_names;
+                            form.gender = userData.gender;
+                            form.birthday = userData.birthday;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error checking DNI', error);
+                }
+            }
+        }
+    );
+    watch(
         () => form.first_names,
         (newVal) => {
         form.first_names = capitalizeWords(newVal);

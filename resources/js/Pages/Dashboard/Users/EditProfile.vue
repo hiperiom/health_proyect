@@ -93,7 +93,7 @@
                edit: (form) => ({
                     dni: [
                         { required: true, message: 'La cédula es obligatoria' },
-                        { pattern: /^\d{7,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
+                        { pattern: /^\d{6,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
                     ],
                     email: [
                         { required: true, message: 'El correo es obligatorio' },
@@ -112,7 +112,31 @@
                     ],
                     birthday: [
                         { required: true, message: 'La fecha de nacimiento es obligatoria' }
-                    ]
+                    ],
+                    avatar: [
+                        {
+                            validator: async (_rule, value) => {
+                                
+                                const file = value;
+                                if (!file) {
+                                    return Promise.resolve();
+                                }
+                                const isJPG = file.type === 'image/jpeg';
+                                const isPNG = file.type === 'image/png';
+                                if (!isJPG && !isPNG) {
+                                    return Promise.reject('El formato de la foto debe ser JPG o PNG');
+                                }
+                                const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 
+                                console.log(`La foto pesa: ${sizeInMB} MB`);
+                                
+                                if (file.size > 2 * 1024 * 1024) {
+                                    return Promise.reject('El tamaño de la foto debe ser menor a 2 MB');
+                                }
+                                return Promise.resolve();
+                            },
+                        },
+                    ],
+                    
                 })
             },
             
@@ -150,7 +174,7 @@
     </script>
     <template>
         <Modal 
-            :title="'Perfil '" 
+            :title="'Información personal '" 
             :openModal="editProfileModal" 
             @handleCancelForm="handleCancelForm"
         >
@@ -161,8 +185,7 @@
                             @submit.prevent="handleSubmit">
                             <a-row id="tour-identity" justify="center" :gutter="10" :wrap="true">
                                 <a-col span="24">
-                                    <a-form-item :name="'avatar'" :ref="'avatar'" has-feedback
-                                        :label="'Foto de Perfil'">
+                                    <a-form-item :name="'avatar'" :ref="'avatar'" has-feedback >
                                         <AvatarUpload v-model:value="form.avatar" :loading="form.processing" />
                                     </a-form-item>
                                 </a-col>

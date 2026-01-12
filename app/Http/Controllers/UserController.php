@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\Auth\ProfileResource;
 use App\Http\Resources\User\StoreResource;
 use App\Http\Resources\User\UpdatedResource;
 use App\Services\User\StoreService;
@@ -83,6 +84,28 @@ class UserController extends Controller
 
         return new UpdatedResource($result);
     }
+    /**
+     * Check if DNI exists.
+     */
+    public function checkDni(Request $request): JsonResponse
+    {
+        $dni = $request->query('dni');
+        $exists = User::where('dni', $dni)->exists();
+        return response()->json(['exists' => $exists]);
+    }
+
+    /**
+     * Get user by DNI.
+     */
+    public function getByDni($dni)
+    {
+        $user = User::where('dni', $dni)->with('profile')->first();
+        if ($user) {
+            return new ProfileResource($user);
+        }
+        return response()->json(null);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
