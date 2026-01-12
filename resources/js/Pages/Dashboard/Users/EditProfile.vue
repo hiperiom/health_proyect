@@ -123,7 +123,7 @@
                                 }
                                 const isJPG = file.type === 'image/jpeg';
                                 const isPNG = file.type === 'image/png';
-                                if (!isJPG && !isPNG) {
+                                if (!isJPG && !isPNG && !form.data().avatar) {
                                     return Promise.reject('El formato de la foto debe ser JPG o PNG');
                                 }
                                 const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 

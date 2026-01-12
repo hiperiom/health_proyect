@@ -38,34 +38,59 @@
     // 4. Computed Properties
     // 5. Methods & Logic (Functions, Handlers)
     const handleModal = () => {
+        // Populate form with props.item data
+        if (props.item) {
+            Object.keys(props.config.formFields).forEach(fieldName => {
+                if (fieldName === 'first_names' || fieldName === 'last_names' || fieldName === 'birthday' || fieldName === 'gender') {
+                    form[fieldName] = props.item.profile ? props.item.profile[fieldName] || '' : '';
+                } else {
+                    form[fieldName] = props.item[fieldName] || '';
+                }
+            });
+            // Handle avatar
+            if (props.item.avatar) {
+                form.avatar = props.item.avatar;
+            } else if (props.item.profile_photo_url) {
+                form.avatar = props.item.profile_photo_url;
+            }
+        }
         modalOpen.value = true;
     };
     const handleCancelForm = () => {
        form.reset();
+       form.clearErrors();
        modalOpen.value = false;
     };
 
     // 6. Watchers
     watch(() => props.item, (newItem) => {
-        if (newItem) {
-            // Poblar el formulario dinámicamente con los datos del item
+        if (newItem && modalOpen.value) {
+            // Poblar el formulario dinámicamente con los datos del item si el modal está abierto
             Object.keys(props.config.formFields).forEach(fieldName => {
                 if (fieldName === 'first_names' || fieldName === 'last_names' || fieldName === 'birthday' || fieldName === 'gender') {
-                    form[fieldName] = newItem.profile[fieldName] || '';
+                    form[fieldName] = newItem.profile ? newItem.profile[fieldName] || '' : '';
                 } else {
                     form[fieldName] = newItem[fieldName] || '';
                 }
             });
+            // Handle avatar
+            if (newItem.avatar) {
+                form.avatar = newItem.avatar;
+            } else if (newItem.profile_photo_url) {
+                form.avatar = newItem.profile_photo_url;
+            }
         }
-    }, { immediate: true });
+    });
 
     // 7. Lifecycle Hooks (onMounted, etc.)
     // 8. Expose (defineExpose)
 </script>
 <template>
   <a-button
+    :title="'Editar ' + config.modelTitleSingular"
+    :disabled="item.id === config.auth_user_id"
     type="link"
-    @click="handleModal(true)"
+    @click="handleModal"
   >
       <EditOutlined />
   </a-button>
@@ -83,8 +108,8 @@
               <a-row id="tour-identity" justify="center" :gutter="10" :wrap="true">
                 <a-col span="24" >
                   <a-form-item :name="'avatar'" :ref="'avatar'" has-feedback :label="'Foto de Perfil'">
-                    <AvatarUpload 
-                      v-model:value="form.avatar" 
+                    <AvatarUpload
+                      v-model:value="form.avatar"
                       :loading="form.processing"
                     />
                   </a-form-item>

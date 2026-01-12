@@ -36,6 +36,7 @@ Route::middleware([
 
     Route::get('/user-profile/data', [UserProfileController::class, 'data'])->name('user-profile.data');
     Route::resource('user-profile', UserProfileController::class);
+    
     Route::get('/medics/data', [MedicController::class, 'data'])->name('medics.data');
     Route::resource('medics', MedicController::class);
 

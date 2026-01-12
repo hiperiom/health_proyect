@@ -44,15 +44,27 @@
 </script>
 <template>
     <a-popconfirm
+        :disabled="item.id === config.auth_user_id"
         placement="bottomRight"
         :title="'¿Quieres eliminar este ' + config.modelTitleSingular.toLowerCase() + '?'"
         ok-text="Si"
         cancel-text="No"
         @confirm="handleDelete"
     >
-        <a href="#" :title="'Eliminar ' + config.modelTitleSingular"><DeleteOutlined /></a>
+        <a 
+            href="#" 
+            :class="{ 'link-disabled': 
+            item.id === config.auth_user_id }" 
+            :title="'Eliminar ' + config.modelTitleSingular"
+        >
+            <DeleteOutlined />
+        </a>
     </a-popconfirm>
 </template>
 <style lang="css" scoped>
-
+    .link-disabled {
+        color: rgba(0, 0, 0, 0.25) !important; /* Gris estándar de Ant Design para deshabilitados */
+        cursor: not-allowed;
+        pointer-events: none; /* Evita que el cursor cambie a "mano" */
+    }
 </style>

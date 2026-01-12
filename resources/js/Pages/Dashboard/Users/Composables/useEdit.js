@@ -49,7 +49,11 @@ export function useEdit(item, modalOpen, config) {
                 throw err;
             });
 
-            await axios.put(route(config.modelNameKebabCase +'.update', item.id), form.data());
+            await axios.post(route(config.modelNameKebabCase +'.update', item.id), form.data(),{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             message.success('¡Registro actualizado con éxito!');
 
             form.resetAndClearErrors();

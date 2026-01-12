@@ -93,11 +93,10 @@
 
         // Campos adicionales para creación (password)
         createOnlyFields: {
-            terms: {
-                default: false,
-                required: false
-            }
+           
         },
+        // ID del usuario autenticado
+        auth_user_id: page.props.auth.user.id,
 
         // Columnas de la tabla
         tableColumns: [
@@ -149,7 +148,7 @@
                 ],
                 dni: [
                     { required: true, message: 'La cédula es obligatoria' },
-                    { pattern: /^\d{7,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
+                    { pattern: /^\d{6,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
                 ],
                 email: [
                     { required: true, message: 'El correo es obligatorio' },
@@ -189,14 +188,13 @@
                 avatar: [
                     {
                         validator: async (_rule, value) => {
-                            
                             const file = value;
                             if (!file) {
                                 return Promise.resolve();
                             }
                             const isJPG = file.type === 'image/jpeg';
                             const isPNG = file.type === 'image/png';
-                            if (!isJPG && !isPNG) {
+                            if (!isJPG && !isPNG && !form.data().avatar) {
                                 return Promise.reject('El formato de la foto debe ser JPG o PNG');
                             }
                             const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); 
@@ -211,7 +209,7 @@
                 ],
                 dni: [
                     { required: true, message: 'La cédula es obligatoria' },
-                    { pattern: /^\d{7,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
+                    { pattern: /^\d{6,8}$/, message: 'La cédula debe tener 7-8 dígitos' }
                 ],
                 email: [
                     { required: true, message: 'El correo es obligatorio' },
@@ -243,7 +241,6 @@
         permissionsNames: page.props[0]['user.permissions']
     };
 
-    console.log(config);
 
     const { can_read } = config.user_permissions;    
 
