@@ -341,7 +341,6 @@
                             {{ record.email }}
                         </template>
                         <template v-if="column.dataIndex === 'birthday' && record.profile.birthday">
-                            
                             {{ $date(record.profile.birthday).format('DD/MM/YYYY') }}
                         </template>
                         <template v-if="column.dataIndex === 'gender'">
