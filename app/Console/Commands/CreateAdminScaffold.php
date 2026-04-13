@@ -30,7 +30,10 @@ class CreateAdminScaffold extends Command
         $this->warn($config['modelNameController']);
         
         $this->info("🚀 Iniciando scaffolding integral para: {$config['modelNameSingular']}");
-
+        // 6. AGREGAR AL MENÚ DE ADMINISTRADOR (OPCIONAL)
+        if ($this->confirm('¿Quieres añadir este módulo al menú de administrador?')) {
+            $this->addToAdminMenu($config);
+        }
         // 1. FRONTEND (VUE)
         $this->generateFrontend($config);
 
@@ -82,10 +85,47 @@ class CreateAdminScaffold extends Command
         // 5. REGISTRO AUTOMÁTICO DEL OBSERVER
         $this->registerObserver($config['modelNameSingular']);
 
-        // 6. REGISTRO DE PERMISOS
+        
+
+        // 7. REGISTRO DE PERMISOS
         $this->registerPermissions($config['modelNameSingular']);
 
         $this->info("\n✅ ¡Proceso completado con éxito!");
+    }
+
+    protected function addToAdminMenu($config)
+    {
+        $menuFile = resource_path('js/Config/adminMenu.js');
+
+        if (!File::exists($menuFile)) {
+            $this->error("   - Archivo de menú no encontrado: {$menuFile}");
+            return;
+        }
+
+        $content = File::get($menuFile);
+
+        // Crear el nuevo item del menú
+        $newMenuItem = <<<EOT
+
+                {
+                    icon: () => h(SafetyOutlined),
+                    key: '{$config['modelNameKebabCase']}.index',
+                    label: h('div', '{$config['modelTitle']}'),
+                    onClick: () => router.get(route('{$config['modelNameKebabCase']}.index')),
+                },
+        EOT;
+
+        // Buscar el final de la children array (antes del ])
+        $pattern = '/(children:\s*\[.*?)\s*\]/s';
+
+        if (preg_match($pattern, $content, $matches)) {
+            $replacement = $matches[1] . $newMenuItem . "\n    ]";
+            $content = preg_replace($pattern, $replacement, $content);
+            File::put($menuFile, $content);
+            $this->line("   - Menú <info>{$config['modelTitle']}</info> añadido al menú de administrador.");
+        } else {
+            $this->error("   - No se pudo añadir el menú: Patrón no encontrado en el archivo.");
+        }
     }
     protected function registerObserver($modelName)
     {
